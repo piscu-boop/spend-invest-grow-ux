@@ -1,3 +1,4 @@
+
 const HowItWorksSection = () => {
   const steps = [
     {
@@ -27,7 +28,7 @@ const HowItWorksSection = () => {
   ];
 
   return (
-    <section id="how-it-works" className="py-20 bg-gradient-to-b from-ux-navy to-ux-blue-dark">
+    <section id="how-it-works" className="py-20 bg-gradient-to-b from-ux-blue-dark to-ux-navy">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">

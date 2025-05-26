@@ -1,6 +1,7 @@
+
 const ValueProposition = () => {
   return (
-    <section className="py-20 bg-gradient-to-b from-ux-blue-dark to-ux-navy">
+    <section className="py-20 bg-gradient-to-b from-ux-navy to-ux-blue-dark">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-4xl mx-auto animate-slide-up">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8">
