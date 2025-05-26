@@ -34,7 +34,7 @@ const FeaturesSection = () => {
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Revolutionary <span className="gradient-text">Features</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-white max-w-3xl mx-auto">
             Experience the future of finance with features designed to transform your spending into wealth building.
           </p>
         </div>
@@ -59,7 +59,7 @@ const FeaturesSection = () => {
                 <p className="text-ux-green font-semibold mb-4 text-sm">
                   {feature.description}
                 </p>
-                <p className="text-gray-400 text-sm leading-relaxed">
+                <p className="text-gray-200 text-sm leading-relaxed">
                   {feature.detail}
                 </p>
               </div>

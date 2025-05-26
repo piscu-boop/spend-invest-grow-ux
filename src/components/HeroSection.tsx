@@ -21,13 +21,13 @@ const HeroSection = () => {
                   Your Best Investment
                 </span>
               </h1>
-              <p className="text-xl md:text-2xl text-gray-300 leading-relaxed">
+              <p className="text-xl md:text-2xl text-white leading-relaxed">
                 UX Dual is the first app that lets you invest the same money you use for your everyday purchases.
               </p>
             </div>
 
             <div className="space-y-4">
-              <p className="text-lg text-gray-400">
+              <p className="text-lg text-gray-200">
                 Transform every transaction into a wealth-building opportunity. Start investing automatically with the money you're already spending.
               </p>
             </div>

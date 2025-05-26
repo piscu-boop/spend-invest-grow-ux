@@ -8,7 +8,7 @@ const ValueProposition = () => {
             Turn Every Purchase Into{" "}
             <span className="gradient-text">Profit</span>
           </h2>
-          <p className="text-xl md:text-2xl text-gray-300 leading-relaxed">
+          <p className="text-xl md:text-2xl text-white leading-relaxed">
             We are the first platform that transforms every expense into an investment with daily returns, automatically. We build solutions that facilitate and reinvent the way you save and create daily value.
           </p>
         </div>

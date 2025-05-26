@@ -17,7 +17,7 @@ const FinalCTASection = () => {
             <span className="gradient-text">Every Purchase</span>
           </h2>
           
-          <p className="text-xl md:text-2xl text-gray-300 mb-12 leading-relaxed">
+          <p className="text-xl md:text-2xl text-white mb-12 leading-relaxed">
             Join the financial revolution. Turn your everyday spending into your investment strategy.
           </p>
 
@@ -26,12 +26,12 @@ const FinalCTASection = () => {
               Download UX Dual Now
             </Button>
 
-            <div className="text-gray-400">
+            <div className="text-white">
               <p className="text-lg">Available on iOS and Android</p>
               <p className="text-sm mt-2">Start investing automatically today</p>
             </div>
 
-            {/* App Store Badges Placeholder */}
+            {/* App Store Badges */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-8">
               <div className="bg-ux-blue-dark rounded-xl px-8 py-4 border border-ux-green/20 hover:border-ux-green/40 transition-colors duration-300">
                 <div className="text-white font-semibold">📱 App Store</div>

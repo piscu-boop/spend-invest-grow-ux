@@ -35,7 +35,7 @@ const HowItWorksSection = () => {
             Investing Made as Simple as{" "}
             <span className="gradient-text">Shopping</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-white max-w-3xl mx-auto">
             Four simple steps to transform your everyday purchases into wealth-building opportunities.
           </p>
         </div>
@@ -67,7 +67,7 @@ const HowItWorksSection = () => {
                 <h3 className="text-xl font-bold text-white mb-4 group-hover:text-ux-green transition-colors duration-300">
                   {step.title}
                 </h3>
-                <p className="text-gray-400 leading-relaxed">
+                <p className="text-gray-200 leading-relaxed">
                   {step.description}
                 </p>
               </div>

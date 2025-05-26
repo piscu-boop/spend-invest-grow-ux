@@ -31,7 +31,7 @@ const FAQSection = () => {
             Frequently Asked{" "}
             <span className="gradient-text">Questions</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-white max-w-3xl mx-auto">
             Get answers to common questions about UX Dual and how it works.
           </p>
         </div>
@@ -57,7 +57,7 @@ const FAQSection = () => {
               
               <div className={`overflow-hidden transition-all duration-500 ${openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
                 <div className="px-8 pb-6">
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-200 leading-relaxed">
                     {faq.answer}
                   </p>
                 </div>
