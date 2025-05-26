@@ -1,6 +1,9 @@
+
 import { Button } from "@/components/ui/button";
+
 const HeroSection = () => {
-  return <section className="relative min-h-screen bg-ux-navy flex items-center overflow-hidden">
+  return (
+    <section className="relative min-h-screen bg-ux-navy flex items-center overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl animate-pulse-green"></div>
@@ -45,14 +48,20 @@ const HeroSection = () => {
               {/* Glowing Circle Background */}
               <div className="absolute inset-0 w-96 h-96 bg-gradient-to-r from-ux-green/20 to-ux-green/10 rounded-full blur-2xl transform -translate-x-12 -translate-y-12"></div>
               
-              {/* Phone Mockup */}
-              <div className="relative z-10 w-80 h-[600px] bg-gradient-to-b from-ux-blue-dark to-ux-navy rounded-[2.5rem] p-2 shadow-2xl">
-                
+              {/* Phone Mockup with App Screenshot */}
+              <div className="relative z-10">
+                <img 
+                  src="/lovable-uploads/7e369e94-3825-4fd5-b86c-404dedcff179.png" 
+                  alt="UX Dual App Interface" 
+                  className="w-80 h-auto drop-shadow-2xl"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default HeroSection;
