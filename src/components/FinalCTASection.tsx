@@ -1,11 +1,8 @@
-
 import { Button } from "@/components/ui/button";
-
 const FinalCTASection = () => {
-  return (
-    <section className="py-20 bg-gradient-to-b from-ux-navy to-ux-blue-dark relative overflow-hidden">
+  return <section className="py-20 bg-gradient-to-b from-ux-navy to-ux-blue-dark relative overflow-hidden">
       {/* Background Elements */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 bg-sky-700">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl"></div>
         <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl"></div>
       </div>
@@ -43,8 +40,6 @@ const FinalCTASection = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default FinalCTASection;
