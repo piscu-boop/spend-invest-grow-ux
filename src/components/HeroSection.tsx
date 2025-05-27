@@ -11,7 +11,7 @@ const HeroSection = () => {
       </div>
 
       <div className="container mx-auto px-4 pt-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 items-center">
           {/* Left Content */}
           <div className="space-y-8 animate-slide-up">
             <div className="space-y-4">
@@ -43,17 +43,17 @@ const HeroSection = () => {
           </div>
 
           {/* Right Content - Mobile App Preview */}
-          <div className="relative flex justify-center lg:justify-end animate-float">
+          <div className="relative flex justify-center lg:justify-start lg:ml-8 animate-float">
             <div className="relative">
               {/* Glowing Circle Background */}
-              <div className="absolute inset-0 w-96 h-96 bg-gradient-to-r from-ux-green/20 to-ux-green/10 rounded-full blur-2xl transform -translate-x-12 -translate-y-12"></div>
+              <div className="absolute inset-0 w-[500px] h-[500px] bg-gradient-to-r from-ux-green/20 to-ux-green/10 rounded-full blur-2xl transform -translate-x-16 -translate-y-16"></div>
               
               {/* Phone Mockup with App Screenshot */}
               <div className="relative z-10">
                 <img 
                   src="/lovable-uploads/200931e1-23f7-4c91-8aa2-73df09bab162.png" 
                   alt="UX Dual App Interface" 
-                  className="w-80 h-auto drop-shadow-2xl"
+                  className="w-[450px] h-auto drop-shadow-2xl"
                 />
               </div>
             </div>
