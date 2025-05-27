@@ -11,9 +11,9 @@ const HeroSection = () => {
       </div>
 
       <div className="container mx-auto px-4 pt-20">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 items-center justify-items-center">
           {/* Left Content */}
-          <div className="space-y-8 animate-slide-up">
+          <div className="space-y-8 animate-slide-up text-center lg:text-left">
             <div className="space-y-4">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
                 Your Purchases,{" "}
@@ -32,7 +32,7 @@ const HeroSection = () => {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button className="bg-ux-green hover:bg-ux-green-light text-white px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
                 Join Now
               </Button>
@@ -43,7 +43,7 @@ const HeroSection = () => {
           </div>
 
           {/* Right Content - Mobile App Preview */}
-          <div className="relative flex justify-center lg:justify-start lg:ml-8 animate-float">
+          <div className="relative flex justify-center animate-float">
             <div className="relative">
               {/* Glowing Circle Background */}
               <div className="absolute inset-0 w-[500px] h-[500px] bg-gradient-to-r from-ux-green/20 to-ux-green/10 rounded-full blur-2xl transform -translate-x-16 -translate-y-16"></div>
