@@ -72,7 +72,7 @@ const HowItWorksSection = () => {
   const currentContent = content[language];
 
   return (
-    <section id="how-it-works" className="py-20 bg-gradient-to-b from-ux-navy to-ux-blue-dark bg-cyan-700">
+    <section id="how-it-works" className="py-20 bg-ux-navy">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
