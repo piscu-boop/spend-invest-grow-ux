@@ -1,7 +1,31 @@
 
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const HeroSection = () => {
+  const { language } = useLanguage();
+
+  const content = {
+    en: {
+      mainTitle: "Your Purchases,",
+      highlightTitle: "Your Best Investment",
+      subtitle: "UX Dual is the first app that lets you invest the same money you use for your everyday purchases.",
+      description: "Transform every transaction into a wealth-building opportunity. Start investing automatically with the money you're already spending.",
+      joinButton: "Join Now",
+      howItWorksButton: "How It Works?"
+    },
+    es: {
+      mainTitle: "Tus compras,",
+      highlightTitle: "TU MEJOR INVERSIÓN",
+      subtitle: "UX Dual es la primera App que te permite invertir el mismo dinero que usas para hacer tus compras.",
+      description: "Transforma cada transacción en una oportunidad de generar riqueza. Comienza a invertir automáticamente con el dinero que ya estás gastando.",
+      joinButton: "Únete Ahora",
+      howItWorksButton: "¿Cómo Funciona?"
+    }
+  };
+
+  const currentContent = content[language];
+
   return (
     <section className="relative min-h-screen bg-ux-navy flex items-center overflow-hidden">
       {/* Background Elements */}
@@ -16,28 +40,28 @@ const HeroSection = () => {
           <div className="space-y-8 animate-slide-up text-center lg:text-left">
             <div className="space-y-4">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
-                Your Purchases,{" "}
+                {currentContent.mainTitle}{" "}
                 <span className="gradient-text">
-                  Your Best Investment
+                  {currentContent.highlightTitle}
                 </span>
               </h1>
               <p className="text-xl md:text-2xl text-white leading-relaxed">
-                UX Dual is the first app that lets you invest the same money you use for your everyday purchases.
+                {currentContent.subtitle}
               </p>
             </div>
 
             <div className="space-y-4">
               <p className="text-lg text-gray-200">
-                Transform every transaction into a wealth-building opportunity. Start investing automatically with the money you're already spending.
+                {currentContent.description}
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button className="bg-ux-green hover:bg-ux-green-light text-white px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
-                Join Now
+                {currentContent.joinButton}
               </Button>
               <Button variant="outline" className="border-ux-green text-ux-green hover:bg-ux-green hover:text-white px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300">
-                How It Works?
+                {currentContent.howItWorksButton}
               </Button>
             </div>
           </div>

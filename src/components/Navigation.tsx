@@ -1,13 +1,23 @@
 
 import { Button } from "@/components/ui/button";
+import LanguageToggle from "./LanguageToggle";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Navigation = () => {
-  const navItems = [
+  const { language } = useLanguage();
+  
+  const navItems = language === 'en' ? [
     { label: "About UX", href: "#about" },
     { label: "How It Works", href: "#how-it-works" },
     { label: "Features", href: "#features" },
     { label: "Security", href: "#security" },
     { label: "Support", href: "#support" },
+  ] : [
+    { label: "Acerca de UX", href: "#about" },
+    { label: "Cómo Funciona", href: "#how-it-works" },
+    { label: "Características", href: "#features" },
+    { label: "Seguridad", href: "#security" },
+    { label: "Soporte", href: "#support" },
   ];
 
   return (
@@ -20,7 +30,7 @@ const Navigation = () => {
               UX <span className="text-ux-green">DUAL</span>
             </div>
             <div className="text-sm text-ux-green font-medium hidden md:block">
-              Invertí comprando
+              {language === 'en' ? 'Invest by buying' : 'Invertí comprando'}
             </div>
           </div>
 
@@ -37,10 +47,13 @@ const Navigation = () => {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <Button className="bg-ux-green hover:bg-ux-green-light text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105">
-            Join Now
-          </Button>
+          {/* Language Toggle and CTA */}
+          <div className="flex items-center space-x-4">
+            <LanguageToggle />
+            <Button className="bg-ux-green hover:bg-ux-green-light text-white px-6 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105">
+              {language === 'en' ? 'Join Now' : 'Únete Ahora'}
+            </Button>
+          </div>
         </div>
       </div>
     </nav>
