@@ -1,42 +1,77 @@
+
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const FAQSection = () => {
+  const { language } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
-  const faqs = [
-    {
-      question: "How does UX Dual make money from my purchases?",
-      answer: "UX Dual invests your purchase money in diversified portfolios that generate daily returns, allowing your spending money to grow while remaining accessible for your needs."
+  const content = {
+    en: {
+      title: "Frequently Asked",
+      titleHighlight: "Questions",
+      subtitle: "Get answers to common questions about UX Dual and how it works.",
+      faqs: [
+        {
+          question: "How does UX Dual make money from my purchases?",
+          answer: "UX Dual invests your purchase money in diversified portfolios that generate daily returns, allowing your spending money to grow while remaining accessible for your needs."
+        },
+        {
+          question: "Is my money safe and accessible?",
+          answer: "Yes, your money remains fully accessible for purchases while being invested in secure, regulated investment vehicles that generate daily returns."
+        },
+        {
+          question: "Do I need investment experience to use UX Dual?",
+          answer: "Not at all! UX Dual handles all investment decisions automatically, making wealth building as simple as your regular shopping."
+        },
+        {
+          question: "What kind of returns can I expect?",
+          answer: "Returns vary based on market conditions, but our platform is designed to generate consistent daily returns on your invested purchase money."
+        }
+      ]
     },
-    {
-      question: "Is my money safe and accessible?",
-      answer: "Yes, your money remains fully accessible for purchases while being invested in secure, regulated investment vehicles that generate daily returns."
-    },
-    {
-      question: "Do I need investment experience to use UX Dual?",
-      answer: "Not at all! UX Dual handles all investment decisions automatically, making wealth building as simple as your regular shopping."
-    },
-    {
-      question: "What kind of returns can I expect?",
-      answer: "Returns vary based on market conditions, but our platform is designed to generate consistent daily returns on your invested purchase money."
+    es: {
+      title: "Preguntas",
+      titleHighlight: "Frecuentes",
+      subtitle: "Obtén respuestas a preguntas comunes sobre UX Dual y cómo funciona.",
+      faqs: [
+        {
+          question: "¿Cómo gana dinero UX Dual con mis compras?",
+          answer: "UX Dual invierte tu dinero de compras en portafolios diversificados que generan retornos diarios, permitiendo que tu dinero de gastos crezca mientras permanece accesible para tus necesidades."
+        },
+        {
+          question: "¿Está mi dinero seguro y accesible?",
+          answer: "Sí, tu dinero permanece completamente accesible para compras mientras está invertido en vehículos de inversión seguros y regulados que generan retornos diarios."
+        },
+        {
+          question: "¿Necesito experiencia en inversiones para usar UX Dual?",
+          answer: "¡Para nada! UX Dual maneja todas las decisiones de inversión automáticamente, haciendo la construcción de riqueza tan simple como tus compras regulares."
+        },
+        {
+          question: "¿Qué tipo de retornos puedo esperar?",
+          answer: "Los retornos varían según las condiciones del mercado, pero nuestra plataforma está diseñada para generar retornos diarios consistentes en tu dinero de compras invertido."
+        }
+      ]
     }
-  ];
+  };
+
+  const currentContent = content[language];
 
   return (
     <section className="py-20 bg-ux-blue-dark">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Frequently Asked{" "}
-            <span className="gradient-text">Questions</span>
+            {currentContent.title}{" "}
+            <span className="gradient-text">{currentContent.titleHighlight}</span>
           </h2>
           <p className="text-xl text-white max-w-3xl mx-auto">
-            Get answers to common questions about UX Dual and how it works.
+            {currentContent.subtitle}
           </p>
         </div>
 
         <div className="max-w-4xl mx-auto space-y-4">
-          {faqs.map((faq, index) => (
+          {currentContent.faqs.map((faq, index) => (
             <div 
               key={index}
               className="bg-ux-blue-dark/50 backdrop-blur-sm rounded-2xl border border-ux-green/20 overflow-hidden animate-slide-up"

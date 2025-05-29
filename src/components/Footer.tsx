@@ -1,12 +1,51 @@
 
+import { useLanguage } from "@/contexts/LanguageContext";
+
 const Footer = () => {
-  const quickLinks = [
-    "How It Works",
-    "Security & Privacy", 
-    "Terms of Service",
-    "Contact Support",
-    "Careers"
-  ];
+  const { language } = useLanguage();
+
+  const content = {
+    en: {
+      description: "The first platform that transforms every expense into an investment with daily returns. Building the future of automated wealth creation.",
+      email: "Email:",
+      followText: "Follow us on social media for updates and tips",
+      quickLinks: "Quick Links",
+      quickLinksItems: [
+        "How It Works",
+        "Security & Privacy", 
+        "Terms of Service",
+        "Contact Support",
+        "Careers"
+      ],
+      newsletter: "Stay Updated",
+      newsletterDescription: "Get the latest updates on features and investment opportunities.",
+      emailPlaceholder: "Enter your email",
+      subscribeButton: "Subscribe",
+      copyright: "© 2024 UX Dual. All rights reserved.",
+      footerLinks: ["Privacy Policy", "Terms", "Cookies"]
+    },
+    es: {
+      description: "La primera plataforma que transforma cada gasto en una inversión con retornos diarios. Construyendo el futuro de la creación automatizada de riqueza.",
+      email: "Email:",
+      followText: "Síguenos en redes sociales para actualizaciones y consejos",
+      quickLinks: "Enlaces Rápidos",
+      quickLinksItems: [
+        "Cómo Funciona",
+        "Seguridad y Privacidad", 
+        "Términos de Servicio",
+        "Contactar Soporte",
+        "Carreras"
+      ],
+      newsletter: "Mantente Actualizado",
+      newsletterDescription: "Obtén las últimas actualizaciones sobre características y oportunidades de inversión.",
+      emailPlaceholder: "Ingresa tu email",
+      subscribeButton: "Suscribirse",
+      copyright: "© 2024 UX Dual. Todos los derechos reservados.",
+      footerLinks: ["Política de Privacidad", "Términos", "Cookies"]
+    }
+  };
+
+  const currentContent = content[language];
 
   return (
     <footer className="bg-ux-navy border-t border-ux-green/20">
@@ -20,23 +59,23 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-gray-400 leading-relaxed">
-              The first platform that transforms every expense into an investment with daily returns. Building the future of automated wealth creation.
+              {currentContent.description}
             </p>
             <div className="space-y-2">
               <p className="text-gray-400">
-                <span className="font-semibold">Email:</span> support@uxdual.com
+                <span className="font-semibold">{currentContent.email}</span> support@uxdual.com
               </p>
               <p className="text-gray-400">
-                Follow us on social media for updates and tips
+                {currentContent.followText}
               </p>
             </div>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-6">
-            <h4 className="text-xl font-bold text-white">Quick Links</h4>
+            <h4 className="text-xl font-bold text-white">{currentContent.quickLinks}</h4>
             <ul className="space-y-3">
-              {quickLinks.map((link, index) => (
+              {currentContent.quickLinksItems.map((link, index) => (
                 <li key={index}>
                   <a 
                     href="#" 
@@ -51,19 +90,19 @@ const Footer = () => {
 
           {/* Newsletter */}
           <div className="space-y-6">
-            <h4 className="text-xl font-bold text-white">Stay Updated</h4>
+            <h4 className="text-xl font-bold text-white">{currentContent.newsletter}</h4>
             <p className="text-gray-400">
-              Get the latest updates on features and investment opportunities.
+              {currentContent.newsletterDescription}
             </p>
             <div className="space-y-4">
               <div className="flex">
                 <input 
                   type="email" 
-                  placeholder="Enter your email" 
+                  placeholder={currentContent.emailPlaceholder}
                   className="flex-1 bg-ux-blue-dark border border-ux-green/20 rounded-l-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-ux-green"
                 />
                 <button className="bg-ux-green hover:bg-ux-green-light px-6 py-3 rounded-r-lg text-white font-semibold transition-colors duration-300">
-                  Subscribe
+                  {currentContent.subscribeButton}
                 </button>
               </div>
             </div>
@@ -74,18 +113,14 @@ const Footer = () => {
         <div className="border-t border-ux-green/20 mt-16 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © 2024 UX Dual. All rights reserved.
+              {currentContent.copyright}
             </p>
             <div className="flex space-x-6">
-              <a href="#" className="text-gray-400 hover:text-ux-green transition-colors duration-300">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-gray-400 hover:text-ux-green transition-colors duration-300">
-                Terms
-              </a>
-              <a href="#" className="text-gray-400 hover:text-ux-green transition-colors duration-300">
-                Cookies
-              </a>
+              {currentContent.footerLinks.map((link, index) => (
+                <a key={index} href="#" className="text-gray-400 hover:text-ux-green transition-colors duration-300">
+                  {link}
+                </a>
+              ))}
             </div>
           </div>
         </div>
