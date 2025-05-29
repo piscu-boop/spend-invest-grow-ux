@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -58,7 +57,7 @@ const FAQSection = () => {
   const currentContent = content[language];
 
   return (
-    <section className="py-20 bg-ux-blue-dark">
+    <section className="bg-ux-navy text-white py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">

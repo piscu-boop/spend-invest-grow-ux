@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -31,14 +30,9 @@ const FinalCTASection = () => {
   const currentContent = content[language];
 
   return (
-    <section className="py-20 bg-gradient-to-b from-ux-navy to-ux-blue-dark relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-sky-700">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl"></div>
-      </div>
-
-      <div className="container mx-auto px-4 relative z-10">
+    <section className="bg-ux-navy text-white py-16">
+      <div className="container mx-auto px-4">
+        {/* Contenido de la sección */}
         <div className="text-center max-w-4xl mx-auto animate-slide-up">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8">
             {currentContent.title}{" "}

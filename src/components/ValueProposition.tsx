@@ -25,7 +25,7 @@ const ValueProposition = () => {
         <div className="text-center max-w-4xl mx-auto animate-slide-up">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8">
             {currentContent.title}{" "}
-            <span className="gradient-text text-[#02000a]">{currentContent.highlight}</span>
+            <span className="gradient-text text-[ #54f8a6]">{currentContent.highlight}</span>
           </h2>
           <p className="text-xl md:text-2xl text-white leading-relaxed">
             {currentContent.description}

@@ -26,12 +26,11 @@ const Navigation = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-white">
-              UX <span className="text-ux-green">DUAL</span>
-            </div>
-            <div className="text-sm text-ux-green font-medium hidden md:block">
-              {language === 'en' ? 'Invest by buying' : 'Invertí comprando'}
-            </div>
+          <img
+          src="../../public/lovable-uploads/logo.png" // Reemplaza con la ruta de tu imagen
+          alt="UX Dual Logo"
+          className="h-8" // Ajusta el tamaño según sea necesario
+          />
           </div>
 
           {/* Desktop Navigation */}

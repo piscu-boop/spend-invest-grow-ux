@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -40,7 +39,8 @@ const HeroSection = () => {
           <div className="space-y-8 animate-slide-up text-center lg:text-left">
             <div className="space-y-4">
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
-                {currentContent.mainTitle}{" "}
+                {currentContent.mainTitle}
+                <br /> {/* Esto fuerza un salto de línea */}
                 <span className="gradient-text">
                   {currentContent.highlightTitle}
                 </span>
