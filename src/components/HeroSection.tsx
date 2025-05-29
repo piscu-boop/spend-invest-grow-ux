@@ -75,7 +75,7 @@ const HeroSection = () => {
               {/* Phone Mockup with App Screenshot */}
               <div className="relative z-10">
                 <img 
-                  src="/lovable-uploads/200931e1-23f7-4c91-8aa2-73df09bab162.png" 
+                  src="lovable-uploads/200931e1-23f7-4c91-8aa2-73df09bab162.png" 
                   alt="UX Dual App Interface" 
                   className="w-[450px] h-auto drop-shadow-2xl"
                 />

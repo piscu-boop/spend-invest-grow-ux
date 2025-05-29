@@ -1,22 +1,14 @@
-
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from "path";
-import { componentTagger } from "lovable-tagger";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  // In production (vite build) we serve under the GitHub Pages sub‐path.
-  // In dev (vite dev) we serve at root.
-  const base = mode === 'production'
-    ? '/spend-invest-grow-ux/'
-    : '/';
+  // Si estás en producción y no usas un subdirectorio, usa '/' como base
+  const base = mode === 'production' ? '/' : '/';
 
   return {
     base,
-    plugins: [
-      react(), // React support
-    ],
+    plugins: [react()],
     build: {
       // Output the production build to "docs" so GH-Pages can serve it
       outDir: 'docs',

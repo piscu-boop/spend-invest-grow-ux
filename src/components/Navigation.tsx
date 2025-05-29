@@ -27,7 +27,7 @@ const Navigation = () => {
           {/* Logo */}
           <div className="flex items-center space-x-2">
           <img
-          src="../../public/lovable-uploads/logo.png" // Reemplaza con la ruta de tu imagen
+          src="lovable-uploads/logo.png" // Reemplaza con la ruta de tu imagen
           alt="UX Dual Logo"
           className="h-8" // Ajusta el tamaño según sea necesario
           />
