@@ -6,37 +6,39 @@ const ValueProposition = () => {
 
   const content = {
     en: {
-      mainTitle: "EVERY PURCHASE",
-      subtitle: "BECOMES AN INVESTMENT",
-      description: "Turn your daily spending into daily profits with UX Capital's revolutionary Spend-to-Invest technology.",
+      mainTitle: "UX CAPITAL",
+      subtitle: "SPEND-TO-INVEST",
+      tagline: "The first card that invests while you spend",
+      description: "Every purchase with your UX Capital card automatically triggers smart investments in diversified portfolios. Turn your daily spending into daily wealth building.",
       howItWorks: "HOW IT WORKS:",
       step1: "SPEND",
       step1Desc: "Make any purchase with your UX Capital card",
       step2: "INVEST", 
       step2Desc: "Your spending automatically triggers smart investments",
-      step3: "EARN",
-      step3Desc: "Watch your money grow with daily returns",
-      ctaText: "JOIN THE REVOLUTION"
+      step3: "GROW",
+      step3Desc: "Watch your money multiply with daily returns",
+      ctaText: "GET YOUR CARD NOW"
     },
     es: {
-      mainTitle: "CADA COMPRA",
-      subtitle: "SE CONVIERTE EN INVERSIÓN",
-      description: "Convierte tus gastos diarios en ganancias diarias con la revolucionaria tecnología Gasta-para-Invertir de UX Capital.",
+      mainTitle: "UX CAPITAL",
+      subtitle: "GASTA-PARA-INVERTIR",
+      tagline: "La primera tarjeta que invierte mientras gastas",
+      description: "Cada compra con tu tarjeta UX Capital activa automáticamente inversiones inteligentes en portafolios diversificados. Convierte tus gastos diarios en construcción de riqueza diaria.",
       howItWorks: "CÓMO FUNCIONA:",
       step1: "GASTA",
       step1Desc: "Haz cualquier compra con tu tarjeta UX Capital",
       step2: "INVIERTE",
       step2Desc: "Tu gasto activa automáticamente inversiones inteligentes", 
-      step3: "GANA",
-      step3Desc: "Ve crecer tu dinero con retornos diarios",
-      ctaText: "ÚNETE A LA REVOLUCIÓN"
+      step3: "CRECE",
+      step3Desc: "Ve multiplicar tu dinero con retornos diarios",
+      ctaText: "OBTÉN TU TARJETA AHORA"
     }
   };
 
   const currentContent = content[language];
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center overflow-hidden">
+    <section className="relative min-h-screen bg-slate-900 flex items-center overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0">
         <div className="absolute top-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
@@ -44,19 +46,26 @@ const ValueProposition = () => {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-gradient-to-br from-purple-600/10 via-pink-500/10 to-orange-400/10 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="container mx-auto px-4 py-20">
+      <div className="container mx-auto px-4 py-20 relative z-10">
         <div className="text-center space-y-16">
           {/* Main Message */}
           <div className="space-y-8">
-            <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight">
-              {currentContent.mainTitle}
-              <br />
-              <span className="gradient-text">
-                {currentContent.subtitle}
-              </span>
-            </h2>
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white">
+                {currentContent.mainTitle}
+              </h1>
+              <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight">
+                <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 bg-clip-text text-transparent">
+                  {currentContent.subtitle}
+                </span>
+              </h2>
+            </div>
             
-            <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-2xl md:text-3xl text-gray-300 font-semibold max-w-4xl mx-auto">
+              {currentContent.tagline}
+            </p>
+            
+            <p className="text-xl md:text-2xl text-gray-400 max-w-4xl mx-auto leading-relaxed">
               {currentContent.description}
             </p>
           </div>
