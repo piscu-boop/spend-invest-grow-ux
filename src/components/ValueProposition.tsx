@@ -6,115 +6,128 @@ const ValueProposition = () => {
 
   const content = {
     en: {
-      mainTitle: "TIRED OF HEARING",
-      quotedTitle: ""I CAN'T SAVE"?",
-      subtitle: "That's exactly why we built",
-      brandName: "UX DUAL",
-      spendToInvest: "SPEND-TO-INVEST",
-      isHere: "IS HERE",
-      description: "No savings? No problem. Every purchase becomes an investment — with daily profits.",
-      ctaText: "JOIN THE MOVEMENT. DOWNLOAD THE APP."
+      mainTitle: "EVERY PURCHASE",
+      subtitle: "BECOMES AN INVESTMENT",
+      description: "Turn your daily spending into daily profits with UX Capital's revolutionary Spend-to-Invest technology.",
+      howItWorks: "HOW IT WORKS:",
+      step1: "SPEND",
+      step1Desc: "Make any purchase with your UX Capital card",
+      step2: "INVEST", 
+      step2Desc: "Your spending automatically triggers smart investments",
+      step3: "EARN",
+      step3Desc: "Watch your money grow with daily returns",
+      ctaText: "JOIN THE REVOLUTION"
     },
     es: {
-      mainTitle: "¿CANSADO DE ESCUCHAR",
-      quotedTitle: ""NO PUEDO AHORRAR"?",
-      subtitle: "Exactamente por eso construimos",
-      brandName: "UX DUAL",
-      spendToInvest: "GASTA-PARA-INVERTIR",
-      isHere: "ESTÁ AQUÍ",
-      description: "¿Sin ahorros? No hay problema. Cada compra se convierte en una inversión — con ganancias diarias.",
-      ctaText: "ÚNETE AL MOVIMIENTO. DESCARGA LA APP."
+      mainTitle: "CADA COMPRA",
+      subtitle: "SE CONVIERTE EN INVERSIÓN",
+      description: "Convierte tus gastos diarios en ganancias diarias con la revolucionaria tecnología Gasta-para-Invertir de UX Capital.",
+      howItWorks: "CÓMO FUNCIONA:",
+      step1: "GASTA",
+      step1Desc: "Haz cualquier compra con tu tarjeta UX Capital",
+      step2: "INVIERTE",
+      step2Desc: "Tu gasto activa automáticamente inversiones inteligentes", 
+      step3: "GANA",
+      step3Desc: "Ve crecer tu dinero con retornos diarios",
+      ctaText: "ÚNETE A LA REVOLUCIÓN"
     }
   };
 
   const currentContent = content[language];
 
   return (
-    <section className="relative min-h-screen bg-ux-navy flex items-center overflow-hidden">
-      {/* Background Elements */}
+    <section className="relative min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center overflow-hidden">
+      {/* Background Effects */}
       <div className="absolute inset-0">
-        <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl animate-pulse-green"></div>
-        <div className="absolute bottom-20 left-20 w-64 h-64 bg-ux-green/5 rounded-full blur-2xl"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-br from-purple-600/10 via-pink-500/10 to-orange-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 right-20 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-64 h-64 bg-blue-500/20 rounded-full blur-2xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-gradient-to-br from-purple-600/10 via-pink-500/10 to-orange-400/10 rounded-full blur-3xl"></div>
       </div>
 
       <div className="container mx-auto px-4 py-20">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
-          <div className="space-y-8 animate-slide-up text-center lg:text-left">
-            <div className="space-y-6">
-              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                {currentContent.mainTitle}
-                <br />
-                <span className="text-white">
-                  {currentContent.quotedTitle}
-                </span>
-              </h2>
-              
-              <p className="text-xl md:text-2xl text-gray-300">
+        <div className="text-center space-y-16">
+          {/* Main Message */}
+          <div className="space-y-8">
+            <h2 className="text-5xl md:text-7xl lg:text-8xl font-bold text-white leading-tight">
+              {currentContent.mainTitle}
+              <br />
+              <span className="gradient-text">
                 {currentContent.subtitle}
-              </p>
-              
-              <div className="bg-black rounded-2xl px-8 py-4 inline-block">
-                <h3 className="text-3xl md:text-4xl font-bold text-white">
-                  {currentContent.brandName}
-                </h3>
-              </div>
-              
-              <div className="space-y-2">
-                <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold">
-                  <span className="gradient-text">
-                    {currentContent.spendToInvest}
-                  </span>
-                </h4>
-                <h4 className="text-3xl md:text-4xl lg:text-5xl font-bold text-yellow-400">
-                  {currentContent.isHere}
-                </h4>
-              </div>
-            </div>
+              </span>
+            </h2>
+            
+            <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+              {currentContent.description}
+            </p>
+          </div>
 
-            <div className="space-y-6">
-              <p className="text-lg md:text-xl text-gray-200 leading-relaxed">
-                {currentContent.description}
-              </p>
-              
-              <p className="text-lg md:text-xl font-semibold gradient-text">
-                {currentContent.ctaText}
-              </p>
+          {/* How It Works Process */}
+          <div className="space-y-12">
+            <h3 className="text-3xl md:text-4xl font-bold text-white">
+              {currentContent.howItWorks}
+            </h3>
+            
+            <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+              {/* Step 1 */}
+              <div className="relative group">
+                <div className="bg-gradient-to-br from-purple-600/20 to-pink-600/20 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:scale-105 transition-all duration-300">
+                  <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="text-3xl font-bold text-white">1</span>
+                  </div>
+                  <h4 className="text-2xl font-bold text-white mb-4">
+                    {currentContent.step1}
+                  </h4>
+                  <p className="text-gray-300 text-lg">
+                    {currentContent.step1Desc}
+                  </p>
+                </div>
+                {/* Arrow */}
+                <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 text-white text-4xl">
+                  →
+                </div>
+              </div>
+
+              {/* Step 2 */}
+              <div className="relative group">
+                <div className="bg-gradient-to-br from-blue-600/20 to-purple-600/20 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:scale-105 transition-all duration-300">
+                  <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="text-3xl font-bold text-white">2</span>
+                  </div>
+                  <h4 className="text-2xl font-bold text-white mb-4">
+                    {currentContent.step2}
+                  </h4>
+                  <p className="text-gray-300 text-lg">
+                    {currentContent.step2Desc}
+                  </p>
+                </div>
+                {/* Arrow */}
+                <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2 text-white text-4xl">
+                  →
+                </div>
+              </div>
+
+              {/* Step 3 */}
+              <div className="relative group">
+                <div className="bg-gradient-to-br from-green-600/20 to-emerald-600/20 backdrop-blur-sm border border-white/10 rounded-3xl p-8 hover:scale-105 transition-all duration-300">
+                  <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <span className="text-3xl font-bold text-white">3</span>
+                  </div>
+                  <h4 className="text-2xl font-bold text-white mb-4">
+                    {currentContent.step3}
+                  </h4>
+                  <p className="text-gray-300 text-lg">
+                    {currentContent.step3Desc}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Right Content - Visual Elements */}
-          <div className="relative flex justify-center animate-float">
-            <div className="relative">
-              {/* Glowing Background */}
-              <div className="absolute inset-0 w-[500px] h-[500px] bg-gradient-to-br from-purple-600/20 via-pink-500/20 to-orange-400/20 rounded-full blur-2xl transform -translate-x-16 -translate-y-16"></div>
-              
-              {/* Illustration Area */}
-              <div className="relative z-10 flex flex-col items-center space-y-8">
-                {/* Person with Phone Illustration */}
-                <div className="relative w-64 h-64 bg-gradient-to-br from-purple-500/30 to-pink-500/30 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/10">
-                  <div className="w-32 h-32 bg-gradient-to-br from-orange-400 to-yellow-400 rounded-full flex items-center justify-center">
-                    <svg className="w-16 h-16 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M17 2H7c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H7V6h10v10z"/>
-                    </svg>
-                  </div>
-                </div>
-                
-                {/* Investment Growth Chart */}
-                <div className="flex space-x-4">
-                  <div className="w-8 h-16 bg-gradient-to-t from-ux-green to-ux-green-light rounded opacity-80"></div>
-                  <div className="w-8 h-20 bg-gradient-to-t from-ux-green to-ux-green-light rounded"></div>
-                  <div className="w-8 h-24 bg-gradient-to-t from-ux-green to-ux-green-light rounded"></div>
-                  <div className="w-8 h-28 bg-gradient-to-t from-ux-green to-ux-green-light rounded"></div>
-                </div>
-                
-                {/* Dollar Sign */}
-                <div className="absolute -bottom-4 -right-4 w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center animate-pulse-green">
-                  <span className="text-2xl font-bold text-black">$</span>
-                </div>
-              </div>
-            </div>
+          {/* CTA */}
+          <div className="space-y-6">
+            <button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white text-xl font-bold py-4 px-12 rounded-full transition-all duration-300 transform hover:scale-105 shadow-2xl">
+              {currentContent.ctaText}
+            </button>
           </div>
         </div>
       </div>
