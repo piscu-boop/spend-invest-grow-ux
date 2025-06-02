@@ -11,18 +11,15 @@ const Footer = () => {
       followText: "Follow us on social media for updates and tips",
       quickLinks: "Quick Links",
       quickLinksItems: [
-        "How It Works",
-        "Security & Privacy", 
-        "Terms of Service",
-        "Contact Support",
-        "Careers"
+        "About UX",
+        "How It Works"
       ],
       newsletter: "Stay Updated",
       newsletterDescription: "Get the latest updates on features and investment opportunities.",
       emailPlaceholder: "Enter your email",
       subscribeButton: "Subscribe",
       copyright: "© 2024 UX Dual. All rights reserved.",
-      footerLinks: ["Privacy Policy", "Terms", "Cookies"]
+      footerLinks: [""]
     },
     es: {
       description: "La primera plataforma que transforma cada gasto en una inversión con retornos diarios. Construyendo el futuro de la creación automatizada de riqueza.",
@@ -30,32 +27,33 @@ const Footer = () => {
       followText: "Síguenos en redes sociales para actualizaciones y consejos",
       quickLinks: "Enlaces Rápidos",
       quickLinksItems: [
-        "Cómo Funciona",
-        "Seguridad y Privacidad", 
-        "Términos de Servicio",
-        "Contactar Soporte",
-        "Carreras"
+        "Acerca de UX",
+        "Cómo Funciona"
       ],
       newsletter: "Mantente Actualizado",
       newsletterDescription: "Obtén las últimas actualizaciones sobre características y oportunidades de inversión.",
       emailPlaceholder: "Ingresa tu email",
       subscribeButton: "Suscribirse",
       copyright: "© 2024 UX Dual. Todos los derechos reservados.",
-      footerLinks: ["Política de Privacidad", "Términos", "Cookies"]
+      footerLinks: [""]
     }
   };
 
   const currentContent = content[language];
 
   return (
-    <footer className="bg-ux-navy border-t border-ux-green/20">
+    <footer id="footer" className="bg-ux-navy border-t border-ux-green/20">
       <div className="container mx-auto px-4 py-16">
         <div className="grid md:grid-cols-3 gap-12">
           {/* Company Info */}
           <div className="space-y-6">
             <div className="flex items-center space-x-2">
               <div className="text-2xl font-bold text-white">
-                UX <span className="text-ux-green">DUAL</span>
+              <img
+              src="lovable-uploads/logo-dual.png" // Reemplaza con la ruta de tu imagen
+              alt="UX Dual Logo"
+              className="h-8" // Ajusta el tamaño según sea necesario
+              />
               </div>
             </div>
             <p className="text-gray-400 leading-relaxed">
@@ -63,7 +61,7 @@ const Footer = () => {
             </p>
             <div className="space-y-2">
               <p className="text-gray-400">
-                <span className="font-semibold">{currentContent.email}</span> support@uxdual.com
+                <span className="font-semibold">{currentContent.email}</span> info@uxdual.com
               </p>
               <p className="text-gray-400">
                 {currentContent.followText}

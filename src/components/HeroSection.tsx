@@ -4,6 +4,21 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const HeroSection = () => {
   const { language } = useLanguage();
 
+
+  const scrollToHowItWorks = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const target = document.getElementById("how-it-works");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  const scrollToFooter = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const target = document.getElementById("footer");
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   const content = {
     en: {
       mainTitle: "Your Purchases,",
@@ -57,11 +72,16 @@ const HeroSection = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button className="bg-ux-green hover:bg-ux-green-light text-white px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+              <Button 
+              className="bg-ux-green hover:bg-ux-green-light text-white px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+              onClick={scrollToFooter}>
                 {currentContent.joinButton}
               </Button>
-              <Button variant="outline" className="border-ux-green text-ux-green hover:bg-ux-green hover:text-white px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300">
-                {currentContent.howItWorksButton}
+              <Button 
+              variant="outline" 
+              className="border-ux-green text-ux-green hover:bg-ux-green hover:text-white px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300"
+              onClick={scrollToHowItWorks}>
+                {currentContent.howItWorksButton} 
               </Button>
             </div>
           </div>
