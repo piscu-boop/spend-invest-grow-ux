@@ -41,7 +41,7 @@ const HeroSection = () => {
   const currentContent = content[language];
 
   return (
-    <section className="relative min-h-screen bg-ux-navy flex items-center overflow-hidden">
+    <section id="hero" className="relative min-h-screen bg-ux-navy flex items-center overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl animate-pulse-green"></div>
