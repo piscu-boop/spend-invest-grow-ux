@@ -6,73 +6,66 @@ const HowItWorksSection = () => {
 
   const content = {
     en: {
-      title: "Investing Made as Simple as",
-      titleHighlight: "Shopping",
+      title: "Now, invest with",
+      titleHighlight: "no savings",
       subtitle: "Four simple steps to transform your everyday purchases into wealth-building opportunities.",
       steps: [
         {
           step: "01",
-          title: "Connect Your Spending",
-          description: "Link your UX Dual account to your everyday purchases and start building wealth immediately.",
-          icon: "🔗"
+          title: "Maximize your spending",
+          description: "Link your UX Dual account to your everyday purchases and start building wealth with daily returns."
         },
         {
           step: "02",
           title: "Automatic Investment",
-          description: "Every purchase you make automatically invests your money in diversified portfolios with daily returns.",
-          icon: "⚙️"
+          description: "Your money working for you 24/7, even when you spend it. Turn every purchase into automatic daily growth."
         },
         {
           step: "03",
           title: "Watch Your Money Grow",
-          description: "Track your investments and returns in real-time while continuing your normal spending habits.",
-          icon: "📈"
+          description: "Track your investments and returns in real-time while continuing your normal spending habits."
         },
         {
           step: "04",
-          title: "Enjoy Daily Returns",
-          description: "Earn daily returns on your investments while maintaining full access to your money for purchases.",
-          icon: "💰"
+          title: "Invest Without Saving",
+          description: "Now you can build wealth without setting money aside — just by spending like you always do."
         }
       ]
     },
     es: {
-      title: "Invertir tan Simple como",
-      titleHighlight: "Comprar",
-      subtitle: "Cuatro pasos simples para transformar tus compras cotidianas en oportunidades de construcción de riqueza.",
-      steps: [
-        {
-          step: "01",
-          title: "Conecta tus Gastos",
-          description: "Vincula tu cuenta UX Dual a tus compras cotidianas y comienza a construir riqueza inmediatamente.",
-          icon: "🔗"
-        },
-        {
-          step: "02",
-          title: "Inversión Automática",
-          description: "Cada compra que haces invierte automáticamente tu dinero en portafolios diversificados con retornos diarios.",
-          icon: "⚙️"
-        },
-        {
-          step: "03",
-          title: "Ve Crecer tu Dinero",
-          description: "Rastrea tus inversiones y retornos en tiempo real mientras continúas con tus hábitos normales de gasto.",
-          icon: "📈"
-        },
-        {
-          step: "04",
-          title: "Disfruta Retornos Diarios",
-          description: "Gana retornos diarios en tus inversiones mientras mantienes acceso completo a tu dinero para compras.",
-          icon: "💰"
-        }
-      ]
+      title: "Invertir es tan simple como",
+titleHighlight: "comprar",
+subtitle: "Cuatro simples pasos para transformar tus compras diarias en oportunidades para construir riqueza.",
+steps: [
+  {
+    step: "01",
+    title: "Maximizá tus gastos",
+    description: "Vinculá tu cuenta UX Dual a tus compras diarias y empezá a generar riqueza con rendimientos diarios."
+  },
+  {
+    step: "02",
+    title: "Inversión automática",
+    description: "Tu dinero trabaja para vos 24/7, incluso cuando lo gastás. Convertí cada compra en crecimiento diario automático."
+  },
+  {
+    step: "03",
+    title: "Observá tu dinero crecer",
+    description: "Seguí tus inversiones y rendimientos en tiempo real, mientras mantenés tus hábitos de gasto."
+  },
+  {
+    step: "04",
+    title: "Invertí sin ahorrar",
+    description: "Ahora podés generar riqueza sin necesidad de apartar dinero — solo gastando como siempre lo haces."
+  }
+]
+
     }
   };
 
   const currentContent = content[language];
 
   return (
-    <section id="how-it-works" className="py-20 bg-ux-navy">
+    <section id="how-it-works" className="py-20 bg-[#1C304F]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
@@ -98,11 +91,6 @@ const HowItWorksSection = () => {
                 {/* Step Number */}
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-ux-green rounded-full text-white font-bold text-xl mb-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-green">
                   {step.step}
-                </div>
-
-                {/* Icon */}
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {step.icon}
                 </div>
 
                 {/* Content */}
