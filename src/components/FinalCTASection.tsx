@@ -1,18 +1,21 @@
 import { useLanguage } from "@/contexts/LanguageContext";
+import { sub } from "date-fns";
 
 const FinalCTASection = () => {
   const { language } = useLanguage();
 
   const content = {
     en: {
-      title: "Start Building Wealth With",
-      titleHighlight: "Every Purchase",
-      subtitle: "Join the financial revolution. Turn your everyday spending into your investment strategy."
+      title: "Start building your wealth by",
+      titleHighlight: "spending",
+      subtitle: "Download UX Dual now and be the first to know about our upcoming launch."
+      /*subtitle: "Join the financial revolution. Turn your everyday spending into your investment strategy."*/
     },
     es: {
       title: "Comienza a Construir Riqueza Con",
       titleHighlight: "Cada Compra",
-      subtitle: "Únete a la revolución financiera. Convierte tus gastos cotidianos en tu estrategia de inversión."
+      subtitle: "Descargá UX Dual ahora y sé el primero en enterarte de nuestro próximo lanzamiento."
+      /*subtitle: "Únete a la revolución financiera. Convierte tus gastos cotidianos en tu estrategia de inversión."*/
     }
   };
 

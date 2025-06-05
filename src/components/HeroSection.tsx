@@ -21,18 +21,20 @@ const HeroSection = () => {
 
   const content = {
     en: {
-      mainTitle: "Your Purchases,",
-      highlightTitle: "Your Best Investment",
-      subtitle: "UX Dual is the first app that lets you invest the same money you use for your everyday purchases.",
-      description: "Transform every transaction into a wealth-building opportunity. Start investing automatically with the money you're already spending.",
+      preTitle: "Inlusive & Innovative NeoBanking - Be part of the movement.",
+      mainTitle: "Turn your Daily-Spending into",
+      highlightTitle: "DAILY-RETURNS",
+      subtitle: "We are testing UX DUAL, an unprecedented payments infrastructure that unlocks investment for everyone.  ",
+      description: "For the first time since credit cards in 1950 and debit cards in 1966, millions around the globe will have the chance to invest while spending, simultaneously, with the same money.",
       joinButton: "Join Now",
       howItWorksButton: "How It Works?"
     },
     es: {
-      mainTitle: "Tus compras,",
-      highlightTitle: "TU MEJOR INVERSIÓN",
-      subtitle: "UX Dual es la primera App que te permite invertir el mismo dinero que usas para hacer tus compras.",
-      description: "Transforma cada transacción en una oportunidad de generar riqueza. Comienza a invertir automáticamente con el dinero que ya estás gastando.",
+      preTitle: "Neobanca inclusiva e innovadora - Sé parte del movimiento.",
+      mainTitle: "Convierte tus gastos diarios en",
+      highlightTitle: "INGRESOS DIARIOS",
+      subtitle: "Estamos en fase de prueba con UX DUAL, una infraestructura de pagos única que hace que invertir sea posible para todos.",
+      description: "Por primera vez desde la aparición de las tarjetas de crédito en 1950 y las de débito en 1966, millones de personas en todo el mundo podrán invertir mientras gastan, al mismo tiempo y con el mismo dinero.",
       joinButton: "Únete Ahora",
       howItWorksButton: "¿Cómo Funciona?"
     }
@@ -53,15 +55,56 @@ const HeroSection = () => {
           {/* Left Content */}
           <div className="space-y-8 animate-slide-up text-center lg:text-left">
             <div className="space-y-4">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
-                {currentContent.mainTitle}
-                <br /> {/* Esto fuerza un salto de línea */}
-                <span className="gradient-text">
-                  {currentContent.highlightTitle}
-                </span>
+              {/* Small Title Above Main Title */}
+              <p className="text-base md:text-lg font-semibold text-ux-green tracking-widest uppercase mb-2">
+                {currentContent.preTitle}
+              </p>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                {language === "en" ? (
+                  <>
+                    Turn your <span className="whitespace-nowrap">Daily-Spending</span> into
+                    <br />
+                    <span className="gradient-text">
+                      {currentContent.highlightTitle}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    Convierte tus
+                    <br />
+                    <span className="whitespace-nowrap">
+                      gastos diarios en
+                    </span>
+                    <br />
+                    <span className="gradient-text">
+                      {currentContent.highlightTitle}
+                    </span>
+                  </>
+                )}
               </h1>
               <p className="text-xl md:text-2xl text-white leading-relaxed">
-                {currentContent.subtitle}
+                {language === "en"
+                  ? <>
+                      We are testing{" "}
+                      <img
+                        src="lovable-uploads/logo-dual-simple.png"
+                        alt="UX Dual Logo"
+                        className="inline align-middle mx-1"
+                        style={{ height: "0.75em", width: "auto", display: "inline", verticalAlign: "middle" }}
+                      />
+                      , an unprecedented payments infrastructure that unlocks investment for everyone.
+                    </>
+                  : <>
+                      Estamos en fase de prueba con{" "}
+                      <img
+                        src="lovable-uploads/logo-dual-simple.png"
+                        alt="UX Dual Logo"
+                        className="inline align-middle mx-1"
+                        style={{ height: "0.75em", width: "auto", display: "inline", verticalAlign: "middle" }}
+                      />
+                      , una infraestructura de pagos única que hace que invertir sea posible para todos.
+                    </>
+                }
               </p>
             </div>
 
@@ -73,15 +116,17 @@ const HeroSection = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button 
-              className="bg-ux-green hover:bg-ux-green-light text-white px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
-              onClick={scrollToFooter}>
+                className="border-blue-900 bg-blue-900/40 text-white hover:bg-blue-900/70 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 shadow-lg"
+                onClick={scrollToFooter}
+              >
                 {currentContent.joinButton}
               </Button>
               <Button 
-              variant="outline" 
-              className="border-ux-green text-ux-green hover:bg-ux-green hover:text-white px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300"
-              onClick={scrollToHowItWorks}>
-                {currentContent.howItWorksButton} 
+                variant="outline"
+                className="border-slate-800 bg-slate-800 text-white hover:bg-blue-900/40 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300"
+                onClick={scrollToHowItWorks}
+              >
+                {currentContent.howItWorksButton}
               </Button>
             </div>
           </div>

@@ -60,7 +60,7 @@ const Footer = () => {
             </p>
             <div className="space-y-2">
               <p className="text-gray-400">
-                <span className="font-semibold">{currentContent.email}</span> info@uxdual.com
+                <span className="font-semibold">{currentContent.email}</span> info@uxcapital.la
               </p>
               <p className="text-gray-400">
                 {currentContent.followText}
