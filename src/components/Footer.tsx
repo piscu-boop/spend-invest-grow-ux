@@ -41,7 +41,7 @@ const Footer = () => {
   const currentContent = content[language];
 
   return (
-    <footer id="footer" className="bg-ux-navy border-t border-ux-green/20">
+    <footer id="footer" className="bg-[#1C304F] border-t border-ux-green/20">
       <div className="container mx-auto px-4 py-16">
         <div className="grid md:grid-cols-3 gap-12">
           {/* Company Info */}

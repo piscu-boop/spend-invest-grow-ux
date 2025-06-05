@@ -1,7 +1,7 @@
 
 import Navigation from "@/components/Navigation";
 import HeroSection from "@/components/HeroSection";
-import { WhyUxDual } from "@/components/WhyUxDual";
+import { WhyUxDual } from "@/components/Whyuxdual";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import FAQSection from "@/components/FAQSection";
 import FinalCTASection from "@/components/FinalCTASection";

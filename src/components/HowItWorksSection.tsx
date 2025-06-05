@@ -6,8 +6,8 @@ const HowItWorksSection = () => {
 
   const content = {
     en: {
-      title: "Investing made as simple as",
-      titleHighlight: "Shopping",
+      title: "Now, invest with",
+      titleHighlight: "no savings",
       subtitle: "Four simple steps to transform your everyday purchases into wealth-building opportunities.",
       steps: [
         {
@@ -65,7 +65,7 @@ steps: [
   const currentContent = content[language];
 
   return (
-    <section id="how-it-works" className="py-20 bg-ux-navy">
+    <section id="how-it-works" className="py-20 bg-[#1C304F]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">

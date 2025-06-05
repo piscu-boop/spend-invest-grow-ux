@@ -12,7 +12,7 @@ const FAQSection = () => {
       subtitle: "Get answers to common questions about UX Dual and how it works.",
       faqs: [
         {
-          question: "How do I make money through UX Dual??",
+          question: "How do I make money through UX Dual?",
           answer: "UX Dual invests your purchase money in diversified portfolios that generate daily returns, allowing your spending money to grow while remaining accessible for your needs."
         },
         {
@@ -57,7 +57,7 @@ const FAQSection = () => {
   const currentContent = content[language];
 
   return (
-    <section className="bg-ux-navy text-white py-16">
+    <section className="bg-[#1C304F] text-white py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">

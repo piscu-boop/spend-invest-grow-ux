@@ -72,7 +72,7 @@ const FeaturesSection = () => {
   const currentContent = content[language];
 
   return (
-    <section id="features" className="py-20 bg-ux-navy">
+    <section id="features" className="py-20 bg-[#1C304F]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">

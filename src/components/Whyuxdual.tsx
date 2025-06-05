@@ -52,7 +52,7 @@ export const WhyUxDual = () => {
   const currentContent = content[language];
 
   return (
-    <section className="py-20 bg-slate-900 text-white relative overflow-hidden">
+    <section className="py-20 bg-[#1C304F] text-white relative overflow-hidden">
       <div className="max-w-6xl mx-auto px-8">
         {/* Header */}
         <div className="text-center mb-16">
@@ -87,8 +87,26 @@ export const WhyUxDual = () => {
         </div>
 
         {/* Call to action */}
-        <div className="bg-slate-800 rounded-2xl p-8 border border-slate-700 relative mt-12 text-lg text-gray-200 mx-auto max-w-4xl">
-          {currentContent.callToAction}
+        <div className="bg-ux-green/10 border-l-8 border-ux-green border border-ux-green rounded-2xl p-8 mt-12 text-lg font-bold shadow-lg mx-auto max-w-4xl flex items-center gap-4">
+          <svg className="w-8 h-8 text-ux-green flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2.5" fill="none"/>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4m0 4h.01" />
+          </svg>
+          <span className="text-white font-bold">
+            {language === "en"
+              ? <>
+                  Only available to{" "}
+                  <span className="text-ux-green font-bold">100 Pre-subscribed users</span>, already
+                  taking advantage of UX Dual.<br />
+                  Very soon… <span className="text-ux-green font-bold">YOU</span>
+                </>
+              : <>
+                  Solo disponible para{" "}
+                  <span className="text-ux-green font-bold">100 usuarios pre-suscritos</span>, que ya están utilizando UX Dual.<br />
+                  Muy pronto… <span className="text-ux-green font-bold">TÚ</span>
+                </>
+            }
+          </span>
         </div>
       </div>
 

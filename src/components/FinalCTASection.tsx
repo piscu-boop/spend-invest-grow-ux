@@ -22,7 +22,7 @@ const FinalCTASection = () => {
   const currentContent = content[language];
 
   return (
-    <section className="bg-ux-navy text-white py-16">
+    <section className="bg-[#1C304F] text-white py-16">
       <div className="container mx-auto px-4">
         {/* Contenido de la sección */}
         <div className="text-center max-w-4xl mx-auto animate-slide-up">

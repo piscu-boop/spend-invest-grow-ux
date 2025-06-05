@@ -21,7 +21,8 @@ const HeroSection = () => {
 
   const content = {
     en: {
-      preTitle: "Inlusive & Innovative NeoBanking - Be part of the movement.",
+      preTitleFirst: "Inclusive & Innovative NeoBanking",
+      preTitleSecond: "Be part of the movement.",
       mainTitle: "Turn your Daily-Spending into",
       highlightTitle: "DAILY-RETURNS",
       subtitle: "We are testing UX DUAL, an unprecedented payments infrastructure that unlocks investment for everyone.  ",
@@ -30,7 +31,8 @@ const HeroSection = () => {
       howItWorksButton: "How It Works?"
     },
     es: {
-      preTitle: "Neobanca inclusiva e innovadora - Sé parte del movimiento.",
+      preTitleFirst: "NeoBanking inclusivo e innovador",
+      preTitleSecond: "Sé parte del movimiento.",
       mainTitle: "Convierte tus gastos diarios en",
       highlightTitle: "INGRESOS DIARIOS",
       subtitle: "Estamos en fase de prueba con UX DUAL, una infraestructura de pagos única que hace que invertir sea posible para todos.",
@@ -43,7 +45,7 @@ const HeroSection = () => {
   const currentContent = content[language];
 
   return (
-    <section id="hero" className="relative min-h-screen bg-ux-navy flex items-center overflow-hidden">
+    <section id="hero" className="relative min-h-screen bg-[#1C304F] flex items-center overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0">
         <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl animate-pulse-green"></div>
@@ -57,7 +59,9 @@ const HeroSection = () => {
             <div className="space-y-4">
               {/* Small Title Above Main Title */}
               <p className="text-base md:text-lg font-semibold text-ux-green tracking-widest uppercase mb-2">
-                {currentContent.preTitle}
+                {currentContent.preTitleFirst}
+                <br />
+                {currentContent.preTitleSecond}
               </p>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                 {language === "en" ? (
@@ -116,7 +120,7 @@ const HeroSection = () => {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button 
-                className="border-blue-900 bg-blue-900/40 text-white hover:bg-blue-900/70 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 shadow-lg"
+                className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 shadow-lg"
                 onClick={scrollToFooter}
               >
                 {currentContent.joinButton}

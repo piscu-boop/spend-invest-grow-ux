@@ -50,7 +50,7 @@ const Navigation = () => {
             <LanguageToggle />
             <Button
               asChild
-              className="border-blue-900 bg-blue-900/40 text-white hover:bg-blue-900/70 hover:text-ux-green px-6 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-6 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               <a href="#footer">
                 {language === 'en' ? 'Join Now' : 'Únete Ahora'}
