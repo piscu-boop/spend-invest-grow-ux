@@ -46,7 +46,7 @@ const FinalCTASection = () => {
               style={{ width: "160px", height: "48px" }} // Tamaño fijo del botón
             >
               <img
-                src="../../public/lovable-uploads/AppStore2.png" // Asegúrate de que esta imagen esté en la carpeta public/images
+                src="/lovable-uploads/AppStore2.png" // Asegúrate de que esta imagen esté en la carpeta public/images
                 alt="App Store"
                 className="w-full h-full object-contain"
               />
@@ -59,7 +59,7 @@ const FinalCTASection = () => {
               style={{ width: "160px", height: "48px" }} // Tamaño fijo del botón
             >
               <img
-                src="../../public/lovable-uploads/GooglePlay.png" // Asegúrate de que esta imagen esté en la carpeta public/images
+                src="/lovable-uploads/GooglePlay.png" // Asegúrate de que esta imagen esté en la carpeta public/images
                 alt="Google Play"
                 className="w-full h-full object-contain"
               />
