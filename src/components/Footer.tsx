@@ -49,8 +49,8 @@ const Footer = () => {
             <div className="flex items-center space-x-2">
               <div className="text-2xl font-bold text-white">
               <img
-              src="lovable-uploads/logo-dual.png" // Reemplaza con la ruta de tu imagen
-              alt="UX Dual Logo"
+              src="lovable-uploads/logo-capital.png" // Reemplaza con la ruta de tu imagen
+              alt="UX capital Logo"
               className="h-8" // Ajusta el tamaño según sea necesario
               />
               </div>
