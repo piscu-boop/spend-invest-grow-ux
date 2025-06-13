@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   build: {
     outDir: 'docs', // Carpeta de salida para GitHub Pages
-    emptyOutDir: true, // Limpia la carpeta de salida antes de construir
+    emptyOutDir: false, // Limpia la carpeta de salida antes de construir
   },
   resolve: {
     alias: {

@@ -17,7 +17,7 @@ const Footer = () => {
       newsletterDescription: "Get the latest updates on features and investment opportunities.",
       emailPlaceholder: "Enter your email",
       subscribeButton: "Subscribe",
-      copyright: "© 2024 UX Dual. All rights reserved.",
+      copyright: "© 2025 UX Dual. All rights reserved.",
       footerLinks: [""]
     },
     es: {
@@ -33,7 +33,7 @@ const Footer = () => {
       newsletterDescription: "Obtén las últimas actualizaciones sobre características y oportunidades de inversión.",
       emailPlaceholder: "Ingresa tu email",
       subscribeButton: "Suscribirse",
-      copyright: "© 2024 UX Dual. Todos los derechos reservados.",
+      copyright: "© 2025 UX Dual. Todos los derechos reservados.",
       footerLinks: [""]
     }
   };
