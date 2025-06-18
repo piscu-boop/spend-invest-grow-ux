@@ -15,7 +15,7 @@ interface Props {
 const i18n = {
   en: {
     title: "🚀 Be Part of our VIP list!",
-    subtitle: 'Turn every purchase into a growth opportunity.\nLeave us your details to be notified when we launch UX DUAL.',
+    subtitle: 'Turn every purchase into a growth opportunity.\nLeave us your details to join our pre-subscribers list and you will be notified when we launch UX DUAL.',
     name: 'Name *',
     lastName: 'Last name *',
     email: 'Email *',
@@ -30,7 +30,7 @@ const i18n = {
   },
   es: {
     title: '🚀 ¡Sé parte de nuestra lista exclusiva!',
-    subtitle: 'Transforma cada compra en una oportunidad de crecimiento.\nDéjanos tus datos para avisarte cuando lancemos UX DUAL.',
+    subtitle: 'Transforma cada compra en una oportunidad de crecimiento.\nDéjanos tus datos para unirte a nuestra lista de pre suscriptores y seras notificado cuando lancemos UX DUAL.',
     name: 'Nombre *',
     lastName: 'Apellido *',
     email: 'Correo electrónico *',
