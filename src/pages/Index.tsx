@@ -7,11 +7,15 @@ import FAQSection from "@/components/FAQSection";
 import FinalCTASection from "@/components/FinalCTASection";
 import Footer from "@/components/Footer";
 
-const Index = () => {
+interface IndexProps {
+  onOpenBeta: () => void; // Optional prop to open beta modal
+}
+
+const Index:React.FC<IndexProps> = ({onOpenBeta}) => {
   return (
     <div className="min-h-screen">
-      <Navigation />
-      <HeroSection />
+      <Navigation onOpenBeta={onOpenBeta}/>
+      <HeroSection onOpenBeta={onOpenBeta}/>
       <WhyUxDual />
       <HowItWorksSection />
       <FAQSection />

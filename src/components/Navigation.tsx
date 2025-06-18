@@ -2,7 +2,11 @@ import { Button } from "@/components/ui/button";
 import LanguageToggle from "./LanguageToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const Navigation = () => {
+interface NavigationProps {
+  onOpenBeta: () => void; // Optional prop to open beta modal
+}
+
+const Navigation: React.FC<NavigationProps> = ({onOpenBeta}) => {
   const { language } = useLanguage();
   
   const navItems = language === 'en' ? [
@@ -49,12 +53,10 @@ const Navigation = () => {
           <div className="flex items-center space-x-4">
             <LanguageToggle />
             <Button
-              asChild
               className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-6 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
+              onClick={onOpenBeta}
             >
-              <a href="#footer">
-                {language === 'en' ? 'Join Now' : 'Únete Ahora'}
-              </a>
+              {language === 'en' ? 'Join Now' : 'Únete Ahora'}
             </Button>
           </div>
         </div>
