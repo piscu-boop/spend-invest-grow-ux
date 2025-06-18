@@ -1,7 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  onOpenBeta: () => void; // Optional prop to open beta modal
+}
+
+const HeroSection: React.FC<HeroSectionProps> = ({onOpenBeta}) => {
   const { language } = useLanguage();
 
 
@@ -121,7 +125,7 @@ const HeroSection = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button 
                 className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 shadow-lg"
-                onClick={scrollToFooter}
+                onClick={onOpenBeta}
               >
                 {currentContent.joinButton}
               </Button>
