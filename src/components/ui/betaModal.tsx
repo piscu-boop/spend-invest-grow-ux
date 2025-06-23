@@ -24,7 +24,9 @@ const i18n = {
     spendingLabel: 'Estimated monthly spending in US dollars',
     btn: 'Notify me',
     required: 'All fields are required',
-    privacy: 'I accept the privacy policy',
+    privacyPrefix: 'I have read and accept the ',
+    privacyLink:   'Privacy Policy',
+    privacySuffix: '',
     success: 'Thank you for signing up! We will notify you when we launch UX DUAL',
     errorSend: 'Could not subscribe. Try again later.'
   },
@@ -39,7 +41,9 @@ const i18n = {
     spendingLabel: 'Gasto mensual estimado en dólares',
     btn: 'Notifícame',
     required: 'Todos los campos son obligatorios',
-    privacy: 'Acepto la política de privacidad',
+    privacyPrefix: 'He leído y acepto la ',
+    privacyLink:   'Política de Privacidad',
+    privacySuffix: '',
     success: '¡Gracias por registrarte! Te avisaremos cuando lancemos UX DUAL',
     errorSend: 'No pudimos registrar tus datos. Inténtalo más tarde.'
   }
@@ -196,14 +200,27 @@ const BetaModal: React.FC<Props> = ({ open, onClose, scriptURL }) => {
 
           {/* Privacy checkbox */}
           <label className="flex items-start gap-2 text-sm text-gray-300">
-            <input
+          <input
               type="checkbox"
               checked={acceptPrivacy}
               onChange={(e) => setAcceptPrivacy(e.target.checked)}
-              className="mt-1 h-4 w-4 rounded border-gray-400 bg-[#1C304F] text-ux-green focus:ring-ux-green"
+              className="mt-1 h-4 w-4 rounded border-gray-400 bg-[#1C304F] text-ux-green 
+                        focus:ring-ux-green"
               required
             />
-            <span>{t.privacy}</span>
+
+            <span>
+              {t.privacyPrefix}
+              <a
+                href="/wp-content/uploads/2024/12/Politicas-de-Privacidad-Presuscriptores.pdf"   
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-ux-green hover:text-ux-green/80"
+              >
+                {t.privacyLink}
+              </a>
+              {t.privacySuffix}
+            </span>
           </label>
 
           {error && <p className="text-center text-sm text-red-400">{error}</p>}
