@@ -56,7 +56,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({onOpenBeta}) => {
         <div className="absolute bottom-20 left-20 w-64 h-64 bg-ux-green/5 rounded-full blur-2xl"></div>
       </div>
 
-      <div className="container mx-auto px-4 pt-20">
+      <div className="container mx-auto px-4 pt-20 pb-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center justify-items-center">
           {/* Left Content */}
           <div className="space-y-8 animate-slide-up text-center lg:text-left">
