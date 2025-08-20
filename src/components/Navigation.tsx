@@ -56,7 +56,9 @@ const Navigation: React.FC<NavigationProps> = ({onOpenBeta}) => {
               className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-6 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
               onClick={onOpenBeta}
             >
+              <a href="#join-now">
               {language === 'en' ? 'Join Now' : 'Únete Ahora'}
+              </a>
             </Button>
           </div>
         </div>
