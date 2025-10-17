@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import LanguageToggle from "./LanguageToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { Link, useLocation } from "react-router-dom";
 
 interface NavigationProps {
   onOpenBeta: () => void; // Optional prop to open beta modal
@@ -8,23 +9,29 @@ interface NavigationProps {
 
 const Navigation: React.FC<NavigationProps> = ({onOpenBeta}) => {
   const { language } = useLanguage();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
   
   const navItems = language === 'en' ? [
-    { label: "About UX", href: "#hero" },
-    { label: "How It Works", href: "#how-it-works" },
+    { label: "About UX", href: isHomePage ? "#hero" : "/#hero" },
+    { label: "How It Works", href: isHomePage ? "#how-it-works" : "/#how-it-works" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Team", href: "/team" },
     // { label: "Features", href: "#features" },
     // { label: "Security", href: "#security" },
     // { label: "Support", href: "#support" },
   ] : [
-    { label: "Acerca de UX", href: "#hero" },
-    { label: "Cómo Funciona", href: "#how-it-works" },
+    { label: "Acerca de UX", href: isHomePage ? "#hero" : "/#hero" },
+    { label: "Cómo Funciona", href: isHomePage ? "#how-it-works" : "/#how-it-works" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Team", href: "/team" },
     // { label: "Características", href: "#features" },
     // { label: "Seguridad", href: "#security" },
     // { label: "Soporte", href: "#support" },
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-ux-navy/90 backdrop-blur-md border-b border-ux-green/20">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0E1B38] border-b border-ux-green/20">
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
@@ -39,13 +46,31 @@ const Navigation: React.FC<NavigationProps> = ({onOpenBeta}) => {
           {/* Desktop Navigation alineado a la derecha pero con espacio */}
           <div className="hidden md:flex items-center space-x-8" style={{ marginRight: "60px", marginLeft: "auto" }}>
             {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="text-gray-300 hover:text-ux-green transition-colors duration-300"
-              >
-                {item.label}
-              </a>
+              item.href.startsWith('#') ? (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className="text-gray-300 hover:text-ux-green transition-colors duration-300"
+                >
+                  {item.label}
+                </a>
+              ) : item.href.startsWith('/#') ? (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className="text-gray-300 hover:text-ux-green transition-colors duration-300"
+                >
+                  {item.label}
+                </Link>
+              ) : (
+                <Link
+                  key={item.label}
+                  to={item.href}
+                  className="text-gray-300 hover:text-ux-green transition-colors duration-300"
+                >
+                  {item.label}
+                </Link>
+              )
             ))}
           </div>
 

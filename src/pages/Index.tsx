@@ -1,9 +1,9 @@
 
 import Navigation from "@/components/Navigation";
-import HeroSection from "@/components/HeroSection";
+// import HeroSection from "@/components/HeroSection"; // desactivada temporalmente
+import HeroSectionAudience from "@/components/HeroSectionAudience";
 import { WhyUxDual } from "@/components/Whyuxdual";
 import HowItWorksSection from "@/components/HowItWorksSection";
-import FAQSection from "@/components/FAQSection";
 import FinalCTASection from "@/components/FinalCTASection";
 import Footer from "@/components/Footer";
 import TrustedBySection from "@/components/TrustedBySection";
@@ -16,12 +16,8 @@ const Index:React.FC<IndexProps> = ({onOpenBeta}) => {
   return (
     <div className="min-h-screen">
       <Navigation onOpenBeta={onOpenBeta}/>
-      <HeroSection onOpenBeta={onOpenBeta}/>
+      <HeroSectionAudience onOpenBeta={onOpenBeta}/>
       <TrustedBySection />
-      <WhyUxDual />
-      <HowItWorksSection />
-      <FAQSection />
-      <FinalCTASection />
       <Footer />
     </div>
   );
