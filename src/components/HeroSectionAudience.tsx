@@ -24,10 +24,10 @@ const HeroSectionAudience: React.FC<HeroSectionAudienceProps> = ({ onOpenBeta })
 
 	const content = {
 		en: {
-			preTitleFirst: "Spend and Invest",
+			preTitleFirst: "",
 			preTitleSecond: "",
-			mainTitle: "Spend and Invest at the same time",
-			subtitle: "UX Dual allows you to pay at partnered merchants and make that same purchase start generating daily returns.",
+			mainTitle: "Turning Every Purchase into an Investment",
+			subtitle: "",
 			consumer: "I'm a Consumer",
 			merchant: "I'm a Merchant",
 			manufacturer: "I'm a Manufacturer",

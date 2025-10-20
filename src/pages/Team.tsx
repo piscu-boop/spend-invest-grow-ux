@@ -1,21 +1,21 @@
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer";
 import TeamSection from "@/components/TeamSection";
+import Footer from "@/components/Footer";
 
-interface TeamPageProps {
+interface TeamProps {
   onOpenBeta: () => void;
 }
 
-const Team: React.FC<TeamPageProps> = ({ onOpenBeta }) => {
+const Team: React.FC<TeamProps> = ({ onOpenBeta }) => {
   return (
     <div className="min-h-screen">
       <Navigation onOpenBeta={onOpenBeta} />
-      <TeamSection />
+      <div className="pt-20">
+        <TeamSection />
+      </div>
       <Footer />
     </div>
   );
 };
 
 export default Team;
-
-

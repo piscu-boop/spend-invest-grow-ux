@@ -17,12 +17,12 @@ const TEAM_MEMBERS: TeamMember[] = [
   {
     name: "Patricia Roxana Chacón",
     title: "Co-Founder & Chief Legal Officer",
-    imageUrl: "/lovable-uploads/logo-dual.png",
+    imageUrl: "/lovable-uploads/patricia.jpeg",
   },
   {
     name: "Santiago César",
     title: "Co- Founder & COO",
-    imageUrl: "/lovable-uploads/logo-dual.png",
+    imageUrl: "/lovable-uploads/santiago.jpeg",
   },
   {
     name: "Abril Barra Delich",

@@ -1,5 +1,5 @@
 import Navigation from "@/components/Navigation";
-import FAQSection from "@/components/FAQSection";
+import FAQSegmentado from "@/components/FAQSegmentado";
 import Footer from "@/components/Footer";
 
 interface FAQProps {
@@ -11,7 +11,7 @@ const FAQ: React.FC<FAQProps> = ({ onOpenBeta }) => {
     <div className="min-h-screen bg-[#1C304F]">
       <Navigation onOpenBeta={onOpenBeta} />
       <div className="pt-20">
-        <FAQSection />
+        <FAQSegmentado defaultFilter="general" />
       </div>
       <Footer />
     </div>

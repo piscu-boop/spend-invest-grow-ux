@@ -14,7 +14,6 @@ const Navigation: React.FC<NavigationProps> = ({onOpenBeta}) => {
   
   const navItems = language === 'en' ? [
     { label: "About UX", href: isHomePage ? "#hero" : "/#hero" },
-    { label: "How It Works", href: isHomePage ? "#how-it-works" : "/#how-it-works" },
     { label: "FAQ", href: "/faq" },
     { label: "Team", href: "/team" },
     // { label: "Features", href: "#features" },
@@ -22,7 +21,6 @@ const Navigation: React.FC<NavigationProps> = ({onOpenBeta}) => {
     // { label: "Support", href: "#support" },
   ] : [
     { label: "Acerca de UX", href: isHomePage ? "#hero" : "/#hero" },
-    { label: "Cómo Funciona", href: isHomePage ? "#how-it-works" : "/#how-it-works" },
     { label: "FAQ", href: "/faq" },
     { label: "Team", href: "/team" },
     // { label: "Características", href: "#features" },

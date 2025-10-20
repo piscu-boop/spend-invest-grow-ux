@@ -1,7 +1,6 @@
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import TrustedBySection from "@/components/TrustedBySection";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, TrendingUp, Shield, Smartphone, CreditCard, DollarSign } from "lucide-react";
@@ -16,10 +15,10 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
   const content = {
     en: {
       title: "For Consumers",
-      subtitle: "Transform your purchases into investments",
-      description: "Every time you shop at partnered merchants, your purchase automatically starts generating daily returns. Spend and invest at the same time.",
+      subtitle: "",
+      description: "",
       heroTitle: "Your everyday purchases, now generating returns",
-      heroSubtitle: "UX Dual makes every purchase an investment opportunity",
+      heroSubtitle: "",
       benefits: [
         {
           icon: <TrendingUp className="w-8 h-8" />,
@@ -69,10 +68,10 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
     },
     es: {
       title: "Para Consumidores",
-      subtitle: "Transformá tus compras en inversiones",
-      description: "Cada vez que compres en comercios adheridos, tu compra automáticamente empieza a generar rendimientos diarios. Comprá e invertí al mismo tiempo.",
+      subtitle: "",
+      description: "",
       heroTitle: "Tus compras diarias, ahora generando rendimientos",
-      heroSubtitle: "UX Dual convierte cada compra en una oportunidad de inversión",
+      heroSubtitle: "",
       benefits: [
         {
           icon: <TrendingUp className="w-8 h-8" />,
@@ -241,7 +240,6 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
         </div>
       </section>
 
-      <TrustedBySection />
       <Footer />
     </div>
   );

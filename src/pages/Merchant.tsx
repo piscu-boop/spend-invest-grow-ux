@@ -1,7 +1,6 @@
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import TrustedBySection from "@/components/TrustedBySection";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, TrendingUp, Shield, Smartphone, CreditCard, BarChart3, Store, Handshake } from "lucide-react";
@@ -16,30 +15,30 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
   const content = {
     en: {
       title: "For Merchants",
-      subtitle: "Grow your business with investment-powered purchases",
-      description: "Join our network of partnered merchants and offer your customers the unique opportunity to turn their purchases into investments.",
-      heroTitle: "Attract more customers with investment rewards",
-      heroSubtitle: "UX Dual helps merchants increase sales and customer loyalty",
+      subtitle: "",
+      description: "",
+      heroTitle: "Buy and Sell with UX DUAL",
+      heroSubtitle: "",
       benefits: [
         {
           icon: <Users className="w-8 h-8" />,
-          title: "More Customers",
-          description: "Attract investment-conscious consumers to your business"
+          title: "Reduce your Processing Fees",
+          description: ""
         },
         {
           icon: <TrendingUp className="w-8 h-8" />,
           title: "Higher Sales",
-          description: "Increase average transaction values and repeat purchases"
+          description: ""
         },
         {
           icon: <Handshake className="w-8 h-8" />,
           title: "Customer Loyalty",
-          description: "Build stronger relationships with investment-minded customers"
+          description: ""
         },
         {
           icon: <BarChart3 className="w-8 h-8" />,
-          title: "Analytics Dashboard",
-          description: "Track your performance and customer engagement metrics"
+          title: "Track your sales in real-time",
+          description: ""
         }
       ],
       features: [
@@ -55,8 +54,8 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
         },
         {
           icon: <Smartphone className="w-6 h-6" />,
-          title: "Mobile Optimized",
-          description: "Works seamlessly on all devices and payment methods"
+          title: "QR Payment",
+          description: "Available in every mobile device"
         },
         {
           icon: <CreditCard className="w-6 h-6" />,
@@ -67,25 +66,25 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
       howItWorks: [
         {
           step: "1",
-          title: "Apply to Join",
-          description: "Submit your business information for partnership review"
+          title: "Schedule a call with our team",
+          description: "Send your business information for partnership review"
         },
         {
           step: "2",
-          title: "Get Approved",
+          title: "We onboard your business",
           description: "Receive approval and integration instructions"
         },
         {
           step: "3",
-          title: "Integrate Payment",
-          description: "Add UX Dual payment option to your checkout process"
+          title: "Get your UX Dual QR",
+          description: "Add the UX Dual payment option to your checkout process"
         },
         {
           step: "4",
-          title: "Start Earning",
-          description: "Welcome new customers and watch your sales grow"
+          title: "You’re now a UX Merchant",
+          description: "Receive new customers and watch your sales grow"
         }
-      ],
+      ],      
       ctaTitle: "Join thousands of merchants growing with UX Dual",
       ctaButton: "Apply as Merchant"
     },
@@ -211,7 +210,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-[#1C304F]">
-              {language === 'en' ? 'Why Partner with UX Dual?' : 'Beneficios de vender con UX Dual'}
+              {language === 'en' ? 'Benefits of selling with UX Dual' : 'Beneficios de vender con UX Dual'}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               {language === 'en' 
@@ -249,8 +248,8 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               {language === 'en' 
-                ? 'Everything you need to succeed as a UX Dual merchant' 
-                : 'Todo lo que necesitás para tener éxito como comercio UX Dual'}
+                ? 'Everything you need to know about UX Dual' 
+                : 'Todo lo que necesitás saber sobre UX Dual'}
             </p>
           </div>
 
@@ -321,7 +320,6 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
         </div>
       </section>
 
-      <TrustedBySection />
       <Footer />
     </div>
   );

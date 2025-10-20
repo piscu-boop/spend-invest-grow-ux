@@ -1,10 +1,9 @@
-import Navigation from "@/components/Navigation";
+ import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import TrustedBySection from "@/components/TrustedBySection";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Factory, TrendingUp, Shield, Smartphone, CreditCard, BarChart3, Package, Handshake, Target, Zap } from "lucide-react";
+import { Factory, TrendingUp, Shield, Smartphone, CreditCard, BarChart3, Package, Handshake, Target, Zap, Store } from "lucide-react";
 
 interface ManufacturerProps {
   onOpenBeta: () => void;
@@ -16,74 +15,66 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
   const content = {
     en: {
       title: "For Manufacturers",
-      subtitle: "Scale your production with investment-backed purchases",
-      description: "Connect with merchants and consumers in our ecosystem to increase demand for your products through investment-powered purchasing.",
-      heroTitle: "Expand your market reach with investment rewards",
-      heroSubtitle: "UX Dual helps manufacturers increase sales and market penetration",
+      subtitle: "",
+      description: "",
+      heroTitle: "Empower Your Value Chain Through Financial Inclusion",
+      heroSubtitle: "",
       benefits: [
         {
           icon: <Target className="w-8 h-8" />,
-          title: "Market Expansion",
-          description: "Reach investment-conscious consumers through our merchant network"
-        },
-        {
-          icon: <TrendingUp className="w-8 h-8" />,
-          title: "Increased Demand",
-          description: "Higher purchase volumes driven by investment incentives"
+          title: "Automate Collections"
         },
         {
           icon: <Handshake className="w-8 h-8" />,
-          title: "Strategic Partnerships",
-          description: "Build strong relationships with merchants and distributors"
+          title: "Promote Financial Inclusion"
         },
         {
-          icon: <BarChart3 className="w-8 h-8" />,
-          title: "Market Analytics",
-          description: "Access detailed insights about consumer purchasing patterns"
+          icon: <TrendingUp className="w-8 h-8" />,
+          title: "Boost Sales in Your Value Chain"
         }
       ],
       features: [
         {
-          icon: <Factory className="w-6 h-6" />,
-          title: "Production Integration",
-          description: "Seamlessly integrate with existing production and supply chain systems"
+          icon: <Store className="w-6 h-6" />,
+          title: "Easy Integration",
+          description: "Simple setup process with minimal technical requirements"
         },
         {
           icon: <Shield className="w-6 h-6" />,
-          title: "Quality Assurance",
-          description: "Maintain product quality standards with our verification system"
+          title: "Secure Payments",
+          description: "Bank-level security for all transactions"
         },
         {
-          icon: <Package className="w-6 h-6" />,
-          title: "Inventory Management",
-          description: "Optimize inventory levels based on investment-driven demand patterns"
+          icon: <Smartphone className="w-6 h-6" />,
+          title: "QR Payment",
+          description: "Available in every mobile device"
         },
         {
-          icon: <Zap className="w-6 h-6" />,
-          title: "Fast Onboarding",
-          description: "Quick setup process to start benefiting from the ecosystem"
+          icon: <CreditCard className="w-6 h-6" />,
+          title: "No Setup Fees",
+          description: "Start accepting UX Dual payments with no upfront costs"
         }
       ],
       howItWorks: [
         {
           step: "1",
-          title: "Apply for Partnership",
-          description: "Submit your manufacturing details and product portfolio"
+          title: "Schedule a call with our team",
+          description: "Send your business information for partnership review"
         },
         {
           step: "2",
-          title: "Get Verified",
-          description: "Complete our quality and compliance verification process"
+          title: "We onboard your business",
+          description: "Receive approval and integration instructions"
         },
         {
           step: "3",
-          title: "Connect with Merchants",
-          description: "Partner with merchants in our network to sell your products"
+          title: "Get your UX Dual QR",
+          description: "Add the UX Dual payment option to your checkout process"
         },
         {
           step: "4",
-          title: "Scale Production",
-          description: "Increase production based on investment-driven demand"
+          title: "You’re now a UX Merchant",
+          description: "Receive new customers and watch your sales grow"
         }
       ],
       ctaTitle: "Join the future of manufacturing with investment rewards",
@@ -93,7 +84,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
       title: "Para Fabricantes",
       subtitle: "Escalá tu producción con compras respaldadas por inversión",
       description: "",
-      heroTitle: "Promove la Inclusion Financiera en tu cadena de valor",
+      heroTitle: "Promové la Inclusión Financiera en tu cadena de valor",
       heroSubtitle: "",
       benefits: [
         {
@@ -114,24 +105,24 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
       ],
       features: [
         {
-          icon: <Factory className="w-6 h-6" />,
-          title: "Integración de Producción",
-          description: "Integráte perfectamente con sistemas de producción y cadena de suministro existentes"
+          icon: <Store className="w-6 h-6" />,
+          title: "Fácil Integración",
+          description: "Proceso de configuración simple con requisitos técnicos mínimos"
         },
         {
           icon: <Shield className="w-6 h-6" />,
-          title: "Aseguramiento de Calidad",
-          description: "Mantené estándares de calidad de productos con nuestro sistema de verificación"
+          title: "Cobranza Garantizada",
+          description: "Seguridad bancaria para todas las transacciones"
         },
         {
-          icon: <Package className="w-6 h-6" />,
-          title: "Gestión de Inventario",
-          description: "Optimizá niveles de inventario basados en patrones de demanda impulsados por inversión"
+          icon: <Smartphone className="w-6 h-6" />,
+          title: "Pago con QR",
+          description: "Disponible en todos los dispositivos moviles"
         },
         {
-          icon: <Zap className="w-6 h-6" />,
-          title: "Onboarding Rápido",
-          description: "Proceso de configuración rápido para empezar a beneficiarte del ecosistema"
+          icon: <CreditCard className="w-6 h-6" />,
+          title: "Cobra con tu QR UX DUAL",
+          description: "Empezá a aceptar pagos UX Dual sin costos iniciales"
         }
       ],
       howItWorks: [
@@ -216,7 +207,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {currentContent.benefits.map((benefit, index) => (
               <Card key={index} className="text-center border-2 hover:border-ux-green/50 transition-all duration-300 hover:shadow-lg">
                 <CardHeader>
@@ -317,7 +308,6 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
         </div>
       </section>
 
-      <TrustedBySection />
       <Footer />
     </div>
   );

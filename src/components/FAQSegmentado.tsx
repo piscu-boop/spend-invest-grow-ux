@@ -1,0 +1,250 @@
+import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Button } from "@/components/ui/button";
+
+interface FAQSegmentadoProps {
+  defaultFilter?: "general" | "consumer" | "merchant" | "manufacturer";
+}
+
+const FAQSegmentado = ({ defaultFilter = "general" }: FAQSegmentadoProps) => {
+  const { language } = useLanguage();
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [activeFilter, setActiveFilter] = useState<"general" | "consumer" | "merchant" | "manufacturer">(defaultFilter);
+
+  const content = {
+    en: {
+      title: "Frequently Asked",
+      titleHighlight: "Questions",
+      subtitle: "Get answers to common questions about UX Dual and how it works.",
+      filters: {
+        general: "Regulations & General Info",
+        consumer: "Consumer",
+        merchant: "Merchant",
+        manufacturer: "Manufacturer"
+      },
+      faqs: {
+        general: [
+          {
+            question: "Is UX Capital a Bank or Financial Entity?",
+            answer: "UX Capital is a Payment Service Provider License BCRA No. 34.595 and is not authorized by the BCRA to operate as a financial entity."
+          },
+          {
+            question: "Where is my money invested?",
+            answer: "In the FCI 'Delta Pesos' (Delta Pesos FCI). Managed by Delta Asset Management. Delta Asset Management Agent for the administration of collective investment products FCI registered in CNV Registry No. 40 / Delta Asset Management Integral Placement and Distribution Agent registered in CNV Registry No. 158."
+          },
+          {
+            question: "What is the process to start Balance and Purchase Investment?",
+            answer: "Once you accept the Terms and Conditions (T&C) when creating your account, you will be ready to start investing your balance in Delta Pesos FCI."
+          },
+          {
+            question: "What is the process to stop investing my Available Balance and my purchases?",
+            answer: "If you are considering deactivating your client account (Balance Investment), we want to remind you that it is an essential part for the functioning of your account. Therefore, to completely deactivate your account, you must go to your user profile and proceed with the total deactivation of the same."
+          }
+        ],
+        consumer: [
+          {
+            question: "How do I make money with UX Dual?",
+            answer: "Your money from Available Balance and from purchases is in Delta Pesos FCI generating daily returns, allowing your spending money to grow while allowing you to meet your daily expenses and obligations."
+          },
+          {
+            question: "Is my money safe and accessible?",
+            answer: "Yes, your money is under custody of Delta Pesos FCI, managed by Delta Asset Management. (Delta Asset Management S.A. is Agent for the Administration of Collective Investment Products FCI (AAPIC FCI) registered in CNV under Registration No. 40, and Integral Placement and Distribution Agent (ACDI) registered in CNV under Registration No. 158)"
+          },
+          {
+            question: "Do I need previous investment experience to use UX Dual?",
+            answer: "Not at all! UX Dual handles all investment decisions automatically, making wealth building as simple as your regular shopping."
+          },
+          {
+            question: "What types of returns can I expect?",
+            answer: "Returns vary according to market conditions, but our platform is designed to generate consistent daily returns for both your available balance and your purchases."
+          },
+          {
+            question: "How long is my money invested for purchases?",
+            answer: "Your money for purchases is invested from the moment you deposited it in UX Dual, until the first business day of the following month."
+          }
+        ],
+        merchant: [
+          {
+            question: "What added value do I have by adopting UX Dual in my business?",
+            answer: "Something incredible and never seen before. Your customer transforms expenses in your business into investments with daily interest. For your customer, you are no longer an expense, you are an investment. The lowest processing cost you have ever had."
+          },
+          {
+            question: "Do I need to pay for a POS?",
+            answer: "No, not at all. We take care of everything, you just collect with our QR."
+          }
+        ],
+        manufacturer: [
+          {
+            question: "What does it mean that I will allow my merchants to pay with UX Dual?",
+            answer: "You will allow your allied merchants and distributors to profit from the amount of the purchase they make from you, generating a tangible and brutal financial benefit for them."
+          },
+          {
+            question: "Do I have a cost?",
+            answer: "No, on the contrary, you have a brutal tool to retain all your allied merchants and distributors."
+          },
+          {
+            question: "Do I need anything to adopt UX Dual with my allied merchants and distributors?",
+            answer: "Yes, contact us, we provide you with all the tools so that the only thing you have to do is tell them that from now on, their purchases generate a financial return all month."
+          },
+          {
+            question: "Do I need a new system to use UX Dual with my allied merchants and distributors?",
+            answer: "We provide you with a simple management system so you can track everything sold with UX Dual."
+          }
+        ]
+      }
+    },
+    es: {
+      title: "Preguntas",
+      titleHighlight: "Frecuentes",
+      subtitle: "Obtén respuestas a preguntas comunes sobre UX Dual y cómo funciona.",
+      filters: {
+        general: "Regulaciones & Info General",
+        consumer: "Consumidor",
+        merchant: "Comercio",
+        manufacturer: "Fabricante"
+      },
+      faqs: {
+        general: [
+          {
+            question: "¿UX Capital es un Banco o Entidad Financiera?",
+            answer: "UX Capital es un Proveedor de Servicios de Pago Licencia BCRA Nro. 34.595 y no está autorizado por el BCRA para operar como entidad financiera."
+          },
+          {
+            question: "¿En donde se invierte mi dinero?",
+            answer: "En el FCI 'Delta Pesos' (Delta Pesos FCI). Administrado por Delta Asset Management. Delta Asset Management Agente de administración de productos de inversión colectiva FCI inscripto en el registro CNV Nro. 40 / Delta Asset Management Agente de Colocación y Distribución Integral inscripto en el registro CNV Nro. 158."
+          },
+          {
+            question: "¿Cuál es el proceso para iniciar la Inversión de Saldos y Compras?",
+            answer: "Una vez aceptados los Terminos y Condiciones (TyC) en la creación de tu cuenta, estarás listo para comenzar a invertir tu saldo en Delta Pesos FCI."
+          },
+          {
+            question: "¿Cuál es el proceso para dejar de invertir mi Saldo Disponible y mis compras?",
+            answer: "Si estás considerando dar de baja tu cuenta comitente (Inversion de saldos), queremos recordarte que es una parte esencial para el funcionamiento de tu cuenta. Por eso, para desactivar completamente tu cuenta, deberás dirigirte a tu perfil de usuario y proceder con la baja total de la misma."
+          }
+        ],
+        consumer: [
+          {
+            question: "¿Cómo gano dinero con UX Dual?",
+            answer: "Tu dinero por Saldo disponible y por compras esta en Delta Pesos FCI generando retornos diarios, permitiendo que tu dinero de gastos crezca mientras te permite cumplir con tus gastos y obligaciones cotidianas."
+          },
+          {
+            question: "¿Esta mi dinero seguro y accesible?",
+            answer: "Sí, tu dinero esta bajo custodia de Delta Pesos FCI, administrada por Delta Asset Management. (Delta Asset Management S.A. es Agente de Administración de Productos de Inversión Colectiva FCI (AAPIC FCI) registrado en CNV bajo la Matrícula Nro. 40, y Agente de Colocación y Distribución Integral (ACDI) registrado en CNV bajo la Matrícula Nro. 158)"
+          },
+          {
+            question: "¿Necesito experiencia previa en inversiones para usar UX Dual?",
+            answer: "¡Para nada! UX Dual maneja todas las decisiones de inversión automáticamente, haciendo la construcción de riqueza tan simple como tus compras regulares."
+          },
+          {
+            question: "¿Que tipos de retornos puedo esperar?",
+            answer: "Los retornos varían según las condiciones del mercado, pero nuestra plataforma está diseñada para generar retornos diarios consistentes tanto para tu saldo disponible como para tus compras."
+          },
+          {
+            question: "¿Cuanto tiempo se invierte mi dinero por compras?",
+            answer: "Tu dinero por compras esta invertido desde el momento que lo depositaste en UX Dual, hasta el primer dia habil del mes siguiente."
+          }
+        ],
+        merchant: [
+          {
+            question: "¿Que valor agregado tengo adoptando UX Dual en mi comercio?",
+            answer: "Algo increible y nunca antes visto. Tu cliente transforma los gastos en tu comercio, en inversiones con intereses diarios. Para tu cliente ya no sos mas un gasto, sos una inversión. El costo de procesamiento mas bajo que hayas tenido."
+          },
+          {
+            question: "¿Necesito pagar un POS?",
+            answer: "No, de ninguna manera. Nosotros nos encargamos de todo, vos solo cobras con nuestro QR."
+          }
+        ],
+        manufacturer: [
+          {
+            question: "¿Que significa que voy a permitirles pagar a mis comercios con UX Dual?",
+            answer: "Le vas a permitir a tus comercios aliados y distribuidores, poder rentabilizar el monto de la compra que te hagan, generandoles un beneficio financiero tangible y brutal."
+          },
+          {
+            question: "¿Tengo costo?",
+            answer: "No, al contrario, tenes una herramienta brutal para fidelizar a todos tus comercios aliados y distribuidores."
+          },
+          {
+            question: "¿Necesito algo para adoptar UX Dual frente a mis comercios aliados y distribuidores?",
+            answer: "Si, contactarte con nosotros, te brindamos todas las herramientas para que lo unico que tengas que hacer, es avisarles que de ahora en mas, sus compras les generan un retorno financiero todo el mes."
+          },
+          {
+            question: "¿Necesito algun sistema nuevo para usar UX Dual frente a mis comercios aliados y distribuidores?",
+            answer: "Nosotros te brindamos un sistema de gestion simple para que puedas hacer seguimiento a todo lo vendido con UX Dual."
+          }
+        ]
+      }
+    }
+  };
+
+  const currentContent = content[language];
+  const currentFAQs = currentContent.faqs[activeFilter];
+
+  return (
+    <section className="bg-[#1C304F] text-white py-16">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16 animate-fade-in">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            {currentContent.title}{" "}
+            <span className="gradient-text">{currentContent.titleHighlight}</span>
+          </h2>
+          <p className="text-xl text-white max-w-3xl mx-auto mb-8">
+            {currentContent.subtitle}
+          </p>
+          
+          {/* Filter Buttons */}
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
+            {Object.entries(currentContent.filters).map(([key, label]) => (
+              <Button
+                key={key}
+                variant={activeFilter === key ? "default" : "outline"}
+                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
+                  activeFilter === key
+                    ? "bg-ux-green text-white hover:bg-ux-green/80"
+                    : "border-ux-green text-white bg-ux-blue-dark/30 hover:bg-ux-green/20 hover:text-ux-green"
+                }`}
+                onClick={() => {
+                  setActiveFilter(key as any);
+                  setOpenIndex(0);
+                }}
+              >
+                {label}
+              </Button>
+            ))}
+          </div>
+        </div>
+
+        <div className="max-w-4xl mx-auto space-y-4">
+          {currentFAQs.map((faq, index) => (
+            <div 
+              key={index}
+              className="bg-ux-blue-dark/50 backdrop-blur-sm rounded-2xl border border-ux-green/20 overflow-hidden animate-slide-up"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <button
+                className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-ux-green/5 transition-colors duration-300"
+                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+              >
+                <h3 className="text-lg font-semibold text-white pr-4">
+                  {faq.question}
+                </h3>
+                <div className={`text-ux-green text-2xl transition-transform duration-300 ${openIndex === index ? 'rotate-45' : ''}`}>
+                  +
+                </div>
+              </button>
+              
+              <div className={`overflow-hidden transition-all duration-500 ${openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                <div className="px-8 pb-6">
+                  <p className="text-gray-200 leading-relaxed">
+                    {faq.answer}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default FAQSegmentado;
