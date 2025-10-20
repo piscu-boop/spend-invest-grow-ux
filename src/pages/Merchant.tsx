@@ -90,31 +90,31 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
       ctaButton: "Apply as Merchant"
     },
     es: {
-      title: "Para Comerciantes",
+      title: "Para Comercios",
       subtitle: "Hacé crecer tu negocio con compras potenciadas por inversión",
-      description: "Unite a nuestra red de comercios adheridos y ofrecé a tus clientes la oportunidad única de convertir sus compras en inversiones.",
-      heroTitle: "Atraé más clientes con recompensas de inversión",
-      heroSubtitle: "UX Dual ayuda a los comerciantes a aumentar ventas y fidelidad de clientes",
+      description: "",
+      heroTitle: "Comprá y Vendé con UX DUAL",
+      heroSubtitle: "",
       benefits: [
         {
           icon: <Users className="w-8 h-8" />,
-          title: "Más Clientes",
-          description: "Atraé consumidores conscientes de la inversión a tu negocio"
+          title: "Reducí tus costos de procesamiento",
+          description: ""
         },
         {
           icon: <TrendingUp className="w-8 h-8" />,
-          title: "Mayores Ventas",
-          description: "Incrementá valores promedio de transacciones y compras repetidas"
+          title: "Impulsá tus Ventas",
+          description: ""
         },
         {
           icon: <Handshake className="w-8 h-8" />,
-          title: "Fidelidad de Clientes",
-          description: "Construí relaciones más fuertes con clientes orientados a la inversión"
+          title: "Fidelizá a tus clientes",
+          description: ""
         },
         {
           icon: <BarChart3 className="w-8 h-8" />,
-          title: "Panel de Analytics",
-          description: "Seguí tu rendimiento y métricas de engagement de clientes"
+          title: "Interactuá en tiempo real con tus metricas",
+          description: ""
         }
       ],
       features: [
@@ -125,39 +125,39 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
         },
         {
           icon: <Shield className="w-6 h-6" />,
-          title: "Pagos Seguros",
+          title: "Cobranza Garantizada",
           description: "Seguridad bancaria para todas las transacciones"
         },
         {
           icon: <Smartphone className="w-6 h-6" />,
-          title: "Optimizado Móvil",
-          description: "Funciona perfectamente en todos los dispositivos y métodos de pago"
+          title: "Pago con QR",
+          description: "Disponible en todos los dispositivos moviles"
         },
         {
           icon: <CreditCard className="w-6 h-6" />,
-          title: "Sin Costos de Setup",
+          title: "Cobra con tu QR UX DUAL",
           description: "Empezá a aceptar pagos UX Dual sin costos iniciales"
         }
       ],
       howItWorks: [
         {
           step: "1",
-          title: "Aplicá para Unirte",
+          title: "Agendá una llamada con nuestro equipo",
           description: "Enviá la información de tu negocio para revisión de asociación"
         },
         {
           step: "2",
-          title: "Obtené Aprobación",
+          title: "Damos de alta tu comercio",
           description: "Recibí aprobación e instrucciones de integración"
         },
         {
           step: "3",
-          title: "Integrá el Pago",
+          title: "Recibi tu QR Ux Dual",
           description: "Agregá la opción de pago UX Dual a tu proceso de checkout"
         },
         {
           step: "4",
-          title: "Empezá a Ganar",
+          title: "Ya sos Comercio UX",
           description: "Recibí nuevos clientes y mirá crecer tus ventas"
         }
       ],
@@ -211,7 +211,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-[#1C304F]">
-              {language === 'en' ? 'Why Partner with UX Dual?' : '¿Por qué asociarte con UX Dual?'}
+              {language === 'en' ? 'Why Partner with UX Dual?' : 'Beneficios de vender con UX Dual'}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               {language === 'en' 
@@ -281,7 +281,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-[#1C304F]">
-              {language === 'en' ? 'How to Get Started' : 'Cómo Empezar'}
+              {language === 'en' ? 'How to Get Started' : 'Unite a nuestra red de comercios'}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               {language === 'en' 

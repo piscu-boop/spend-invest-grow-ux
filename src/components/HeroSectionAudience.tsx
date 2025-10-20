@@ -33,10 +33,10 @@ const HeroSectionAudience: React.FC<HeroSectionAudienceProps> = ({ onOpenBeta })
 			manufacturer: "I'm a Manufacturer",
 		},
 		es: {
-			preTitleFirst: "Inverti Comprando",
+			preTitleFirst: "",
 			preTitleSecond: "",
-			mainTitle: "Comprá e Invertí al mismo tiempo",
-			subtitle: "UX Dual te permite pagar en comercios adheridos y hacer que esa misma compra empiece a generar rendimientos diarios.",
+			mainTitle: "Transformando cada Compra en Inversión",
+			subtitle: "",
 			consumer: "Soy Consumidor",
 			merchant: "Soy Comercio",
 			manufacturer: "Soy Fabricante",
@@ -61,9 +61,9 @@ const HeroSectionAudience: React.FC<HeroSectionAudienceProps> = ({ onOpenBeta })
 								<br />
 								{currentContent.preTitleSecond}
 							</p>
-							<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-								{currentContent.mainTitle}
-							</h1>
+						<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight whitespace-pre-line">
+							{currentContent.mainTitle}
+						</h1>
 							<p className="text-xl md:text-2xl text-white leading-relaxed">
 								{currentContent.subtitle}
 							</p>

@@ -92,29 +92,24 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
     es: {
       title: "Para Fabricantes",
       subtitle: "Escalá tu producción con compras respaldadas por inversión",
-      description: "Conectate con comerciantes y consumidores en nuestro ecosistema para aumentar la demanda de tus productos a través de compras potenciadas por inversión.",
-      heroTitle: "Expandí tu alcance de mercado con recompensas de inversión",
-      heroSubtitle: "UX Dual ayuda a los fabricantes a aumentar ventas y penetración de mercado",
+      description: "",
+      heroTitle: "Promove la Inclusion Financiera en tu cadena de valor",
+      heroSubtitle: "",
       benefits: [
         {
           icon: <Target className="w-8 h-8" />,
-          title: "Expansión de Mercado",
-          description: "Alcanzá consumidores conscientes de la inversión a través de nuestra red de comerciantes"
+          title: "Automatizar Cobranzas",
+          description: ""
         },
         {
           icon: <TrendingUp className="w-8 h-8" />,
-          title: "Mayor Demanda",
-          description: "Volúmenes de compra más altos impulsados por incentivos de inversión"
+          title: "Promover la Inclusion Financiera",
+          description: ""
         },
         {
           icon: <Handshake className="w-8 h-8" />,
-          title: "Asociaciones Estratégicas",
-          description: "Construí relaciones fuertes con comerciantes y distribuidores"
-        },
-        {
-          icon: <BarChart3 className="w-8 h-8" />,
-          title: "Analytics de Mercado",
-          description: "Accedé a insights detallados sobre patrones de compra de consumidores"
+          title: "Impulsar las Ventas en tu cadena de valor",
+          description: ""
         }
       ],
       features: [
@@ -142,24 +137,25 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
       howItWorks: [
         {
           step: "1",
-          title: "Aplicá para Asociación",
-          description: "Enviá los detalles de tu fabricación y portafolio de productos"
+          title: "Agendá una llamada con nuestro equipo",
+          description: "Enviá la información de tu negocio para revisión de asociación"
         },
         {
           step: "2",
-          title: "Obtené Verificación",
-          description: "Completá nuestro proceso de verificación de calidad y cumplimiento"
+          title: "Damos de alta tu comercio",
+          description: "Recibí aprobación e instrucciones de integración"
         },
         {
           step: "3",
-          title: "Conectate con Comerciantes",
-          description: "Asociate con comerciantes en nuestra red para vender tus productos"
+          title: "Recibi tu QR Ux Dual",
+          description: "Agregá la opción de pago UX Dual a tu proceso de checkout"
         },
         {
           step: "4",
-          title: "Escalá Producción",
-          description: "Incrementá producción basada en demanda impulsada por inversión"
+          title: "Ya sos Comercio UX",
+          description: "Recibí nuevos clientes y mirá crecer tus ventas"
         }
+
       ],
       ctaTitle: "Unite al futuro de la manufactura con recompensas de inversión",
       ctaButton: "Aplicar como Fabricante"
