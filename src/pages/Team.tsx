@@ -8,13 +8,12 @@ interface TeamProps {
 
 const Team: React.FC<TeamProps> = ({ onOpenBeta }) => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-2">
       <Navigation onOpenBeta={onOpenBeta} />
-      <div className="pt-20">
-        <TeamSection />
-      </div>
+      <TeamSection />
       <Footer />
     </div>
+
   );
 };
 
