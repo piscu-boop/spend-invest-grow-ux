@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/button";
 import LanguageToggle from "./LanguageToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link, useLocation } from "react-router-dom";
+import { memo } from "react";
 
 interface NavigationProps {
-  onOpenBeta: () => void; // Optional prop to open beta modal
+  onOpenBeta?: () => void; // Optional prop to open beta modal
 }
 
-const Navigation: React.FC<NavigationProps> = ({onOpenBeta}) => {
+const Navigation: React.FC<NavigationProps> = () => {
   const { language } = useLanguage();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
@@ -72,17 +72,9 @@ const Navigation: React.FC<NavigationProps> = ({onOpenBeta}) => {
             ))}
           </div>
 
-          {/* Language Toggle and CTA */}
+          {/* Language Toggle */}
           <div className="flex items-center space-x-4">
             <LanguageToggle />
-            <Button
-              className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-6 py-2 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
-              onClick={onOpenBeta}
-            >
-              <a href="#join-now">
-              {language === 'en' ? 'Join Now' : 'Únete Ahora'}
-              </a>
-            </Button>
           </div>
         </div>
       </div>
@@ -90,4 +82,4 @@ const Navigation: React.FC<NavigationProps> = ({onOpenBeta}) => {
   );
 };
 
-export default Navigation;
+export default memo(Navigation);

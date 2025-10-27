@@ -78,7 +78,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
         }
       ],
       ctaTitle: "Join the future of manufacturing with investment rewards",
-      ctaButton: "Apply as Manufacturer"
+      ctaButton: "I want to be a UX Manufacturer"
     },
     es: {
       title: "Para Fabricantes",
@@ -149,7 +149,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
 
       ],
       ctaTitle: "Unite al futuro de la manufactura con recompensas de inversión",
-      ctaButton: "Aplicar como Fabricante"
+      ctaButton: "Quiero ser Fabricante UX"
     }
   };
 
@@ -185,7 +185,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
 
             <Button
               className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 shadow-lg"
-              onClick={onOpenBeta}
+              onClick={() => window.open("https://calendly.com/santicesar", "_blank")}
             >
               {currentContent.ctaButton}
             </Button>
@@ -300,7 +300,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
             </h2>
             <Button
               className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 shadow-lg"
-              onClick={onOpenBeta}
+              onClick={() => window.open("https://calendly.com/santicesar", "_blank")}
             >
               {currentContent.ctaButton}
             </Button>

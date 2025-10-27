@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 type TeamMember = {
   name: string;
@@ -9,11 +9,11 @@ type TeamMember = {
 };
 
 const TEAM_MEMBERS: TeamMember[] = [
-  { name: "Carlos César", title: "Co-Founder & CEO", imageUrl: "/lovable-uploads/carlos.jpeg" },
-  { name: "Patricia Roxana Chacón", title: "Co-Founder & Chief Legal Officer", imageUrl: "/lovable-uploads/patricia.jpeg" },
-  { name: "Santiago César", title: "Co- Founder & COO", imageUrl: "/lovable-uploads/santiago.jpeg" },
-  { name: "Abril Barra Delich", title: "Co-Founder & Head of Product", imageUrl: "/lovable-uploads/abril.jpeg" },
-  { name: "Iván Paulin", title: "Co-Founder & Head of Technology", imageUrl: "/lovable-uploads/foto-ivan.jpeg" },
+  { name: "Carlos César", title: "Co-Founder & CEO", imageUrl: "/lovable-uploads/carlos-ux.jpeg" },
+  { name: "Patricia Roxana Chacón", title: "Co-Founder & Chief Legal Officer", imageUrl: "/lovable-uploads/patricia-ux.jpeg" },
+  { name: "Santiago César", title: "Co- Founder & COO", imageUrl: "/lovable-uploads/santiago-ux.jpeg" },
+  { name: "Abril Barra Delich", title: "Co-Founder & Head of Product", imageUrl: "/lovable-uploads/abril-ux.jpeg" },
+  { name: "Iván Paulin", title: "Co-Founder & Head of Technology", imageUrl: "/lovable-uploads/ivan-ux.jpeg" },
 ];
 
 const TeamSection: React.FC = () => {
@@ -54,4 +54,4 @@ const TeamSection: React.FC = () => {
   );
 };
 
-export default TeamSection;
+export default memo(TeamSection);

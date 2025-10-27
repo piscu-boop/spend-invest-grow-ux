@@ -86,7 +86,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
         }
       ],      
       ctaTitle: "Join thousands of merchants growing with UX Dual",
-      ctaButton: "Apply as Merchant"
+      ctaButton: "I want to be a UX Merchant"
     },
     es: {
       title: "Para Comercios",
@@ -161,7 +161,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
         }
       ],
       ctaTitle: "Unite a miles de comerciantes que crecen con UX Dual",
-      ctaButton: "Aplicar como Comercio"
+      ctaButton: "Quiero ser Comercio UX"
     }
   };
 
@@ -197,7 +197,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
 
             <Button
               className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 shadow-lg"
-              onClick={onOpenBeta}
+              onClick={() => window.open("https://calendly.com/santicesar", "_blank")}
             >
               {currentContent.ctaButton}
             </Button>
@@ -312,7 +312,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
             </h2>
             <Button
               className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 shadow-lg"
-              onClick={onOpenBeta}
+              onClick={() => window.open("https://calendly.com/santicesar", "_blank")}
             >
               {currentContent.ctaButton}
             </Button>

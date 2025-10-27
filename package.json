@@ -9,7 +9,9 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "optimize": "node optimize.js",
+    "clean": "rm -rf node_modules/.cache .vite dist && npm run optimize"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
