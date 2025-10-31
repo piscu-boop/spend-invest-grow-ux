@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -46,9 +45,11 @@
 
     /* UX Dual Custom Colors */
     --ux-navy: 222 47% 11%;
+    --ux-navy-dark: 220 39% 18%;
     --ux-green: 142 76% 58%;
     --ux-green-light: 142 76% 80%;
     --ux-blue-dark: 220 39% 18%;
+    --ux-blue-light: 220 39% 25%;
   }
 
   .dark {
@@ -83,10 +84,6 @@
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-
   body {
     @apply bg-background text-foreground;
   }
@@ -95,6 +92,10 @@
 @layer utilities {
   .bg-ux-navy {
     background-color: hsl(var(--ux-navy));
+  }
+  
+  .bg-ux-navy-dark {
+    background-color: hsl(var(--ux-navy-dark));
   }
   
   .bg-ux-green {
@@ -109,12 +110,28 @@
     background-color: hsl(var(--ux-blue-dark));
   }
   
+  .bg-ux-blue-light {
+    background-color: hsl(var(--ux-blue-light));
+  }
+  
+  .text-ux-navy {
+    color: hsl(var(--ux-navy));
+  }
+  
   .text-ux-green {
     color: hsl(var(--ux-green));
   }
   
+  .text-ux-green-light {
+    color: hsl(var(--ux-green-light));
+  }
+  
   .border-ux-green {
     border-color: hsl(var(--ux-green));
+  }
+  
+  .shadow-glow-green {
+    box-shadow: 0 0 20px hsl(var(--ux-green), 0.3);
   }
   
   .animate-float {
@@ -131,6 +148,10 @@
   
   .animate-fade-in {
     animation: fade-in 0.8s ease-out forwards;
+  }
+  
+  .animate-scale-in {
+    animation: scale-in 0.6s ease-out forwards;
   }
 }
 
@@ -169,6 +190,17 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

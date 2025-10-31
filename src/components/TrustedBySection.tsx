@@ -33,6 +33,7 @@ const TrustedBySection = () => {
                   className="object-contain max-h-16"
                   width={140}
                   height={100}
+                  loading="lazy"
                 />
               </div>
             ))}
@@ -45,6 +46,7 @@ const TrustedBySection = () => {
                   className="object-contain max-h-16"
                   width={140}
                   height={100}
+                  loading="lazy"
                 />
               </div>
             ))}

@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -11,6 +13,18 @@ interface MerchantProps {
 
 const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
   const { language } = useLanguage();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+      }
+    }
+  }, [location.hash]);
 
   const content = {
     en: {
@@ -86,6 +100,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
         }
       ],      
       ctaTitle: "Join thousands of merchants growing with UX Dual",
+      ctaDescription: "Schedule a call with our team and start growing with UX Dual",
       ctaButton: "I want to be a UX Merchant"
     },
     es: {
@@ -161,6 +176,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
         }
       ],
       ctaTitle: "Unite a miles de comerciantes que crecen con UX Dual",
+      ctaDescription: "Agenda una llamada con nuestro equipo y empezá a crecer con UX Dual",
       ctaButton: "Quiero ser Comercio UX"
     }
   };
@@ -172,44 +188,58 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
       <Navigation onOpenBeta={onOpenBeta} />
       
       {/* Hero Section */}
-      <section className="relative min-h-screen bg-[#1C304F] flex items-center overflow-hidden pt-20">
+      <section id="hero" className="relative min-h-screen bg-[#1C304F] flex items-center overflow-hidden pt-20">
         <div className="absolute inset-0">
           <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl animate-pulse-green"></div>
           <div className="absolute bottom-20 left-20 w-64 h-64 bg-ux-green/5 rounded-full blur-2xl"></div>
         </div>
 
-        <div className="container mx-auto px-4 py-10">
-          <div className="text-center space-y-8 animate-slide-up">
-            <div className="space-y-4">
-              <p className="text-base md:text-lg font-semibold text-ux-green tracking-widest uppercase">
-                {currentContent.title}
-              </p>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+        <div className="container mx-auto px-4 py-16 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            {/* Hero Text */}
+            <div className="text-center space-y-6 mb-12">
+              <h1 className="text-4xl md:text-5xl lg:text-7l font-bold text-white leading-tight">
                 {currentContent.heroTitle}
               </h1>
-              <p className="text-xl md:text-2xl text-white leading-relaxed max-w-4xl mx-auto">
-                {currentContent.heroSubtitle}
-              </p>
-              <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-                {currentContent.description}
-              </p>
             </div>
 
-            <Button
-              className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 shadow-lg"
-              onClick={() => window.open("https://calendly.com/santicesar", "_blank")}
-            >
-              {currentContent.ctaButton}
-            </Button>
+            {/* Video Section */}
+            <div className="max-w-4xl mx-auto mb-8">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                <div style={{padding:"56.25% 0 0 0",position:"relative"}}>
+                  <iframe 
+                    src="https://player.vimeo.com/video/1131705626?title=0&byline=0&portrait=0&badge=0&autopause=0&player_id=0&app_id=58479&muted=0&autoplay=1" 
+                    frameBorder="0" 
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                    referrerPolicy="strict-origin-when-cross-origin" 
+                    style={{position:"absolute",top:"0",left:"0",width:"100%",height:"100%"}} 
+                    title="Comerciante"
+                    loading="lazy"
+                    className="rounded-2xl">
+                  </iframe>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA Button */}
+            <div className="text-center">
+              <Button
+                size="lg"
+                className="bg-ux-green hover:bg-ux-green-light text-white px-12 py-6 text-lg rounded-full font-semibold transition-colors duration-300"
+                onClick={() => window.open("https://calendly.com/santicesar", "_blank")}
+              >
+                {currentContent.ctaButton}
+              </Button>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1C304F]">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1C304F]">
               {language === 'en' ? 'Benefits of selling with UX Dual' : 'Beneficios de vender con UX Dual'}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -240,10 +270,10 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-24 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1C304F]">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1C304F]">
               {language === 'en' ? 'Platform Features' : 'Características de la Plataforma'}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -276,10 +306,10 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1C304F]">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1C304F]">
               {language === 'en' ? 'How to Get Started' : 'Unite a nuestra red de comercios'}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -303,15 +333,24 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-[#1C304F]">
-        <div className="container mx-auto px-4 text-center">
-          <div className="space-y-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">
+      {/* Final CTA Section */}
+      <section className="py-24 bg-[#1C304F] relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <div className="max-w-3xl mx-auto space-y-8">
+            <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
               {currentContent.ctaTitle}
             </h2>
+            <p className="text-xl text-gray-300">
+              {currentContent.ctaDescription}
+            </p>
             <Button
-              className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 shadow-lg"
+              size="lg"
+              className="bg-ux-green hover:bg-ux-green-light text-white px-12 py-6 text-lg rounded-full font-semibold transition-colors duration-300"
               onClick={() => window.open("https://calendly.com/santicesar", "_blank")}
             >
               {currentContent.ctaButton}

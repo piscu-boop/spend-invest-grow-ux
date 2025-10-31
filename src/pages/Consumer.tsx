@@ -1,191 +1,269 @@
+import { useMemo, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { CheckCircle, TrendingUp, Shield, Smartphone, CreditCard, DollarSign } from "lucide-react";
+import { TrendingUp, Shield, Smartphone, CreditCard } from "lucide-react";
 
 interface ConsumerProps {
   onOpenBeta: () => void;
 }
 
+
 const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
   const { language } = useLanguage();
-
-  const content = {
+  const location = useLocation();
+  
+  useEffect(() => {
+    if (location.hash) {
+      const element = document.querySelector(location.hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+      }
+    }
+  }, [location.hash]);
+  
+  const content = useMemo(() => ({
     en: {
-      title: "For Consumers",
-      subtitle: "",
-      description: "",
       heroTitle: "Your everyday purchases, now generating returns",
-      heroSubtitle: "",
+      watchVideo: "Watch How It Works",
       benefits: [
         {
           icon: <TrendingUp className="w-8 h-8" />,
           title: "Daily Returns",
-          description: "Your purchases start generating returns from day one"
+          description: "Your purchases start generating returns from day one with compound interest"
         },
         {
           icon: <Shield className="w-8 h-8" />,
-          title: "Secure & Protected",
-          description: "Your money is protected with bank-level security"
+          title: "Bank-Level Security",
+          description: "Your money is protected with institutional-grade security measures"
         },
         {
           icon: <Smartphone className="w-8 h-8" />,
           title: "Easy to Use",
-          description: "Simple app interface, no complex investment knowledge needed"
+          description: "Simple app interface designed for everyone, zero investment knowledge required"
         },
         {
           icon: <CreditCard className="w-8 h-8" />,
           title: "No Extra Fees",
-          description: "Pay the same price, get investment returns on top"
+          description: "Pay the same price you always do, get investment returns on top"
         }
       ],
+      howItWorksTitle: "How It Works",
+      howItWorksSubtitle: "Get started in just a few simple steps",
       howItWorks: [
         {
           step: "1",
+          icon: "Download",
           title: "Download the App",
-          description: "Get UX Dual from your app store and create your account"
+          description: "Get UX Dual from your app store and create your account in minutes"
         },
         {
           step: "2",
-          title: "Shop at Partner Merchants",
-          description: "Find and shop at our network of partnered businesses"
+          icon: "ShoppingBag",
+          title: "Shop at Partners",
+          description: "Find and shop at our growing network of partnered businesses"
         },
         {
           step: "3",
-          title: "Automatic Investment",
-          description: "Your purchase amount is automatically invested and starts generating returns"
+          icon: "PieChart",
+          title: "Auto Investment",
+          description: "Your purchase amount is automatically invested in diverse portfolios"
         },
         {
           step: "4",
-          title: "Track Your Returns",
+          icon: "BarChart3",
+          title: "Track Returns",
           description: "Monitor your daily returns and compound growth in real-time"
         }
       ],
+      whyDifferentTitle: "Why We're Different",
+      whyDifferentSubtitle: "Traditional shopping vs UX Dual experience",
+      features: [
+        {
+          title: "Passive Income",
+          description: "Turn everyday spending into an investment portfolio"
+        },
+        {
+          title: "Instant Activation",
+          description: "Your money starts working for you immediately after purchase"
+        },
+        {
+          title: "Smart Allocation",
+          description: "AI-powered portfolio optimization for maximum returns"
+        }
+      ],
       ctaTitle: "Start earning returns on your purchases today",
-      ctaButton: "Join as Consumer"
+      ctaDescription: "Join our waitlist and don't miss our launch.",
+      ctaButton: "Join as Consumer",
+      benefitsTitle: "Why Choose UX Dual?",
+      benefitsSubtitle: "Experience the future of shopping and investing combined"
     },
     es: {
-      title: "Para Consumidores",
-      subtitle: "",
-      description: "",
       heroTitle: "Tus compras diarias, ahora generando rendimientos",
-      heroSubtitle: "",
+      watchVideo: "Mirá Cómo Funciona",
       benefits: [
         {
           icon: <TrendingUp className="w-8 h-8" />,
           title: "Rendimientos Diarios",
-          description: "Tus compras empiezan a generar rendimientos desde el día uno"
+          description: "Tus compras empiezan a generar rendimientos desde el día uno con interés compuesto"
         },
         {
           icon: <Shield className="w-8 h-8" />,
-          title: "Seguro y Protegido",
-          description: "Tu dinero está protegido con seguridad bancaria"
+          title: "Seguridad Bancaria",
+          description: "Tu dinero está protegido con medidas de seguridad de nivel institucional"
         },
         {
           icon: <Smartphone className="w-8 h-8" />,
           title: "Fácil de Usar",
-          description: "Interfaz simple, no necesitás conocimientos complejos de inversión"
+          description: "Interfaz simple diseñada para todos, sin conocimientos de inversión requeridos"
         },
         {
           icon: <CreditCard className="w-8 h-8" />,
           title: "Sin Costos Extra",
-          description: "Pagás el mismo precio, obtenés rendimientos de inversión encima"
+          description: "Pagás el mismo precio de siempre, obtenés rendimientos de inversión encima"
         }
       ],
+      howItWorksTitle: "Cómo Funciona",
+      howItWorksSubtitle: "Empezá en solo unos simples pasos",
       howItWorks: [
         {
           step: "1",
+          icon: "Download",
           title: "Descargá la App",
-          description: "Obtené UX Dual desde tu tienda de apps y creá tu cuenta"
+          description: "Obtené UX Dual desde tu tienda de apps y creá tu cuenta en minutos"
         },
         {
           step: "2",
-          title: "Comprá en Comercios Adheridos",
-          description: "Encontrá y comprá en nuestra red de comercios asociados"
+          icon: "ShoppingBag",
+          title: "Comprá en Socios",
+          description: "Encontrá y comprá en nuestra red creciente de comercios asociados"
         },
         {
           step: "3",
+          icon: "PieChart",
           title: "Inversión Automática",
-          description: "El monto de tu compra se invierte automáticamente y empieza a generar rendimientos"
+          description: "El monto de tu compra se invierte automáticamente en carteras diversificadas"
         },
         {
           step: "4",
-          title: "Seguí Tus Rendimientos",
+          icon: "BarChart3",
+          title: "Seguí Rendimientos",
           description: "Monitoreá tus rendimientos diarios y crecimiento compuesto en tiempo real"
         }
       ],
+      whyDifferentTitle: "Por Qué Somos Diferentes",
+      whyDifferentSubtitle: "Compras tradicionales vs experiencia UX Dual",
+      features: [
+        {
+          title: "Ingreso Pasivo",
+          description: "Convertí tus gastos diarios en una cartera de inversión"
+        },
+        {
+          title: "Activación Instantánea",
+          description: "Tu dinero empieza a trabajar para vos inmediatamente después de la compra"
+        },
+        {
+          title: "Tu dinero, tu inversión.",
+          description: "Rendimientos automaticos diarios, en tu cuenta."
+        }
+      ],
       ctaTitle: "Empezá a generar rendimientos en tus compras hoy",
-      ctaButton: "Únete como Consumidor"
+      ctaDescription: "Unite a nuestra lista de espera y no te pierdas de nuestro lanzamiento.",
+      ctaButton: "Únete como Consumidor",
+      benefitsTitle: "¿Por qué elegir UX Dual?",
+      benefitsSubtitle: "Experimentá el futuro de comprar e invertir combinados"
     }
-  };
+  }), []);
 
   const currentContent = content[language];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
       <Navigation onOpenBeta={onOpenBeta} />
       
       {/* Hero Section */}
-      <section className="relative min-h-screen bg-[#1C304F] flex items-center overflow-hidden pt-20">
-        <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl animate-pulse-green"></div>
+      <section id="hero" className="relative min-h-screen bg-[#1C304F] flex items-center overflow-hidden pt-20">
+        {/* Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-20 left-20 w-64 h-64 bg-ux-green/5 rounded-full blur-2xl"></div>
         </div>
 
-        <div className="container mx-auto px-4 py-10">
-          <div className="text-center space-y-8 animate-slide-up">
-            <div className="space-y-4">
-              <p className="text-base md:text-lg font-semibold text-ux-green tracking-widest uppercase">
-                {currentContent.title}
-              </p>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+        <div className="container mx-auto px-4 py-16 relative z-10">
+          <div className="max-w-6xl mx-auto">
+            {/* Hero Text */}
+            <div className="text-center space-y-6 mb-12">
+              <h1 className="text-4xl md:text-5xl lg:text-7l font-bold text-white leading-tight">
                 {currentContent.heroTitle}
               </h1>
-              <p className="text-xl md:text-2xl text-white leading-relaxed max-w-4xl mx-auto">
-                {currentContent.heroSubtitle}
-              </p>
-              <p className="text-lg text-gray-300 max-w-3xl mx-auto">
-                {currentContent.description}
-              </p>
             </div>
 
-            <Button
-              className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 shadow-lg"
-              onClick={onOpenBeta}
-            >
-              {currentContent.ctaButton}
-            </Button>
+            {/* Video Section */}
+            <div className="max-w-4xl mx-auto mb-8">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                <div style={{padding:"56.25% 0 0 0",position:"relative"}}>
+                  <iframe 
+                    src="https://player.vimeo.com/video/1131704779?title=0&byline=0&portrait=0&badge=0&autopause=1&player_id=0&app_id=58479&muted=0&autoplay=1" 
+                    frameBorder="0" 
+                    allow="fullscreen; picture-in-picture" 
+                    referrerPolicy="strict-origin-when-cross-origin" 
+                    style={{position:"absolute",top:"0",left:"0",width:"100%",height:"100%"}} 
+                    title="Consumidores UX"
+                    loading="lazy"
+                    className="rounded-2xl">
+                  </iframe>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA Button */}
+            <div className="text-center">
+              <Button
+                size="lg"
+                className="bg-ux-green hover:bg-ux-green-light text-white px-12 py-6 text-lg rounded-full font-semibold transition-colors duration-300"
+                onClick={onOpenBeta}
+              >
+                {currentContent.ctaButton}
+              </Button>
+            </div>
           </div>
         </div>
+
       </section>
 
       {/* Benefits Section */}
-      <section className="py-20 bg-white">
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1C304F]">
-              {language === 'en' ? 'Why Choose UX Dual?' : '¿Por qué elegir UX Dual?'}
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1C304F]">
+              {currentContent.benefitsTitle}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {language === 'en' 
-                ? 'Experience the future of shopping and investing combined' 
-                : 'Experimentá el futuro de comprar e invertir combinados'}
+              {currentContent.benefitsSubtitle}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
             {currentContent.benefits.map((benefit, index) => (
-              <Card key={index} className="text-center border-2 hover:border-ux-green/50 transition-all duration-300 hover:shadow-lg">
+              <Card 
+                key={index} 
+                className="text-center border-2 hover:border-ux-green/50 transition-colors duration-300 hover:shadow-lg bg-white"
+              >
                 <CardHeader>
                   <div className="mx-auto mb-4 text-ux-green">
                     {benefit.icon}
                   </div>
-                  <CardTitle className="text-xl text-[#1C304F]">{benefit.title}</CardTitle>
+                  <CardTitle className="text-xl text-[#1C304F]">
+                    {benefit.title}
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <CardDescription className="text-gray-600">
+                  <CardDescription className="text-gray-600 text-base">
                     {benefit.description}
                   </CardDescription>
                 </CardContent>
@@ -195,27 +273,94 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section className="py-20 bg-gray-50">
+      {/* Why Different Section */}
+      <section className="py-24 bg-gradient-to-br from-gray-50 to-white">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-[#1C304F]">
-              {language === 'en' ? 'How It Works' : 'Cómo Funciona'}
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1C304F]">
+              {currentContent.whyDifferentTitle}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {language === 'en' 
-                ? 'Get started in just a few simple steps' 
-                : 'Empezá en solo unos simples pasos'}
+              {currentContent.whyDifferentSubtitle}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {currentContent.howItWorks.map((step, index) => (
-              <div key={index} className="text-center">
-                <div className="mx-auto mb-6 w-16 h-16 bg-ux-green text-white rounded-full flex items-center justify-center text-2xl font-bold">
-                  {step.step}
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {currentContent.features.map((feature, index) => (
+              <div 
+                key={index}
+                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100"
+              >
+                <div className="w-14 h-14 bg-gradient-to-br from-ux-green to-ux-green-light rounded-xl flex items-center justify-center text-white mb-6">
+                  {(feature.title === "Ingreso Pasivo" || feature.title === "Passive Income") && (
+                    <svg className="w-6 h-6"  viewBox="0 0 24 24">
+                      <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z"/>
+                    </svg>
+                  )}
+                  {(feature.title === "Activación Instantánea" || feature.title === "Instant Activation") && (
+                    <svg className="w-6 h-6"  viewBox="0 0 24 24">
+                      <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/>
+                    </svg>
+                  )}
+                  {(feature.title === "Tu dinero, tu inversión." || feature.title === "Smart Allocation") && (
+                    <svg className="w-6 h-6" viewBox="0 0 24 24">
+                      <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20ZM12 6C8.69 6 6 8.69 6 12S8.69 18 12 18 18 15.31 18 12 15.31 6 12 6ZM12 16C9.79 16 8 14.21 8 12S9.79 8 12 8 16 9.79 16 12 14.21 16 12 16Z"/>
+                    </svg>
+                  )}
                 </div>
-                <h3 className="text-xl font-semibold text-[#1C304F] mb-4">{step.title}</h3>
+                <h3 className="text-xl font-bold text-[#1C304F] mb-3">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center space-y-4 mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-[#1C304F]">
+              {currentContent.howItWorksTitle}
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {currentContent.howItWorksSubtitle}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+            {currentContent.howItWorks.map((step, index) => (
+              <div key={index} className="text-center group">
+                <div className="relative mb-6">
+                  <div className="mx-auto w-20 h-20 bg-gradient-to-br from-ux-green to-ux-green-light text-white rounded-2xl flex items-center justify-center shadow-lg">
+                    {step.step === "1" && (
+                      <svg className="w-8 h-8" viewBox="0 0 24 24">
+                        <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                      </svg>
+                    )}
+                    {step.step === "2" && (
+                      <svg className="w-8 h-8" viewBox="0 0 24 24">
+                        <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z"/>
+                      </svg>
+                    )}
+                    {step.step === "3" && (
+                      <svg className="w-8 h-8" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20ZM12 6C8.69 6 6 8.69 6 12S8.69 18 12 18 18 15.31 18 12 15.31 6 12 6ZM12 16C9.79 16 8 14.21 8 12S9.79 8 12 8 16 9.79 16 12 14.21 16 12 16Z"/>
+                      </svg>
+                    )}
+                    {step.step === "4" && (
+                      <svg className="w-8 h-8" viewBox="0 0 24 24">
+                        <path d="M5 9.2H7V19H5V9.2ZM10.6 5H12.4V19H10.6V5ZM16.2 13H18V19H16.2V13ZM21.8 2H23.6V19H21.8V2Z"/>
+                      </svg>
+                    )}
+                  </div>
+                  {index < currentContent.howItWorks.length - 1 && (
+                    <div className="hidden lg:block absolute top-10 left-[60%] w-full h-0.5 bg-gradient-to-r from-ux-green/50 to-transparent"></div>
+                  )}
+                </div>
+                <h3 className="text-xl font-bold text-[#1C304F] mb-4">
+                  {step.title}
+                </h3>
                 <p className="text-gray-600">{step.description}</p>
               </div>
             ))}
@@ -223,15 +368,24 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-[#1C304F]">
-        <div className="container mx-auto px-4 text-center">
-          <div className="space-y-8">
-            <h2 className="text-3xl md:text-4xl font-bold text-white">
+      {/* Final CTA Section */}
+      <section className="py-24 bg-[#1C304F] relative overflow-hidden">
+        <div className="absolute inset-0">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="container mx-auto px-4 text-center relative z-10">
+          <div className="max-w-3xl mx-auto space-y-8">
+            <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
               {currentContent.ctaTitle}
             </h2>
+            <p className="text-xl text-gray-300">
+              {currentContent.ctaDescription}
+            </p>
             <Button
-              className="border-[#0E1B38] bg-[#0E1B38] text-white hover:bg-blue-900/70 hover:text-ux-green px-8 py-4 text-lg rounded-full font-semibold transition-all duration-300 shadow-lg"
+              size="lg"
+              className="bg-ux-green hover:bg-ux-green-light text-white px-12 py-6 text-lg rounded-full font-semibold transition-colors duration-300"
               onClick={onOpenBeta}
             >
               {currentContent.ctaButton}

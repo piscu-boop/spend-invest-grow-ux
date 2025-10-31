@@ -28,6 +28,13 @@ export default defineConfig({
     hmr: {
       overlay: false, // Deshabilitar overlay de errores para mejor rendimiento
     },
+    watch: {
+      ignored: ['**/docs/**', '**/node_modules/**', '**/.git/**'],
+    },
+    fs: {
+      strict: false,
+      deny: ['**/docs/**'],
+    },
   },
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom'],
