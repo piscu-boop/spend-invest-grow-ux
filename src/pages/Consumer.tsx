@@ -156,7 +156,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
           description: "Monitoreá tus rendimientos diarios y crecimiento compuesto en tiempo real"
         }
       ],
-      whyDifferentTitle: "Por Qué Somos Diferentes",
+      whyDifferentTitle: "Por qué somos diferentes",
       whyDifferentSubtitle: "Compras tradicionales vs experiencia UX Dual",
       features: [
         {
@@ -173,7 +173,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
         }
       ],
       ctaTitle: "Empezá a generar rendimientos en tus compras hoy",
-      ctaDescription: "Unite a nuestra lista de espera y no te pierdas de nuestro lanzamiento.",
+      ctaDescription: "Únete a nuestra lista de espera y no te pierdas de nuestro lanzamiento.",
       ctaButton: "Únete como Consumidor",
       benefitsTitle: "¿Por qué elegir UX Dual?",
       benefitsSubtitle: "Experimentá el futuro de comprar e invertir combinados"

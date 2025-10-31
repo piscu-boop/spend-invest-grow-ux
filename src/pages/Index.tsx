@@ -18,6 +18,7 @@ const Index:React.FC<IndexProps> = ({onOpenBeta}) => {
       <Navigation onOpenBeta={onOpenBeta}/>
       <HeroSectionAudience onOpenBeta={onOpenBeta}/>
       <TrustedBySection />
+      <FinalCTASection />
       <Footer />
     </div>
   );

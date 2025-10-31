@@ -87,7 +87,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
         },
         {
           step: "4",
-          title: "You’re now a UX Merchant",
+          title: "You’re now a UX Manufacturer",
           description: "Receive new customers and watch your sales grow"
         }
       ],
@@ -148,7 +148,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
         },
         {
           step: "2",
-          title: "Damos de alta tu comercio",
+          title: "Damos de alta tu Negocio",
           description: "Recibí aprobación e instrucciones de integración"
         },
         {
@@ -158,12 +158,12 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
         },
         {
           step: "4",
-          title: "Ya sos Comercio UX",
-          description: "Recibí nuevos clientes y mirá crecer tus ventas"
+          title: "Ya sos Fabricante UX",
+          description: "Recibí nuevos clientes y mirá tus ventas crecer"
         }
 
       ],
-      ctaTitle: "Unite al futuro de la manufactura con recompensas de inversión",
+      ctaTitle: "Únete al futuro de la manufactura con recompensas de inversión",
       ctaDescription: "Agendá una llamada con nuestro equipo y empezá a escalar con UX Dual",
       ctaButton: "Quiero ser Fabricante UX"
     }
@@ -303,7 +303,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               {language === 'en' 
                 ? 'Join our manufacturing network and start scaling your business' 
-                : 'Unite a nuestra red de manufactura y empezá a escalar tu negocio'}
+                : 'Únete a nuestra red de manufactura y empezá a escalar tu negocio'}
             </p>
           </div>
 
