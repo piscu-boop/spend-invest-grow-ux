@@ -99,7 +99,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
           description: "Receive new customers and watch your sales grow"
         }
       ],      
-      ctaTitle: "Join thousands of merchants growing with UX Dual",
+      ctaTitle: "Join our network of merchants growing with UX Dual",
       ctaDescription: "Schedule a call with our team and start growing with UX Dual",
       ctaButton: "I want to be a UX Merchant"
     },
@@ -175,7 +175,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
           description: "Recibí nuevos clientes y mirá crecer tus ventas"
         }
       ],
-      ctaTitle: "Únete a miles de comerciantes que crecen con UX Dual",
+      ctaTitle: "Unite a nuestra red de comerciantes que crecen con UX Dual",
       ctaDescription: "Agenda una llamada con nuestro equipo y empezá a crecer con UX Dual",
       ctaButton: "Quiero ser Comercio UX"
     }
@@ -245,7 +245,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               {language === 'en' 
                 ? 'Join the future of commerce and customer engagement' 
-                : 'Únete al futuro de los comercios y fidelizacion de clientes'}
+                : 'Unite al futuro de los comercios y fidelizacion de clientes'}
             </p>
           </div>
 
@@ -310,7 +310,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-[#1C304F]">
-              {language === 'en' ? 'How to Get Started' : 'Únete a nuestra red de comercios'}
+              {language === 'en' ? 'How to Get Started' : 'Unite a nuestra red de comercios'}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               {language === 'en' 

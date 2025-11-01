@@ -163,7 +163,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
         }
 
       ],
-      ctaTitle: "Únete al futuro de la manufactura con recompensas de inversión",
+      ctaTitle: "Unite al futuro de la manufactura con recompensas de inversión",
       ctaDescription: "Agendá una llamada con nuestro equipo y empezá a escalar con UX Dual",
       ctaButton: "Quiero ser Fabricante UX"
     }
@@ -303,7 +303,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               {language === 'en' 
                 ? 'Join our manufacturing network and start scaling your business' 
-                : 'Únete a nuestra red de manufactura y empezá a escalar tu negocio'}
+                : 'Unite a nuestra red de manufactura y empezá a escalar tu negocio'}
             </p>
           </div>
 
