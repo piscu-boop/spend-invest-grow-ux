@@ -14,18 +14,14 @@ const Navigation: React.FC<NavigationProps> = () => {
   
   const navItems = language === 'en' ? [
     { label: "About UX", href: isHomePage ? "#hero" : "/#hero" },
+    { label: "Press", href: "/press" },
     { label: "FAQ", href: "/faq" },
     { label: "Team", href: "/team" },
-    // { label: "Features", href: "#features" },
-    // { label: "Security", href: "#security" },
-    // { label: "Support", href: "#support" },
   ] : [
     { label: "Acerca de UX", href: isHomePage ? "#hero" : "/#hero" },
+    { label: "Prensa", href: "/press" },
     { label: "FAQ", href: "/faq" },
     { label: "Team", href: "/team" },
-    // { label: "Características", href: "#features" },
-    // { label: "Seguridad", href: "#security" },
-    // { label: "Soporte", href: "#support" },
   ];
 
   return (
@@ -52,14 +48,6 @@ const Navigation: React.FC<NavigationProps> = () => {
                 >
                   {item.label}
                 </a>
-              ) : item.href.startsWith('/#') ? (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className="text-gray-300 hover:text-ux-green transition-colors duration-300"
-                >
-                  {item.label}
-                </Link>
               ) : (
                 <Link
                   key={item.label}

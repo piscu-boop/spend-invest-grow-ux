@@ -12,6 +12,7 @@ import Consumer from "./pages/Consumer";
 import Merchant from "./pages/Merchant";
 import Manufacturer from "./pages/Manufacturer";
 import NotFound from "./pages/NotFound";
+import Press from "./pages/Press";
 import { useState } from "react";
 
 const queryClient = new QueryClient();
@@ -56,6 +57,11 @@ const App: React.FC = () => {
             <Route path="/manufacturer" 
             element={
               <Manufacturer onOpenBeta={() => setBetaOpen(true)} />
+            } 
+          />
+            <Route path="/press" 
+            element={
+              <Press />
             } 
           />
             <Route path="*" element={<Navigate to="/" replace />} />

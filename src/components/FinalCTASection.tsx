@@ -12,8 +12,8 @@ const FinalCTASection = () => {
       /*subtitle: "Join the financial revolution. Turn your everyday spending into your investment strategy."*/
     },
     es: {
-      title: "Comienza a Construir Riqueza Con",
-      titleHighlight: "Cada Compra",
+      title: "Comienza a construir riqueza con",
+      titleHighlight: "cada compra",
       subtitle: "Descargá UX Dual ahora y sé el primero en enterarte de nuestro próximo lanzamiento."
       /*subtitle: "Únete a la revolución financiera. Convierte tus gastos cotidianos en tu estrategia de inversión."*/
     }
