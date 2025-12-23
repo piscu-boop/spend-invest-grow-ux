@@ -4,6 +4,13 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const PRESS_ARTICLES = [
   {
+    title: "UX Capital presenta la primera tecnología del mundo que transforma compras en inversión",
+    source: "InfoPymes",
+    url: "https://infopymes.info/2025/12/ux-capital-presenta-la-primera-tecnologia-del-mundo-que-transforma-compras-en-inversion/",
+    highlight: "Primera tech que convierte compras en inversión",
+    date: "18/12/2025",
+  },
+  {
     title: "UX Capital, la fintech cordobesa que convierte cada compra en inversión",
     source: "InfoNegocios",
     url: "https://infonegocios.info/nota-principal/ux-capital-la-fintech-cordobesa-que-viene-a-romper-la-logica-de-los-pagos-y-convertir-cada-compra-en-inversion",
