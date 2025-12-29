@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from "react";
+import { useMemo, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
@@ -6,6 +6,66 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp, Shield, Smartphone, CreditCard } from "lucide-react";
+
+type PartnerStore = {
+  name: string;
+  category: string;
+  image: string;
+  accent: string;
+  description: string;
+};
+
+const PARTNER_STORES: PartnerStore[] = [
+  {
+    name: "Diario",
+    category: "Café & deli",
+    image: "/lovable-uploads/diario.jpeg",
+    accent: "#fbbf24",
+    description: "Café de especialidad y snacks diarios."
+  },
+  {
+    name: "Cachavacha Jugueterías",
+    category: "Juguetería",
+    image: "/lovable-uploads/cachavacha.png",
+    accent: "#facc15",
+    description: "Juguetes y juegos para todas las edades."
+  },
+  {
+    name: "Sweet Sweet Way",
+    category: "Golosinas",
+    image: "/lovable-uploads/Sweet.png",
+    accent: "#0f172a",
+    description: "Candy bar, chocolates y regalos dulces."
+  },
+  {
+    name: "Bucor Nueva Córdoba",
+    category: "Natación & Gym",
+    image: "/lovable-uploads/bucor.png",
+    accent: "#0d47a1",
+    description: "Piscina climatizada y entrenamiento integral."
+  },
+  {
+    name: "Casa de Pedro",
+    category: "Ropa de Cama",
+    image: "/lovable-uploads/casa-de-pedro.jpg",
+    accent: "#5aa4e8",
+    description: "Blanquería con más de 80 años de trayectoria."
+  },
+  {
+    name: "Autoservicios RC",
+    category: "Retail",
+    image: "/lovable-uploads/autoservicios-rc.jpeg",
+    accent: "#0b6623",
+    description: "Compras rápidas y conveniencia."
+  },
+  {
+    name: "Golden Pack",
+    category: "Gift & Experiences",
+    image: "/lovable-uploads/golden-pack.jpeg",
+    accent: "#d6b04a",
+    description: "Packs de experiencias gastronómicas, aventura y bienestar."
+  }
+];
 
 interface ConsumerProps {
   onOpenBeta: () => void;
@@ -15,6 +75,7 @@ interface ConsumerProps {
 const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
   const { language } = useLanguage();
   const location = useLocation();
+  const [storeSearch, setStoreSearch] = useState("");
   
   useEffect(() => {
     if (location.hash) {
@@ -53,6 +114,12 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
           description: "Pay the same price you always do, get investment returns on top"
         }
       ],
+      storesTopline: "Where can you shop?",
+      storesTitle: "Our partner stores",
+      storesSubtitle: "Discover the brands already connected to UX Dual and start earning while you shop.",
+      storesSearchPlaceholder: "What would you like to buy?",
+      storesSearchButton: "Search",
+      storesViewMore: "See more stores",
       howItWorksTitle: "How It Works",
       howItWorksSubtitle: "Get started in just a few simple steps",
       howItWorks: [
@@ -128,6 +195,12 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
           description: "Pagás el mismo precio de siempre, obtenés rendimientos de inversión encima"
         }
       ],
+      storesTopline: "¿Dónde podés comprar?",
+      storesTitle: "Nuestros comercios",
+      storesSubtitle: "Descubrí las marcas adheridas ya conectadas con UX Dual y generá rendimiento con cada compra.",
+      storesSearchPlaceholder: "¿Qué te gustaría comprar?",
+      storesSearchButton: "Buscar",
+      storesViewMore: "Ver más comercios",
       howItWorksTitle: "Cómo Funciona",
       howItWorksSubtitle: "Empezá en solo unos simples pasos",
       howItWorks: [
@@ -179,6 +252,18 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       benefitsSubtitle: "Experimentá el futuro de comprar e invertir combinados"
     }
   }), []);
+
+  const filteredStores = useMemo(() => {
+    const term = storeSearch.toLowerCase().trim();
+    if (!term) return PARTNER_STORES;
+
+    return PARTNER_STORES.filter(
+      (store) =>
+        store.name.toLowerCase().includes(term) ||
+        store.category.toLowerCase().includes(term) ||
+        store.description.toLowerCase().includes(term)
+    );
+  }, [storeSearch]);
 
   const currentContent = content[language];
 
@@ -234,6 +319,99 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
           </div>
         </div>
 
+      </section>
+
+      {/* Partner Stores Section */}
+      <section className="relative py-20 bg-gradient-to-b from-[#0f1f38] via-[#112544] to-white" id="partners">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(111,255,216,0.08),_transparent_45%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(255,255,255,0.06),_transparent_35%)]" />
+        </div>
+
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center space-y-4 mb-12">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ux-green">
+              {currentContent.storesTopline}
+            </p>
+            <h2 className="text-4xl md:text-5xl font-bold text-white">
+              {currentContent.storesTitle}
+            </h2>
+            <p className="text-lg text-gray-200 max-w-3xl mx-auto">
+              {currentContent.storesSubtitle}
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto mb-12">
+            <div className="bg-white/90 backdrop-blur-xl shadow-2xl border border-white/40 rounded-full flex items-center gap-3 px-4 py-3">
+              <div className="flex-1 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-ux-green/20 flex items-center justify-center text-ux-green font-semibold">
+                  🔍
+                </div>
+                <input
+                  id="store-search"
+                  type="text"
+                  value={storeSearch}
+                  onChange={(e) => setStoreSearch(e.target.value)}
+                  placeholder={currentContent.storesSearchPlaceholder}
+                  className="w-full bg-transparent outline-none text-gray-800 placeholder:text-gray-400 text-base"
+                />
+              </div>
+              <Button
+                type="button"
+                className="bg-ux-green hover:bg-ux-green-light text-[#0f1f38] font-semibold px-6 rounded-full"
+                onClick={() => {
+                  const input = document.getElementById("store-search");
+                  if (input instanceof HTMLInputElement) {
+                    input.focus();
+                  }
+                }}
+              >
+                {currentContent.storesSearchButton}
+              </Button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+            {filteredStores.map((store) => (
+              <div
+                key={store.name}
+                className="group relative overflow-hidden rounded-2xl aspect-[4/5] shadow-2xl border border-white/20 bg-transparent flex items-center justify-center"
+                style={{ backgroundColor: "transparent" }}
+              >
+                <div className="flex items-center justify-center p-6 w-full h-full">
+                  {store.image ? (
+                    <img
+                      src={store.image}
+                      alt={store.name}
+                      className="max-h-40 w-auto object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span className="text-white font-semibold text-center">{store.name}</span>
+                  )}
+                </div>
+                <div className="absolute top-4 left-4 z-30">
+                  <span className="px-3 py-1 text-xs font-semibold rounded-full bg-white/85 text-[#0f1f38] shadow-sm">
+                    {store.category}
+                  </span>
+                </div>
+                <div className="absolute bottom-4 left-4 right-4 space-y-1 z-30">
+                  <h3 className="text-xl font-bold text-white drop-shadow-sm">{store.name}</h3>
+                  <p className="text-sm text-gray-100/85">{store.description}</p>
+                </div>
+              </div>
+            ))}
+
+            {filteredStores.length === 0 && (
+              <div className="col-span-full text-center bg-white/80 backdrop-blur border border-dashed border-ux-green/50 rounded-2xl p-8 text-[#1C304F]">
+                {language === "es"
+                  ? "No encontramos comercios con ese nombre. Probá otra búsqueda."
+                  : "No stores found for that search. Try another keyword."}
+              </div>
+            )}
+          </div>
+
+        </div>
       </section>
 
       {/* Benefits Section */}
