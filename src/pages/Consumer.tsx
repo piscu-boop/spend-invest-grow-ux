@@ -79,46 +79,61 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
   
   useEffect(() => {
     const handleHashScroll = () => {
-      if (location.hash === "#hero") {
-        // Use requestAnimationFrame and multiple timeouts to ensure DOM is ready
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            const element = document.querySelector("#hero");
-            if (element) {
-              // Scroll to the hero section in this page
-              element.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-          }, 100);
-        });
-      } else if (location.hash === "#partners") {
-        // Handle partners/comercios section
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            const element = document.querySelector("#partners");
-            if (element) {
-              // Scroll to the partners section
-              element.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-          }, 100);
-        });
-      } else if (location.hash) {
-        // Handle other hash fragments
-        setTimeout(() => {
-          const element = document.querySelector(location.hash);
-          if (element) {
-            element.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-        }, 300);
-      } else {
+      const hash = location.hash;
+      
+      if (!hash) {
         // If no hash, scroll to top
         window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+
+      // Function to scroll to element with retry logic
+      const scrollToElement = (selector: string, retries = 5) => {
+        const element = document.querySelector(selector);
+        if (element) {
+          // Add offset for fixed navigation if needed
+          const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+          const offsetPosition = elementPosition - 80; // Adjust offset as needed
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+          return true;
+        } else if (retries > 0) {
+          // Retry after a short delay if element not found
+          setTimeout(() => scrollToElement(selector, retries - 1), 100);
+          return false;
+        }
+        return false;
+      };
+
+      // Handle specific hashes
+      if (hash === "#hero") {
+        requestAnimationFrame(() => {
+          setTimeout(() => scrollToElement("#hero"), 100);
+        });
+      } else if (hash === "#partners") {
+        requestAnimationFrame(() => {
+          setTimeout(() => scrollToElement("#partners"), 100);
+        });
+      } else {
+        // Handle other hash fragments
+        setTimeout(() => scrollToElement(hash), 300);
       }
     };
 
     // Run after component mounts to ensure DOM is ready
-    const timeoutId = setTimeout(handleHashScroll, 200);
+    // Use multiple timeouts to handle different loading scenarios
+    const timeoutId1 = setTimeout(handleHashScroll, 100);
+    const timeoutId2 = setTimeout(handleHashScroll, 500);
+    const timeoutId3 = setTimeout(handleHashScroll, 1000);
     
-    return () => clearTimeout(timeoutId);
+    return () => {
+      clearTimeout(timeoutId1);
+      clearTimeout(timeoutId2);
+      clearTimeout(timeoutId3);
+    };
   }, [location.hash, location.pathname]);
   
   const content = useMemo(() => ({
