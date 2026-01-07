@@ -56,14 +56,14 @@ const PARTNER_STORES: PartnerStore[] = [
     category: "Retail",
     image: "/lovable-uploads/autoservicios-rc.jpeg",
     accent: "#0b6623",
-    description: "Compras rápidas y conveniencia."
+    description: "Distribuidora de alimentos. Compras rápidas y conveniencia."
   },
   {
     name: "Golden Pack",
     category: "Gift & Experiences",
     image: "/lovable-uploads/golden-pack.jpeg",
     accent: "#d6b04a",
-    description: "Packs de experiencias gastronómicas, aventura y bienestar."
+    description: "Packs de experiencias gastronómicas, aventura y más."
   }
 ];
 
@@ -78,15 +78,48 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
   const [storeSearch, setStoreSearch] = useState("");
   
   useEffect(() => {
-    if (location.hash) {
-      const element = document.querySelector(location.hash);
-      if (element) {
+    const handleHashScroll = () => {
+      if (location.hash === "#hero") {
+        // Use requestAnimationFrame and multiple timeouts to ensure DOM is ready
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            const element = document.querySelector("#hero");
+            if (element) {
+              // Scroll to the hero section in this page
+              element.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }, 100);
+        });
+      } else if (location.hash === "#partners") {
+        // Handle partners/comercios section
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            const element = document.querySelector("#partners");
+            if (element) {
+              // Scroll to the partners section
+              element.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }, 100);
+        });
+      } else if (location.hash) {
+        // Handle other hash fragments
         setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 100);
+          const element = document.querySelector(location.hash);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+        }, 300);
+      } else {
+        // If no hash, scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
       }
-    }
-  }, [location.hash]);
+    };
+
+    // Run after component mounts to ensure DOM is ready
+    const timeoutId = setTimeout(handleHashScroll, 200);
+    
+    return () => clearTimeout(timeoutId);
+  }, [location.hash, location.pathname]);
   
   const content = useMemo(() => ({
     en: {
@@ -117,6 +150,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       storesTopline: "Where can you shop?",
       storesTitle: "Our partner stores",
       storesSubtitle: "Discover the brands already connected to UX Dual and start earning while you shop.",
+      storesComingSoon: "Coming Soon",
       storesSearchPlaceholder: "What would you like to buy?",
       storesSearchButton: "Search",
       storesViewMore: "See more stores",
@@ -196,8 +230,9 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
         }
       ],
       storesTopline: "¿Dónde podés comprar?",
-      storesTitle: "Nuestros comercios",
-      storesSubtitle: "Descubrí las marcas adheridas ya conectadas con UX Dual y generá rendimiento con cada compra.",
+      storesTitle: "Red de comercios UX, donde comprar también es invertir",
+      storesSubtitle: "Conocé los comercios adheridos y descubrí cómo cada pago sigue generando valor día a día",
+      storesComingSoon: "Próximamente",
       storesSearchPlaceholder: "¿Qué te gustaría comprar?",
       storesSearchButton: "Buscar",
       storesViewMore: "Ver más comercios",
@@ -322,13 +357,20 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       </section>
 
       {/* Partner Stores Section */}
-      <section className="relative py-20 bg-gradient-to-b from-[#0f1f38] via-[#112544] to-white" id="partners">
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(111,255,216,0.08),_transparent_45%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,_rgba(255,255,255,0.06),_transparent_35%)]" />
+      <section className="relative py-20 bg-[#1C304F]" id="partners">
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 left-20 w-64 h-64 bg-ux-green/5 rounded-full blur-2xl"></div>
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
+          {/* Coming Soon Badge */}
+          <div className="text-center mb-8">
+            <span className="inline-block text-2xl md:text-3xl lg:text-4xl font-extrabold text-ux-green tracking-wide uppercase drop-shadow-[0_0_15px_rgba(111,255,216,0.5)]">
+              {currentContent.storesComingSoon}
+            </span>
+          </div>
+          
           <div className="text-center space-y-4 mb-12">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ux-green">
               {currentContent.storesTopline}
@@ -371,33 +413,33 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {filteredStores.map((store) => (
               <div
                 key={store.name}
-                className="group relative overflow-hidden rounded-2xl aspect-[4/5] shadow-2xl border border-white/20 bg-transparent flex items-center justify-center"
+                className="group relative overflow-hidden rounded-xl aspect-[4/5] shadow-xl border border-white/20 bg-transparent flex items-center justify-center"
                 style={{ backgroundColor: "transparent" }}
               >
-                <div className="flex items-center justify-center p-6 w-full h-full">
+                <div className="flex items-center justify-center p-4 w-full h-full">
                   {store.image ? (
                     <img
                       src={store.image}
                       alt={store.name}
-                      className="max-h-40 w-auto object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-105"
+                      className="max-h-28 w-auto object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-105"
                       loading="lazy"
                     />
                   ) : (
-                    <span className="text-white font-semibold text-center">{store.name}</span>
+                    <span className="text-white font-semibold text-center text-sm">{store.name}</span>
                   )}
                 </div>
-                <div className="absolute top-4 left-4 z-30">
-                  <span className="px-3 py-1 text-xs font-semibold rounded-full bg-white/85 text-[#0f1f38] shadow-sm">
+                <div className="absolute top-2 left-2 z-30">
+                  <span className="px-2 py-1 text-[10px] font-semibold rounded-full bg-white/85 text-[#0f1f38] shadow-sm">
                     {store.category}
                   </span>
                 </div>
-                <div className="absolute bottom-4 left-4 right-4 space-y-1 z-30">
-                  <h3 className="text-xl font-bold text-white drop-shadow-sm">{store.name}</h3>
-                  <p className="text-sm text-gray-100/85">{store.description}</p>
+                <div className="absolute bottom-2 left-2 right-2 space-y-0.5 z-30">
+                  <h3 className="text-base font-bold text-white drop-shadow-sm leading-tight">{store.name}</h3>
+                  <p className="text-xs text-gray-100/85 leading-tight">{store.description}</p>
                 </div>
               </div>
             ))}
