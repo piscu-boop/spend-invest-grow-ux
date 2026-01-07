@@ -78,61 +78,85 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
   const [storeSearch, setStoreSearch] = useState("");
   
   useEffect(() => {
-    const handleHashScroll = () => {
-      const hash = location.hash;
+    const hash = location.hash;
+    
+    if (!hash) {
+      // If no hash, scroll to top
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    // Function to scroll to element with robust retry logic
+    const scrollToElement = (selector: string, retries = 15, delay = 100) => {
+      const element = document.querySelector(selector);
       
-      if (!hash) {
-        // If no hash, scroll to top
-        window.scrollTo({ top: 0, behavior: "smooth" });
-        return;
-      }
-
-      // Function to scroll to element with retry logic
-      const scrollToElement = (selector: string, retries = 5) => {
-        const element = document.querySelector(selector);
-        if (element) {
-          // Add offset for fixed navigation if needed
-          const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-          const offsetPosition = elementPosition - 80; // Adjust offset as needed
-          
-          window.scrollTo({
-            top: offsetPosition,
-            behavior: "smooth"
+      if (element) {
+        // Wait for next frame to ensure layout is complete
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementPosition - 80; // Offset for fixed navigation
+            
+            window.scrollTo({
+              top: offsetPosition,
+              behavior: "smooth"
+            });
           });
-          return true;
-        } else if (retries > 0) {
-          // Retry after a short delay if element not found
-          setTimeout(() => scrollToElement(selector, retries - 1), 100);
-          return false;
-        }
+        });
+        return true;
+      } else if (retries > 0) {
+        // Retry with exponential backoff
+        setTimeout(() => scrollToElement(selector, retries - 1, Math.min(delay * 1.2, 500)), delay);
         return false;
-      };
+      }
+      return false;
+    };
 
-      // Handle specific hashes
+    // Handle hash navigation - try multiple times with different delays
+    // This ensures it works in both development and production
+    const attemptScroll = () => {
       if (hash === "#hero") {
-        requestAnimationFrame(() => {
-          setTimeout(() => scrollToElement("#hero"), 100);
-        });
+        scrollToElement("#hero");
       } else if (hash === "#partners") {
-        requestAnimationFrame(() => {
-          setTimeout(() => scrollToElement("#partners"), 100);
-        });
+        scrollToElement("#partners");
       } else {
-        // Handle other hash fragments
-        setTimeout(() => scrollToElement(hash), 300);
+        scrollToElement(hash);
       }
     };
 
-    // Run after component mounts to ensure DOM is ready
-    // Use multiple timeouts to handle different loading scenarios
-    const timeoutId1 = setTimeout(handleHashScroll, 100);
-    const timeoutId2 = setTimeout(handleHashScroll, 500);
-    const timeoutId3 = setTimeout(handleHashScroll, 1000);
+    // Try immediately (for fast loads)
+    attemptScroll();
+    
+    // Try after short delay (for normal loads)
+    const timeout1 = setTimeout(attemptScroll, 100);
+    
+    // Try after medium delay (for slower loads)
+    const timeout2 = setTimeout(attemptScroll, 500);
+    
+    // Try after longer delay (for production builds or slow networks)
+    const timeout3 = setTimeout(attemptScroll, 1000);
+    
+    // Try after even longer delay (for very slow loads)
+    const timeout4 = setTimeout(attemptScroll, 2000);
+    
+    // Also listen for window load event (for production)
+    const handleLoad = () => {
+      attemptScroll();
+    };
+    
+    if (document.readyState === 'complete') {
+      // Page already loaded
+      setTimeout(attemptScroll, 100);
+    } else {
+      window.addEventListener('load', handleLoad);
+    }
     
     return () => {
-      clearTimeout(timeoutId1);
-      clearTimeout(timeoutId2);
-      clearTimeout(timeoutId3);
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+      clearTimeout(timeout3);
+      clearTimeout(timeout4);
+      window.removeEventListener('load', handleLoad);
     };
   }, [location.hash, location.pathname]);
   
@@ -378,14 +402,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
           <div className="absolute bottom-20 left-20 w-64 h-64 bg-ux-green/5 rounded-full blur-2xl"></div>
         </div>
 
-        <div className="container mx-auto px-4 relative z-10">
-          {/* Coming Soon Badge */}
-          <div className="text-center mb-8">
-            <span className="inline-block text-2xl md:text-3xl lg:text-4xl font-extrabold text-ux-green tracking-wide uppercase drop-shadow-[0_0_15px_rgba(111,255,216,0.5)]">
-              {currentContent.storesComingSoon}
-            </span>
-          </div>
-          
+          <div className="container mx-auto px-4 relative z-10">
           <div className="text-center space-y-4 mb-12">
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ux-green">
               {currentContent.storesTopline}
@@ -432,10 +449,19 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
             {filteredStores.map((store) => (
               <div
                 key={store.name}
-                className="group relative overflow-hidden rounded-xl aspect-[4/5] shadow-xl border border-white/20 bg-transparent flex items-center justify-center"
+                className="group relative rounded-xl aspect-[4/5] shadow-xl border border-white/20 bg-transparent flex items-center justify-center overflow-visible"
                 style={{ backgroundColor: "transparent" }}
               >
-                <div className="flex items-center justify-center p-4 w-full h-full">
+                {/* Coming Soon Diagonal Ribbon */}
+                <div className="absolute top-2 right-[-30px] z-50 w-28 md:w-32">
+                  <div className="bg-ux-green text-[#0f1f38] px-3 py-1 md:px-4 md:py-1.5 shadow-lg transform rotate-45 origin-center">
+                    <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider whitespace-nowrap block text-center">
+                      {currentContent.storesComingSoon}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-center p-4 w-full h-full overflow-hidden rounded-xl">
                   {store.image ? (
                     <img
                       src={store.image}
