@@ -64,6 +64,13 @@ const PARTNER_STORES: PartnerStore[] = [
     image: "/lovable-uploads/golden-pack.jpeg",
     accent: "#d6b04a",
     description: "Packs de experiencias gastronómicas, aventura y más."
+  },
+  {
+    name: "AutoLink",
+    category: "Tienda de piezas de automóviles",
+    image: "/lovable-uploads/autolink.jpg",
+    accent: "#f97316",
+    description: "Repuestos y piezas para tu auto."
   }
 ];
 

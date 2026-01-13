@@ -4,6 +4,27 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const PRESS_ARTICLES = [
   {
+    title: "UX Dual - Pagás y tu plata sigue trabajando.\nEntrevista a Carlos César y Patricia Chacón",
+    source: "Radio y Streaming",
+    url: "https://www.youtube.com/watch?v=i-fjlo0S2Z4",
+    highlight: "Las Rosas - Estamos a tiempo",
+    date: "07/01/2026",
+  },
+  {
+    title: "Nota UX CAPITAL en Radio Gamba a Santiago César",
+    source: "Radio Gamba",
+    url: "https://drive.google.com/file/d/1u3f9UvmLWxOygHM9vZ-eoswhAJdnuGL2/view",
+    highlight: "Notify | Radio",
+    date: "22/12/2025",
+  },
+  {
+    title: "UX Capital presentó una tecnología que convierte las compras cotidianas en inversión automática",
+    source: "EconomixTV",
+    url: "https://economixtv.com/noticia/ux-capital-presento-una-tecnologia-que-convierte-las-compras-cotidianas-en-inversion-automatica/",
+    highlight: "Consumo y tecnología",
+    date: "18/12/2025",
+  },
+  {
     title: "UX Capital presenta la primera tecnología del mundo que transforma compras en inversión",
     source: "InfoPymes",
     url: "https://infopymes.info/2025/12/ux-capital-presenta-la-primera-tecnologia-del-mundo-que-transforma-compras-en-inversion/",
@@ -90,10 +111,9 @@ const Press: React.FC = () => {
                   {article.date}
                 </span>
               </div>
-                <h3 className="text-xl font-bold text-white leading-snug group-hover:text-ux-green transition-colors">
+                <h3 className="text-xl font-bold text-white leading-snug group-hover:text-ux-green transition-colors whitespace-pre-line">
                   {article.title}
                 </h3>
-                <p className="text-sm text-gray-200 mt-3">{copy.ctaText}</p>
               </a>
             ))}
           </div>
