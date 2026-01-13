@@ -11,7 +11,7 @@ const PRESS_ARTICLES = [
     date: "07/01/2026",
   },
   {
-    title: "Nota UX CAPITAL en Radio Gamba a Santiago César",
+    title: "Nota UX CAPITAL en Radio Gamba a Santiago César.",
     source: "Radio Gamba",
     url: "https://drive.google.com/file/d/1u3f9UvmLWxOygHM9vZ-eoswhAJdnuGL2/view",
     highlight: "Notify | Radio",
