@@ -23,15 +23,25 @@ const RedirectHandler: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if we're on index.html but should be on another route
-    // This happens when GitHub Pages 404 redirects to index.html
-    if (location.pathname === '/index.html' || location.pathname === '/') {
-      // Check if there's a hash that indicates we should be on /consumer
-      const hash = location.hash;
-      if (hash === '#partners' || hash.startsWith('#partners')) {
-        // Navigate to /consumer with the hash preserved
-        navigate(`/consumer${hash}`, { replace: true });
-      }
+    // Check if we have a stored redirect path from 404.html
+    const storedPath = sessionStorage.getItem('ghp_redirect_path');
+    const storedSearch = sessionStorage.getItem('ghp_redirect_search') || '';
+    const storedHash = sessionStorage.getItem('ghp_redirect_hash') || '';
+    
+    if (storedPath && (location.pathname === '/index.html' || location.pathname === '/')) {
+      // Clear the stored values
+      sessionStorage.removeItem('ghp_redirect_path');
+      sessionStorage.removeItem('ghp_redirect_search');
+      sessionStorage.removeItem('ghp_redirect_hash');
+      
+      // Navigate to the correct path with hash and search preserved
+      navigate(`${storedPath}${storedSearch}${storedHash}`, { replace: true });
+      return;
+    }
+    
+    // Fallback: if we're on index.html with #partners hash, redirect to /consumer#partners
+    if ((location.pathname === '/index.html' || location.pathname === '/') && location.hash === '#partners') {
+      navigate('/consumer#partners', { replace: true });
     }
   }, [location, navigate]);
 

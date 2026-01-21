@@ -5,15 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Redirecting...</title>
     <script>
-        // For GitHub Pages SPA: redirect to index.html preserving hash
-        // This allows React Router to handle the routing
+        // For GitHub Pages SPA: preserve original pathname and redirect
         var path = window.location.pathname;
         var hash = window.location.hash;
         var search = window.location.search;
         
-        // Use href instead of replace to allow normal navigation
-        // React Router will handle the pathname routing
-        window.location.href = '/index.html' + hash;
+        // Store the original pathname in sessionStorage so React Router can use it
+        if (path !== '/' && path !== '/index.html') {
+            sessionStorage.setItem('ghp_redirect_path', path);
+            sessionStorage.setItem('ghp_redirect_search', search);
+            sessionStorage.setItem('ghp_redirect_hash', hash);
+        }
+        
+        // Redirect to index.html - React Router will handle the routing
+        window.location.replace('/index.html' + hash);
     </script>
 </head>
 <body>
