@@ -64,7 +64,7 @@ const Navigation: React.FC<NavigationProps> = () => {
           {/* Language Toggle: mobile centered, desktop aligned to the right */}
           <div className="absolute right-16 flex justify-end md:static md:flex md:justify-start md:ml-6">
             <div className="flex items-center px-3 py-1 rounded-full bg-white/8 border border-white/15 backdrop-blur">
-              <LanguageToggle />
+            <LanguageToggle />
             </div>
           </div>
 

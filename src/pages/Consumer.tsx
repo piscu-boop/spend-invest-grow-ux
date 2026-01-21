@@ -87,6 +87,13 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
   useEffect(() => {
     const hash = location.hash;
     
+    // Prevent default scroll behavior when navigating with hash
+    if (hash) {
+      // Prevent browser's default scroll to hash
+      window.history.scrollRestoration = 'manual';
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+    
     if (!hash) {
       // If no hash, scroll to top
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -94,7 +101,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
     }
 
     // Function to scroll to element with robust retry logic
-    const scrollToElement = (selector: string, retries = 15, delay = 100) => {
+    const scrollToElement = (selector: string, retries = 25, delay = 150) => {
       const element = document.querySelector(selector);
       
       if (element) {
@@ -131,40 +138,40 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       }
     };
 
-    // Try immediately (for fast loads)
-    attemptScroll();
+    // Wait a bit longer when coming from another page to ensure DOM is ready
+    const isInitialLoad = !document.querySelector(hash);
     
-    // Try after short delay (for normal loads)
-    const timeout1 = setTimeout(attemptScroll, 100);
-    
-    // Try after medium delay (for slower loads)
-    const timeout2 = setTimeout(attemptScroll, 500);
-    
-    // Try after longer delay (for production builds or slow networks)
-    const timeout3 = setTimeout(attemptScroll, 1000);
-    
-    // Try after even longer delay (for very slow loads)
-    const timeout4 = setTimeout(attemptScroll, 2000);
-    
-    // Also listen for window load event (for production)
-    const handleLoad = () => {
-      attemptScroll();
-    };
-    
-    if (document.readyState === 'complete') {
-      // Page already loaded
-      setTimeout(attemptScroll, 100);
+    if (isInitialLoad) {
+      // Coming from another page - wait longer for DOM to be ready
+      const timeout0 = setTimeout(attemptScroll, 50);
+      const timeout1 = setTimeout(attemptScroll, 200);
+      const timeout2 = setTimeout(attemptScroll, 500);
+      const timeout3 = setTimeout(attemptScroll, 800);
+      const timeout4 = setTimeout(attemptScroll, 1200);
+      const timeout5 = setTimeout(attemptScroll, 2000);
+      
+      return () => {
+        clearTimeout(timeout0);
+        clearTimeout(timeout1);
+        clearTimeout(timeout2);
+        clearTimeout(timeout3);
+        clearTimeout(timeout4);
+        clearTimeout(timeout5);
+      };
     } else {
-      window.addEventListener('load', handleLoad);
+      // Already on the page - scroll immediately
+      attemptScroll();
+      
+      const timeout1 = setTimeout(attemptScroll, 100);
+      const timeout2 = setTimeout(attemptScroll, 300);
+      const timeout3 = setTimeout(attemptScroll, 600);
+      
+      return () => {
+        clearTimeout(timeout1);
+        clearTimeout(timeout2);
+        clearTimeout(timeout3);
+      };
     }
-    
-    return () => {
-      clearTimeout(timeout1);
-      clearTimeout(timeout2);
-      clearTimeout(timeout3);
-      clearTimeout(timeout4);
-      window.removeEventListener('load', handleLoad);
-    };
   }, [location.hash, location.pathname]);
   
   const content = useMemo(() => ({
@@ -403,7 +410,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       </section>
 
       {/* Partner Stores Section */}
-      <section className="relative py-20 bg-[#1C304F]" id="partners">
+      <section className="relative py-20 bg-[#1C304F] scroll-mt-20" id="partners">
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-20 left-20 w-64 h-64 bg-ux-green/5 rounded-full blur-2xl"></div>
