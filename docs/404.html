@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Redirecting...</title>
     <script>
-        // Redirige a la página principal
-        window.location.replace("/");
+        // For GitHub Pages SPA: redirect to index.html preserving hash
+        // This allows React Router to handle the routing
+        var path = window.location.pathname;
+        var hash = window.location.hash;
+        var search = window.location.search;
+        
+        // Use href instead of replace to allow normal navigation
+        // React Router will handle the pathname routing
+        window.location.href = '/index.html' + hash;
     </script>
 </head>
 <body>

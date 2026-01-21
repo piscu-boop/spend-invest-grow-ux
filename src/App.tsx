@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import BetaModal from '@/components/ui/betaModal';
 import Index from "./pages/Index";
@@ -13,10 +13,30 @@ import Merchant from "./pages/Merchant";
 import Manufacturer from "./pages/Manufacturer";
 import NotFound from "./pages/NotFound";
 import Press from "./pages/Press";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const queryClient = new QueryClient();
 
+// Component to handle 404 redirects from GitHub Pages
+const RedirectHandler: React.FC = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if we're on index.html but should be on another route
+    // This happens when GitHub Pages 404 redirects to index.html
+    if (location.pathname === '/index.html' || location.pathname === '/') {
+      // Check if there's a hash that indicates we should be on /consumer
+      const hash = location.hash;
+      if (hash === '#partners' || hash.startsWith('#partners')) {
+        // Navigate to /consumer with the hash preserved
+        navigate(`/consumer${hash}`, { replace: true });
+      }
+    }
+  }, [location, navigate]);
+
+  return null;
+};
 
 const App: React.FC = () => {
   const [betaOpen, setBetaOpen] = useState(false);
@@ -28,6 +48,7 @@ const App: React.FC = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <RedirectHandler />
           <Routes>
             <Route path="/" 
             element={

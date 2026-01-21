@@ -85,23 +85,13 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
   const [storeSearch, setStoreSearch] = useState("");
   
   useEffect(() => {
-    const hash = location.hash;
-    
-    // Prevent default scroll behavior when navigating with hash
-    if (hash) {
-      // Prevent browser's default scroll to hash
+    // Prevent browser's default scroll restoration
+    if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
-      window.scrollTo({ top: 0, behavior: 'auto' });
-    }
-    
-    if (!hash) {
-      // If no hash, scroll to top
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
     }
 
     // Function to scroll to element with robust retry logic
-    const scrollToElement = (selector: string, retries = 25, delay = 150) => {
+    const scrollToElement = (selector: string, retries = 30, delay = 100) => {
       const element = document.querySelector(selector);
       
       if (element) {
@@ -109,7 +99,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
-            const offsetPosition = elementPosition - 80; // Offset for fixed navigation
+            const offsetPosition = Math.max(0, elementPosition - 80); // Offset for fixed navigation
             
             window.scrollTo({
               top: offsetPosition,
@@ -120,58 +110,77 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
         return true;
       } else if (retries > 0) {
         // Retry with exponential backoff
-        setTimeout(() => scrollToElement(selector, retries - 1, Math.min(delay * 1.2, 500)), delay);
+        setTimeout(() => scrollToElement(selector, retries - 1, Math.min(delay * 1.15, 400)), delay);
         return false;
       }
       return false;
     };
 
-    // Handle hash navigation - try multiple times with different delays
-    // This ensures it works in both development and production
-    const attemptScroll = () => {
-      if (hash === "#hero") {
-        scrollToElement("#hero");
-      } else if (hash === "#partners") {
-        scrollToElement("#partners");
-      } else {
-        scrollToElement(hash);
+    // Handle hash navigation
+    const handleHashNavigation = () => {
+      const hash = window.location.hash;
+      
+      if (!hash) {
+        // No hash, scroll to top
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
       }
+
+      // Prevent browser's default scroll to hash
+      window.scrollTo({ top: 0, behavior: 'auto' });
+
+      const attemptScroll = () => {
+        if (hash === "#hero") {
+          scrollToElement("#hero");
+        } else if (hash === "#partners") {
+          scrollToElement("#partners");
+        } else if (hash) {
+          scrollToElement(hash);
+        }
+      };
+
+      // Try multiple times with increasing delays to handle production builds
+      attemptScroll();
+      const timeouts = [
+        setTimeout(attemptScroll, 100),
+        setTimeout(attemptScroll, 300),
+        setTimeout(attemptScroll, 600),
+        setTimeout(attemptScroll, 1000),
+        setTimeout(attemptScroll, 1500),
+        setTimeout(attemptScroll, 2500),
+      ];
+
+      return () => {
+        timeouts.forEach(timeout => clearTimeout(timeout));
+      };
     };
 
-    // Wait a bit longer when coming from another page to ensure DOM is ready
-    const isInitialLoad = !document.querySelector(hash);
+    // Handle initial load and hash changes
+    const cleanup = handleHashNavigation();
+
+    // Also listen for hash changes
+    const handleHashChange = () => {
+      handleHashNavigation();
+    };
     
-    if (isInitialLoad) {
-      // Coming from another page - wait longer for DOM to be ready
-      const timeout0 = setTimeout(attemptScroll, 50);
-      const timeout1 = setTimeout(attemptScroll, 200);
-      const timeout2 = setTimeout(attemptScroll, 500);
-      const timeout3 = setTimeout(attemptScroll, 800);
-      const timeout4 = setTimeout(attemptScroll, 1200);
-      const timeout5 = setTimeout(attemptScroll, 2000);
-      
-      return () => {
-        clearTimeout(timeout0);
-        clearTimeout(timeout1);
-        clearTimeout(timeout2);
-        clearTimeout(timeout3);
-        clearTimeout(timeout4);
-        clearTimeout(timeout5);
-      };
+    window.addEventListener('hashchange', handleHashChange);
+    
+    // Also try after window load (important for production)
+    const handleLoad = () => {
+      handleHashNavigation();
+    };
+    
+    if (document.readyState === 'complete') {
+      setTimeout(handleHashNavigation, 100);
     } else {
-      // Already on the page - scroll immediately
-      attemptScroll();
-      
-      const timeout1 = setTimeout(attemptScroll, 100);
-      const timeout2 = setTimeout(attemptScroll, 300);
-      const timeout3 = setTimeout(attemptScroll, 600);
-      
-      return () => {
-        clearTimeout(timeout1);
-        clearTimeout(timeout2);
-        clearTimeout(timeout3);
-      };
+      window.addEventListener('load', handleLoad);
     }
+
+    return () => {
+      cleanup?.();
+      window.removeEventListener('hashchange', handleHashChange);
+      window.removeEventListener('load', handleLoad);
+    };
   }, [location.hash, location.pathname]);
   
   const content = useMemo(() => ({
