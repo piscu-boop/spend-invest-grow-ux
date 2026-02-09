@@ -4,6 +4,13 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const PRESS_ARTICLES = [
   {
+    title: "UX CAPITAL, la app para invertir con cada compra que haces - ES UN MONTÓN!",
+    source: "Radio y Streaming",
+    url: "https://www.youtube.com/watch?v=9CrgVOWko2M",
+    highlight: "Canal 10 Córdoba",
+    date: "23/01/2026",
+  },
+  {
     title: "UX Dual - Pagás y tu plata sigue trabajando.\nEntrevista a Carlos César y Patricia Chacón",
     source: "Radio y Streaming",
     url: "https://www.youtube.com/watch?v=i-fjlo0S2Z4",
