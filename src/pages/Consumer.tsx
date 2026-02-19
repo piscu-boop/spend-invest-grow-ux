@@ -1,4 +1,4 @@
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
@@ -82,7 +82,6 @@ interface ConsumerProps {
 const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
   const { language } = useLanguage();
   const location = useLocation();
-  const [storeSearch, setStoreSearch] = useState("");
   
   useEffect(() => {
     // Prevent browser's default scroll restoration
@@ -211,8 +210,9 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       ],
       storesTopline: "Where can you shop?",
       storesTitle: "Our partner stores",
-      storesSubtitle: "Discover the brands already connected to UX Dual and start earning while you shop.",
-      storesComingSoon: "Coming Soon",
+      storesSubtitle: "Coming soon you'll be able to see and enable our partner stores.",
+      storesSubtitleGreen: "Coming soon",
+      storesSubtitleRest: " you'll be able to see and enable our partner stores.",
       storesSearchPlaceholder: "What would you like to buy?",
       storesSearchButton: "Search",
       storesViewMore: "See more stores",
@@ -293,8 +293,9 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       ],
       storesTopline: "¿Dónde podés comprar?",
       storesTitle: "Red de comercios UX, donde comprar también es invertir",
-      storesSubtitle: "Conocé los comercios adheridos y descubrí cómo cada pago sigue generando valor día a día",
-      storesComingSoon: "Próximamente",
+      storesSubtitle: "Próximamente podrás ver todos los comercios adheridos.",
+      storesSubtitleGreen: "Próximamente",
+      storesSubtitleRest: " podrás ver todos los comercios adheridos.",
       storesSearchPlaceholder: "¿Qué te gustaría comprar?",
       storesSearchButton: "Buscar",
       storesViewMore: "Ver más comercios",
@@ -349,18 +350,6 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       benefitsSubtitle: "Experimentá el futuro de comprar e invertir combinados"
     }
   }), []);
-
-  const filteredStores = useMemo(() => {
-    const term = storeSearch.toLowerCase().trim();
-    if (!term) return PARTNER_STORES;
-
-    return PARTNER_STORES.filter(
-      (store) =>
-        store.name.toLowerCase().includes(term) ||
-        store.category.toLowerCase().includes(term) ||
-        store.description.toLowerCase().includes(term)
-    );
-  }, [storeSearch]);
 
   const currentContent = content[language];
 
@@ -434,87 +423,41 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
               {currentContent.storesTitle}
             </h2>
             <p className="text-lg text-gray-200 max-w-3xl mx-auto">
-              {currentContent.storesSubtitle}
+              <span className="text-ux-green font-medium">{currentContent.storesSubtitleGreen}</span>
+              {currentContent.storesSubtitleRest}
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto mb-12">
-            <div className="bg-white/90 backdrop-blur-xl shadow-2xl border border-white/40 rounded-full flex items-center gap-3 px-4 py-3">
-              <div className="flex-1 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-ux-green/20 flex items-center justify-center text-ux-green font-semibold">
-                  🔍
-                </div>
-                <input
-                  id="store-search"
-                  type="text"
-                  value={storeSearch}
-                  onChange={(e) => setStoreSearch(e.target.value)}
-                  placeholder={currentContent.storesSearchPlaceholder}
-                  className="w-full bg-transparent outline-none text-gray-800 placeholder:text-gray-400 text-base"
-                />
-              </div>
-              <Button
-                type="button"
-                className="bg-ux-green hover:bg-ux-green-light text-[#0f1f38] font-semibold px-6 rounded-full"
-                onClick={() => {
-                  const input = document.getElementById("store-search");
-                  if (input instanceof HTMLInputElement) {
-                    input.focus();
-                  }
-                }}
-              >
-                {currentContent.storesSearchButton}
-              </Button>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4">
-            {filteredStores.map((store) => (
-              <div
-                key={store.name}
-                className="group relative rounded-xl aspect-[4/5] shadow-xl border border-white/20 bg-transparent flex items-center justify-center overflow-visible"
-                style={{ backgroundColor: "transparent" }}
-              >
-                {/* Coming Soon Diagonal Ribbon */}
-                <div className="absolute top-2 right-[-30px] z-50 w-28 md:w-32">
-                  <div className="bg-ux-green text-[#0f1f38] px-3 py-1 md:px-4 md:py-1.5 shadow-lg transform rotate-45 origin-center">
-                    <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-wider whitespace-nowrap block text-center">
-                      {currentContent.storesComingSoon}
+          <div className="relative max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 relative">
+              {PARTNER_STORES.map((store) => (
+                <div
+                  key={store.name}
+                  className="group relative rounded-xl aspect-[4/5] shadow-xl border border-white/20 overflow-hidden bg-white/5"
+                >
+                  {/* Logo con blur fuerte: se ve que hay marca pero no identificable */}
+                  <div className="absolute inset-0 flex items-center justify-center p-4">
+                    <img
+                      src={store.image}
+                      alt=""
+                      className="max-h-28 w-auto object-contain blur-lg scale-110 select-none pointer-events-none"
+                      loading="lazy"
+                      draggable={false}
+                    />
+                  </div>
+                  {/* Solo el rubro visible y legible */}
+                  <div className="absolute top-2 left-2 z-30">
+                    <span className="px-2 py-1 text-[10px] font-semibold rounded-full bg-white/90 text-[#0f1f38] shadow-sm">
+                      {store.category}
                     </span>
                   </div>
                 </div>
+              ))}
+            </div>
+            {/* Overlay con leyenda; rubros quedan por encima (z-30) */}
+            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#1C304F]/70 backdrop-blur-sm rounded-2xl min-h-[280px]">
 
-                <div className="flex items-center justify-center p-4 w-full h-full overflow-hidden rounded-xl">
-                  {store.image ? (
-                    <img
-                      src={store.image}
-                      alt={store.name}
-                      className="max-h-28 w-auto object-contain drop-shadow-lg transition-transform duration-300 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                  ) : (
-                    <span className="text-white font-semibold text-center text-sm">{store.name}</span>
-                  )}
-                </div>
-                <div className="absolute top-2 left-2 z-30">
-                  <span className="px-2 py-1 text-[10px] font-semibold rounded-full bg-white/85 text-[#0f1f38] shadow-sm">
-                    {store.category}
-                  </span>
-                </div>
-                <div className="absolute bottom-2 left-2 right-2 space-y-0.5 z-30">
-                  <h3 className="text-base font-bold text-white drop-shadow-sm leading-tight">{store.name}</h3>
-                  <p className="text-xs text-gray-100/85 leading-tight">{store.description}</p>
-                </div>
-              </div>
-            ))}
-
-            {filteredStores.length === 0 && (
-              <div className="col-span-full text-center bg-white/80 backdrop-blur border border-dashed border-ux-green/50 rounded-2xl p-8 text-[#1C304F]">
-                {language === "es"
-                  ? "No encontramos comercios con ese nombre. Probá otra búsqueda."
-                  : "No stores found for that search. Try another keyword."}
-              </div>
-            )}
+            </div>
           </div>
 
         </div>
