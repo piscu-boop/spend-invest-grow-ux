@@ -28,24 +28,32 @@ const RedirectHandler: React.FC = () => {
     const storedPath = sessionStorage.getItem('ghp_redirect_path');
     const storedSearch = sessionStorage.getItem('ghp_redirect_search') || '';
     const storedHash = sessionStorage.getItem('ghp_redirect_hash') || '';
-    
+
     if (storedPath && (location.pathname === '/index.html' || location.pathname === '/')) {
       // Clear the stored values
       sessionStorage.removeItem('ghp_redirect_path');
       sessionStorage.removeItem('ghp_redirect_search');
       sessionStorage.removeItem('ghp_redirect_hash');
-      
+
       // Navigate to the correct path with hash and search preserved
       navigate(`${storedPath}${storedSearch}${storedHash}`, { replace: true });
       return;
     }
-    
+
     // Fallback: if we're on index.html with #partners hash, redirect to /consumer#partners
     if ((location.pathname === '/index.html' || location.pathname === '/') && location.hash === '#partners') {
       navigate('/consumer#partners', { replace: true });
     }
   }, [location, navigate]);
 
+  return null;
+};
+
+// Helper: auto-open BetaModal when visiting /registro
+const AutoOpenBeta: React.FC<{ onOpen: () => void }> = ({ onOpen }) => {
+  useEffect(() => {
+    onOpen();
+  }, [onOpen]);
   return null;
 };
 
@@ -99,6 +107,14 @@ const App: React.FC = () => {
             <Route path="/simulador"
             element={
               <Simulator onOpenBeta={() => setBetaOpen(true)} />
+            }
+          />
+            <Route path="/registro"
+            element={
+              <>
+                <AutoOpenBeta onOpen={() => setBetaOpen(true)} />
+                <Index onOpenBeta={() => setBetaOpen(true)} />
+              </>
             }
           />
             <Route path="*" element={<Navigate to="/" replace />} />

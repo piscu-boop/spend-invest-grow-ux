@@ -241,19 +241,19 @@ function AmountInput({
       </label>
       {hint && <p className="text-xs text-white/80">{hint}</p>}
       <div
-        className={`flex items-center gap-2 rounded-xl bg-white/5 border ${
+        className={`flex items-center gap-2 rounded-xl bg-white/5 border overflow-hidden ${
           error ? "border-red-400/70" : "border-white/10"
         } px-4 py-3 focus-within:border-ux-green/60 transition-colors`}
       >
-        <span className="text-ux-green font-semibold text-lg">$</span>
+        <span className="text-ux-green font-semibold text-lg shrink-0">$</span>
         <input
           inputMode="numeric"
-          className="flex-1 bg-transparent text-white text-xl font-semibold outline-none placeholder:text-gray-600"
+          className="flex-1 min-w-0 bg-transparent text-white text-xl font-semibold outline-none placeholder:text-gray-600"
           placeholder="0"
           value={value}
           onChange={(e) => onChange(formatInput(e.target.value))}
         />
-        <span className="text-white/60 text-sm">ARS</span>
+        <span className="text-white/60 text-sm shrink-0">ARS</span>
       </div>
     </div>
   );
