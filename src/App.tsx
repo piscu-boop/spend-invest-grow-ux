@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import BetaModal from '@/components/ui/betaModal';
 import Index from "./pages/Index";
@@ -14,7 +14,7 @@ import Manufacturer from "./pages/Manufacturer";
 import NotFound from "./pages/NotFound";
 import Press from "./pages/Press";
 import Simulator from "./pages/Simulator";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const queryClient = new QueryClient();
 
@@ -54,9 +54,67 @@ const AutoOpenBeta: React.FC<{ onOpen: () => void }> = ({ onOpen }) => {
   return null;
 };
 
-const App: React.FC = () => {
+// Inner component — lives inside BrowserRouter so it can use useLocation/useNavigate
+const AppInner: React.FC = () => {
   const [betaOpen, setBetaOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  const handleCloseBeta = useCallback(() => {
+    setBetaOpen(false);
+    // Si estamos en /registro, al cerrar el modal volver al inicio
+    if (location.pathname === "/registro") {
+      navigate("/", { replace: true });
+    }
+  }, [location.pathname, navigate]);
+
+  return (
+    <>
+      <Routes>
+        <Route path="/"
+          element={<Index onOpenBeta={() => setBetaOpen(true)} />}
+        />
+        <Route path="/faq"
+          element={<FAQ onOpenBeta={() => setBetaOpen(true)} />}
+        />
+        <Route path="/team"
+          element={<Team onOpenBeta={() => setBetaOpen(true)} />}
+        />
+        <Route path="/consumer"
+          element={<Consumer onOpenBeta={() => setBetaOpen(true)} />}
+        />
+        <Route path="/merchant"
+          element={<Merchant onOpenBeta={() => setBetaOpen(true)} />}
+        />
+        <Route path="/manufacturer"
+          element={<Manufacturer onOpenBeta={() => setBetaOpen(true)} />}
+        />
+        <Route path="/press"
+          element={<Press />}
+        />
+        <Route path="/simulador"
+          element={<Simulator onOpenBeta={() => setBetaOpen(true)} />}
+        />
+        <Route path="/registro"
+          element={
+            <>
+              <AutoOpenBeta onOpen={() => setBetaOpen(true)} />
+              <Index onOpenBeta={() => setBetaOpen(true)} />
+            </>
+          }
+        />
+        <Route path="*" element={<CatchAllRedirect />} />
+      </Routes>
+      <BetaModal
+        open={betaOpen}
+        onClose={handleCloseBeta}
+        scriptURL="https://script.google.com/macros/s/AKfycbyFReSgYv7uWtrgRK-T9RqLuSrLKW78GqIKeUXO9Efk6LBWIXDHD5l0DAs44KIDt5orFg/exec"
+      />
+    </>
+  );
+};
+
+const App: React.FC = () => {
   return(
   <QueryClientProvider client={queryClient}>
     <LanguageProvider>
@@ -64,62 +122,7 @@ const App: React.FC = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" 
-            element={
-              <Index onOpenBeta={() => setBetaOpen(true)} />
-            } 
-          />
-            <Route path="/faq" 
-            element={
-              <FAQ onOpenBeta={() => setBetaOpen(true)} />
-            } 
-          />
-            <Route path="/team" 
-            element={
-              <Team onOpenBeta={() => setBetaOpen(true)} />
-            } 
-          />
-            <Route path="/consumer" 
-            element={
-              <Consumer onOpenBeta={() => setBetaOpen(true)} />
-            } 
-          />
-            <Route path="/merchant" 
-            element={
-              <Merchant onOpenBeta={() => setBetaOpen(true)} />
-            } 
-          />
-            <Route path="/manufacturer" 
-            element={
-              <Manufacturer onOpenBeta={() => setBetaOpen(true)} />
-            } 
-          />
-            <Route path="/press"
-            element={
-              <Press />
-            }
-          />
-            <Route path="/simulador"
-            element={
-              <Simulator onOpenBeta={() => setBetaOpen(true)} />
-            }
-          />
-            <Route path="/registro"
-            element={
-              <>
-                <AutoOpenBeta onOpen={() => setBetaOpen(true)} />
-                <Index onOpenBeta={() => setBetaOpen(true)} />
-              </>
-            }
-          />
-            <Route path="*" element={<CatchAllRedirect />} />
-          </Routes>
-          <BetaModal
-            open={betaOpen}
-            onClose={() => setBetaOpen(false)}
-            scriptURL="https://script.google.com/macros/s/AKfycbyFReSgYv7uWtrgRK-T9RqLuSrLKW78GqIKeUXO9Efk6LBWIXDHD5l0DAs44KIDt5orFg/exec"
-            />
+          <AppInner />
         </BrowserRouter>
       </TooltipProvider>
     </LanguageProvider>
