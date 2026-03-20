@@ -24,9 +24,23 @@ export default defineConfig({
     },
   },
   server: {
-    open: false, // Deshabilitado para mejor rendimiento
+    open: false,
     hmr: {
-      overlay: false, // Deshabilitar overlay de errores para mejor rendimiento
+      overlay: false,
+    },
+    proxy: {
+      '/api/rendimientos-fci': {
+        target: 'https://rendimientos.co',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/rendimientos-fci/, '/api/fci'),
+        secure: true,
+      },
+      '/api/rendimientos': {
+        target: 'https://rendimientos.co',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/rendimientos/, '/api/config'),
+        secure: true,
+      },
     },
     watch: {
       ignored: ['**/docs/**', '**/node_modules/**', '**/.git/**'],

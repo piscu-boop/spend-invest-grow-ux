@@ -15,11 +15,13 @@ const Navigation: React.FC<NavigationProps> = () => {
   
   const navItems = language === 'en' ? [
     { label: "About UX", href: isHomePage ? "#hero" : "/#hero" },
+    { label: "Simulator", href: "/simulador" },
     { label: "Press", href: "/press" },
     { label: "FAQ", href: "/faq" },
     { label: "Team", href: "/team" },
   ] : [
     { label: "Acerca de UX", href: isHomePage ? "#hero" : "/#hero" },
+    { label: "Simulador", href: "/simulador" },
     { label: "Prensa", href: "/press" },
     { label: "FAQ", href: "/faq" },
     { label: "Team", href: "/team" },

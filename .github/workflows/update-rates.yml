@@ -1,0 +1,91 @@
+name: 🔄 Actualizar tasas de billeteras
+
+# ──────────────────────────────────────────────────────────────
+# Este workflow actualiza automáticamente public/rates.json y
+# docs/rates.json con las tasas de billeteras obtenidas desde
+# la API pública de CAFCI (Fondos Comunes de Inversión).
+#
+# El sitio estático (GitHub Pages) sirve docs/rates.json desde
+# la URL /rates.json. El frontend lo consume via React Query
+# con staleTime de 15 minutos.
+#
+# FRECUENCIA: 4 veces por día (6:00, 12:00, 18:00, 0:00 ART)
+# RAMA TARGET: feature/UXsim (cambiar a main al hacer merge)
+# ──────────────────────────────────────────────────────────────
+
+on:
+  schedule:
+    # UTC:  03:00 / 09:00 / 15:00 / 21:00
+    # ART:  00:00 / 06:00 / 12:00 / 18:00
+    - cron: "0 3,9,15,21 * * *"
+
+  # Disparo manual desde GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      force_fallback:
+        description: "Usar tasas fallback estáticas (no fetches externos)"
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+      dry_run:
+        description: "Solo mostrar output, no escribir archivos"
+        required: false
+        default: "false"
+        type: choice
+        options: ["false", "true"]
+
+# Solo necesita escribir en el repo
+permissions:
+  contents: write
+
+jobs:
+  update-rates:
+    name: Fetch & commit wallet rates
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout de la rama correcta ──────────────────────
+      - name: Checkout feature/UXsim
+        uses: actions/checkout@v4
+        with:
+          ref: feature/UXsim   # ← cambiar a main tras el merge
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 2. Node.js (sin dependencias extra, usa módulos core) ─
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # ── 3. Ejecutar el script de fetch ────────────────────────
+      - name: Fetch wallet rates
+        run: node scripts/fetchRates.cjs
+        env:
+          FORCE_FALLBACK: ${{ inputs.force_fallback || 'false' }}
+          DRY_RUN: ${{ inputs.dry_run || 'false' }}
+
+      # ── 4. Detectar si algo cambió ────────────────────────────
+      - name: Check for changes
+        id: diff
+        run: |
+          git diff --quiet public/rates.json docs/rates.json \
+            && echo "changed=false" >> $GITHUB_OUTPUT \
+            || echo "changed=true" >> $GITHUB_OUTPUT
+
+      # ── 5. Commit y push solo si cambió algo ──────────────────
+      - name: Commit updated rates
+        if: steps.diff.outputs.changed == 'true' && inputs.dry_run != 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/rates.json docs/rates.json
+          git commit -m "chore(rates): actualizar tasas automáticas [skip ci]
+
+          Generado por GitHub Actions — $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+          git push origin feature/UXsim
+
+      # ── 6. Log si no hubo cambios ─────────────────────────────
+      - name: No changes detected
+        if: steps.diff.outputs.changed == 'false'
+        run: echo "ℹ️ Las tasas no cambiaron — no se genera commit."

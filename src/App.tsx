@@ -13,6 +13,7 @@ import Merchant from "./pages/Merchant";
 import Manufacturer from "./pages/Manufacturer";
 import NotFound from "./pages/NotFound";
 import Press from "./pages/Press";
+import Simulator from "./pages/Simulator";
 import { useState, useEffect } from "react";
 
 const queryClient = new QueryClient();
@@ -90,10 +91,15 @@ const App: React.FC = () => {
               <Manufacturer onOpenBeta={() => setBetaOpen(true)} />
             } 
           />
-            <Route path="/press" 
+            <Route path="/press"
             element={
               <Press />
-            } 
+            }
+          />
+            <Route path="/simulador"
+            element={
+              <Simulator onOpenBeta={() => setBetaOpen(true)} />
+            }
           />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
