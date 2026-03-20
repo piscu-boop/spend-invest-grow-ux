@@ -1,0 +1,44 @@
+{
+  "_comment": "Tasas extraídas de rendimientos.co/api/config (garantizados) y rendimientos.co/api/fci.",
+  "_sources": [
+    "Naranja X, Ualá: rendimientos.co/api/config → garantizados",
+    "Mercado Fondo - Clase A: rendimientos.co/api/fci (fondo 798, clase 1982)",
+    "Delta Pesos - Clase A (Personal Pay): rendimientos.co/api/fci (fondo 394, clase 715)"
+  ],
+  "version": "5",
+  "lastUpdated": "2026-03-20T12:00:00.000Z",
+  "generatedBy": "manual-rendimientos-co",
+  "totalWallets": 4,
+  "ux_tna": 0.23,
+  "traditional_average_tna": 0.2227,
+  "wallets": [
+    {
+      "id": "mercadopago",
+      "name": "Mercado Fondo - Clase A",
+      "tna": 0.2117,
+      "color": "#009ee3",
+      "source": "rendimientos.co/api/fci"
+    },
+    {
+      "id": "naranjax",
+      "name": "Naranja X",
+      "tna": 0.25,
+      "color": "#ff6900",
+      "source": "rendimientos.co/api/config (garantizados)"
+    },
+    {
+      "id": "uala",
+      "name": "Ualá",
+      "tna": 0.23,
+      "color": "#7b3ff5",
+      "source": "rendimientos.co/api/config (garantizados)"
+    },
+    {
+      "id": "personalpay",
+      "name": "Delta Pesos - Clase A",
+      "tna": 0.1992,
+      "color": "#e40046",
+      "source": "rendimientos.co/api/fci"
+    }
+  ]
+}
