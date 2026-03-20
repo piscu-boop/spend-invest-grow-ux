@@ -2,7 +2,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import BetaModal from '@/components/ui/betaModal';
 import Index from "./pages/Index";
@@ -18,35 +18,32 @@ import { useState, useEffect } from "react";
 
 const queryClient = new QueryClient();
 
-// Component to handle 404 redirects from GitHub Pages
-const RedirectHandler: React.FC = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+/**
+ * Catch-all fallback that checks for GitHub Pages SPA redirect FIRST.
+ *
+ * Flow: user visits /simulador → GitHub Pages 404.html stores path in
+ * sessionStorage and redirects to /index.html → React Router loads,
+ * /index.html hits catch-all → THIS component reads sessionStorage
+ * and navigates to the stored path (synchronously via Navigate).
+ */
+const CatchAllRedirect: React.FC = () => {
+  // Check sessionStorage DURING RENDER (not in useEffect) so Navigate
+  // fires before the fallback "/" redirect.
+  const storedPath = sessionStorage.getItem('ghp_redirect_path');
+  const storedSearch = sessionStorage.getItem('ghp_redirect_search') || '';
+  const storedHash = sessionStorage.getItem('ghp_redirect_hash') || '';
 
-  useEffect(() => {
-    // Check if we have a stored redirect path from 404.html
-    const storedPath = sessionStorage.getItem('ghp_redirect_path');
-    const storedSearch = sessionStorage.getItem('ghp_redirect_search') || '';
-    const storedHash = sessionStorage.getItem('ghp_redirect_hash') || '';
+  if (storedPath) {
+    // Clear immediately
+    sessionStorage.removeItem('ghp_redirect_path');
+    sessionStorage.removeItem('ghp_redirect_search');
+    sessionStorage.removeItem('ghp_redirect_hash');
 
-    if (storedPath && (location.pathname === '/index.html' || location.pathname === '/')) {
-      // Clear the stored values
-      sessionStorage.removeItem('ghp_redirect_path');
-      sessionStorage.removeItem('ghp_redirect_search');
-      sessionStorage.removeItem('ghp_redirect_hash');
+    return <Navigate to={`${storedPath}${storedSearch}${storedHash}`} replace />;
+  }
 
-      // Navigate to the correct path with hash and search preserved
-      navigate(`${storedPath}${storedSearch}${storedHash}`, { replace: true });
-      return;
-    }
-
-    // Fallback: if we're on index.html with #partners hash, redirect to /consumer#partners
-    if ((location.pathname === '/index.html' || location.pathname === '/') && location.hash === '#partners') {
-      navigate('/consumer#partners', { replace: true });
-    }
-  }, [location, navigate]);
-
-  return null;
+  // No stored redirect — go to home
+  return <Navigate to="/" replace />;
 };
 
 // Helper: auto-open BetaModal when visiting /registro
@@ -67,7 +64,6 @@ const App: React.FC = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <RedirectHandler />
           <Routes>
             <Route path="/" 
             element={
@@ -117,7 +113,7 @@ const App: React.FC = () => {
               </>
             }
           />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<CatchAllRedirect />} />
           </Routes>
           <BetaModal
             open={betaOpen}
