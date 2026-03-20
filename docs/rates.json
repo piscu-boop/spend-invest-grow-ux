@@ -14,7 +14,7 @@
   "wallets": [
     {
       "id": "mercadopago",
-      "name": "Mercado Fondo - Clase A",
+      "name": "Mercado Pago (Mercado Fondo - Clase A)",
       "tna": 0.2117,
       "color": "#009ee3",
       "source": "rendimientos.co/api/fci"
@@ -35,7 +35,7 @@
     },
     {
       "id": "personalpay",
-      "name": "Delta Pesos - Clase A",
+      "name": "Personal Pay (Delta Pesos - Clase A)",
       "tna": 0.1992,
       "color": "#e40046",
       "source": "rendimientos.co/api/fci"
