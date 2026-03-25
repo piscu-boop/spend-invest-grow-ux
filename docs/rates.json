@@ -10,7 +10,7 @@
   "generatedBy": "manual-rendimientos-co",
   "totalWallets": 4,
   "ux_tna": 0.23,
-  "traditional_average_tna": 0.2227,
+  "traditional_average_tna": 0.2127,
   "wallets": [
     {
       "id": "mercadopago",
@@ -22,7 +22,7 @@
     {
       "id": "naranjax",
       "name": "Naranja X",
-      "tna": 0.25,
+      "tna": 0.21,
       "color": "#ff6900",
       "source": "rendimientos.co/api/config (garantizados)"
     },

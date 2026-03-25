@@ -10,7 +10,7 @@ name: 🔄 Actualizar tasas de billeteras
 # con staleTime de 15 minutos.
 #
 # FRECUENCIA: 4 veces por día (6:00, 12:00, 18:00, 0:00 ART)
-# RAMA TARGET: feature/UXsim (cambiar a main al hacer merge)
+# RAMA TARGET: main
 # ──────────────────────────────────────────────────────────────
 
 on:
@@ -46,10 +46,10 @@ jobs:
 
     steps:
       # ── 1. Checkout de la rama correcta ──────────────────────
-      - name: Checkout feature/UXsim
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
-          ref: feature/UXsim   # ← cambiar a main tras el merge
+          ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
 
       # ── 2. Node.js (sin dependencias extra, usa módulos core) ─
@@ -83,7 +83,7 @@ jobs:
           git commit -m "chore(rates): actualizar tasas automáticas [skip ci]
 
           Generado por GitHub Actions — $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-          git push origin feature/UXsim
+          git push origin main
 
       # ── 6. Log si no hubo cambios ─────────────────────────────
       - name: No changes detected

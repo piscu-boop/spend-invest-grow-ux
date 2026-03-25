@@ -44,7 +44,7 @@ const FALLBACK = {
   ux_tna: 0.23,
   wallets: [
     { id: "mercadopago",  name: "Mercado Pago (Mercado Fondo - Clase A)",  tna: 0.2117, color: "#009ee3" },
-    { id: "naranjax",     name: "Naranja X",               tna: 0.2500, color: "#ff6900" },
+    { id: "naranjax",     name: "Naranja X",               tna: 0.2100, color: "#ff6900" },
     { id: "uala",         name: "Ualá",                    tna: 0.2300, color: "#7b3ff5" },
     { id: "personalpay",  name: "Personal Pay (Delta Pesos - Clase A)",   tna: 0.1992, color: "#e40046" },
   ],
