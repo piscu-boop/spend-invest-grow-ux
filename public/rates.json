@@ -1,13 +1,25 @@
 {
-  "_comment": "Tasas extraídas de rendimientos.co/api/config (garantizados) y rendimientos.co/api/fci.",
+  "_comment": "Generado automáticamente por scripts/fetchRates.js — no editar a mano.",
   "_sources": [
-    "Naranja X, Ualá: rendimientos.co/api/config → garantizados",
-    "Mercado Fondo - Clase A: rendimientos.co/api/fci (fondo 798, clase 1982)",
-    "Delta Pesos - Clase A (Personal Pay): rendimientos.co/api/fci (fondo 394, clase 715)"
+    "rendimientos.co/api/config (garantizados) como fuente primaria.",
+    "CAFCI API (api.cafci.org.ar) como fallback para billeteras no cubiertas.",
+    "Fallback estático: Perfil.com marzo 2026 para billeteras sin fuente automática."
   ],
-  "version": "5",
-  "lastUpdated": "2026-03-20T12:00:00.000Z",
-  "generatedBy": "manual-rendimientos-co",
+  "_cafci_ids": {
+    "mercadopago": "fondo 798, clase 1982 — Mercado Fondo (BIND/IAM)",
+    "uala": "fondo 1307, clase 3713 — Ualintec Ahorro Pesos",
+    "naranjax": "fondo 1213, clase 3355 — Naranja X Money Market"
+  },
+  "_instructions": [
+    "Para forzar actualización manual: node scripts/fetchRates.js",
+    "Para probar sin escribir archivos: DRY_RUN=true node scripts/fetchRates.js",
+    "Para usar solo fallback: FORCE_FALLBACK=true node scripts/fetchRates.js",
+    "Para verificar un ID CAFCI: abrir https://www.cafci.org.ar/ficha-fondo.html?q={fundId};{classId}"
+  ],
+  "version": "3",
+  "lastUpdated": "2026-03-25T23:27:21.124Z",
+  "generatedBy": "scripts/fetchRates.js",
+  "liveRatesCount": 2,
   "totalWallets": 4,
   "ux_tna": 0.23,
   "traditional_average_tna": 0.2127,
@@ -17,28 +29,40 @@
       "name": "Mercado Pago (Mercado Fondo - Clase A)",
       "tna": 0.2117,
       "color": "#009ee3",
-      "source": "rendimientos.co/api/fci"
+      "status": "fallback",
+      "sourceType": "cafci",
+      "sourceLabel": "CAFCI — Mercado Fondo (BIND/IAM) (error al consultar API, usando referencia Perfil.com mar-2026)",
+      "lastUpdated": null
     },
     {
       "id": "naranjax",
       "name": "Naranja X",
       "tna": 0.21,
       "color": "#ff6900",
-      "source": "rendimientos.co/api/config (garantizados)"
+      "status": "live",
+      "sourceType": "aggregator",
+      "sourceLabel": "Tercero conectado a CAFCI (Naranja X, vigente 19/03/2026)",
+      "lastUpdated": "2026-03-25T23:27:21.472Z"
     },
     {
       "id": "uala",
       "name": "Ualá",
       "tna": 0.23,
       "color": "#7b3ff5",
-      "source": "rendimientos.co/api/config (garantizados)"
+      "status": "live",
+      "sourceType": "aggregator",
+      "sourceLabel": "Tercero conectado a CAFCI (Ualá, vigente 12/02/2026)",
+      "lastUpdated": "2026-03-25T23:27:21.472Z"
     },
     {
       "id": "personalpay",
       "name": "Personal Pay (Delta Pesos - Clase A)",
       "tna": 0.1992,
       "color": "#e40046",
-      "source": "rendimientos.co/api/fci"
+      "status": "fallback",
+      "sourceType": "cafci",
+      "sourceLabel": "CAFCI — Delta Pesos - Clase A (Fiwind/Personal Pay) (error al consultar API, usando referencia Perfil.com mar-2026)",
+      "lastUpdated": null
     }
   ]
 }
