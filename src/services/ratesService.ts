@@ -329,9 +329,14 @@ export async function fetchRates(): Promise<RatesPayload> {
         ? (ratesJson!.traditional_average_tna as number)
         : TRADITIONAL_AVERAGE_TNA);
 
-  const uxTna = isValidTna(ratesJson?.ux_tna as number)
-    ? (ratesJson!.ux_tna as number)
-    : UX_DUAL_CONFIG.tna;
+  // ux_tna siempre refleja la tasa de Delta Pesos - Clase A (personalpay)
+  const personalpayWallet = wallets.find((w) => w.id === "personalpay");
+  const uxTna =
+    personalpayWallet && isValidTna(personalpayWallet.tna)
+      ? personalpayWallet.tna
+      : isValidTna(ratesJson?.ux_tna as number)
+        ? (ratesJson!.ux_tna as number)
+        : UX_DUAL_CONFIG.tna;
 
   const lastUpdated =
     typeof ratesJson?.lastUpdated === "string" && ratesJson.lastUpdated

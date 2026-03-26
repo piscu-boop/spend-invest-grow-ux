@@ -21,8 +21,8 @@ export interface WalletRate {
 // CONFIGURACIÓN UX DUAL
 // -------------------------------------------------------
 export const UX_DUAL_CONFIG = {
-  /** TNA de UX Dual (mock). Reemplazar por API real. */
-  tna: 0.23,
+  /** TNA de UX Dual — refleja Delta Pesos - Clase A (personalpay). Fallback estático. */
+  tna: 0.1992,
 
   /** Fracción del rendimiento post-gasto que recibe el usuario (67%). */
   spentYieldFactor: 0.67,

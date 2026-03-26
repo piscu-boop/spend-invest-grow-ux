@@ -442,7 +442,8 @@ async function main() {
     generatedBy:            "scripts/fetchRates.js",
     liveRatesCount:         liveCount,
     totalWallets:           updatedWallets.length,
-    ux_tna:                 FALLBACK.ux_tna,
+    // ux_tna siempre refleja la tasa de Delta Pesos - Clase A (personalpay)
+    ux_tna: updatedWallets.find((w) => w.id === "personalpay")?.tna ?? FALLBACK.ux_tna,
     traditional_average_tna: parseFloat(avgTna.toFixed(4)),
     wallets:                updatedWallets,
   };
