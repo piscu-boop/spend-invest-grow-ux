@@ -46,9 +46,9 @@ const Footer = () => (
 
         {/* Brand */}
         <div className="flex flex-col gap-4 max-w-xs">
-          <img src="lovable-uploads/logo-capital.png" alt="UX Capital" className="h-8" />
+          <img src="/lovable-uploads/logo-capital.png" alt="UX Capital" className="h-8" />
           <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
-            La primera billetera que invierte tu saldo automáticamente en FCI. Gratis, regulado por la CNV.
+            La primera plataforma que transforma cada compra en inversión. Regulado por la CNV.
           </p>
           <div className="flex items-center gap-4">
             {SOCIAL.map((s) => (

@@ -2,8 +2,6 @@ import Navigation from "@/components/Navigation";
 import HeroSectionAudience from "@/components/HeroSectionAudience";
 import TrustedBySection from "@/components/TrustedBySection";
 import { WhyUxDual } from "@/components/Whyuxdual";
-import HowItWorksSection from "@/components/HowItWorksSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
 import FinalCTASection from "@/components/FinalCTASection";
 import Footer from "@/components/Footer";
 
@@ -18,9 +16,7 @@ const Index: React.FC<IndexProps> = ({ onOpenBeta }) => {
       <HeroSectionAudience onOpenBeta={onOpenBeta} />
       <TrustedBySection />
       <WhyUxDual />
-      <HowItWorksSection />
-      <TestimonialsSection />
-      <FinalCTASection />
+      <FinalCTASection onOpenBeta={onOpenBeta} />
       <Footer />
     </div>
   );

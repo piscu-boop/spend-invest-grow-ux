@@ -495,7 +495,7 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
   const spentDayLabel = t.spentDayLabels[spendMoment];
 
   return (
-    <div className="min-h-screen bg-[#1C304F]">
+    <div className="min-h-screen" style={{ background: "var(--color-bg-dark)" }}>
       <Navigation onOpenBeta={onOpenBeta} />
 
       {/* ================================================== */}
@@ -533,7 +533,7 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
       {/* ================================================== */}
       <section id="simulador" className="scroll-mt-20 px-4 pb-12">
         <div className="max-w-lg mx-auto">
-          <div className="bg-[#0E1B38] rounded-3xl border border-white/10 p-6 md:p-8 shadow-2xl space-y-6">
+          <div className="bg-[#0E2240] rounded-3xl border border-white/10 p-6 md:p-8 shadow-2xl space-y-6">
             <div>
               <h2 className="text-xl font-bold text-white">{t.inputTitle}</h2>
               <p className="text-sm text-white/80 mt-1">{t.inputSubtitle}</p>
