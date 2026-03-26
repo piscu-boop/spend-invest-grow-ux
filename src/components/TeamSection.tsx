@@ -1,52 +1,97 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 type TeamMember = {
   name: string;
   title: string;
-  subtitle?: string;
-  badge?: string;
   imageUrl?: string;
 };
 
 const TEAM_MEMBERS: TeamMember[] = [
   { name: "Carlos César", title: "Co-Founder & CEO", imageUrl: "/lovable-uploads/carlos-ux.jpeg" },
   { name: "Patricia Roxana Chacón", title: "Co-Founder & Chief Legal Officer", imageUrl: "/lovable-uploads/patricia-ux.jpeg" },
-  { name: "Santiago César", title: "Co- Founder & COO", imageUrl: "/lovable-uploads/santiago-ux.jpeg" },
+  { name: "Santiago César", title: "Co-Founder & COO", imageUrl: "/lovable-uploads/santiago-ux.jpeg" },
   { name: "Abril Barra Delich", title: "Co-Founder & Head of Product", imageUrl: "/lovable-uploads/abril-ux.jpeg" },
   { name: "Iván Paulin", title: "Co-Founder & Head of Technology", imageUrl: "/lovable-uploads/ivan-ux.jpeg" },
 ];
 
-const TeamSection: React.FC = () => {
+const heroContent = {
+  en: { title: "Capital Team", subtitle: "The people building the future of spending and investing." },
+  es: { title: "Capital Team", subtitle: "Las personas construyendo el futuro del consumo invertido." },
+};
+
+const MemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
+  const [hovered, setHovered] = useState(false);
+
   return (
-    // antes: py-16
-    <section id="team" className="w-full bg-[#1C304F] text-white pt-24 pb-20">
-      {/* antes: px-4  ->  ahora padding horizontal más consistente */}
-      <div className="container mx-auto px-6 md:px-8 lg:px-12">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            <span className="gradient-text">UX</span> Capital Team
-          </h2>
-        </div>
+    <li
+      className="flex flex-col items-center text-center"
+      style={{
+        background: "rgba(255,255,255,0.04)",
+        border: `1px solid ${hovered ? "rgba(77,240,172,0.25)" : "rgba(255,255,255,0.08)"}`,
+        borderRadius: "20px",
+        padding: "32px 24px",
+        transform: hovered ? "translateY(-4px)" : "translateY(0)",
+        transition: "transform 0.25s ease, border-color 0.25s ease",
+        cursor: "default",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <div
+        className="h-28 w-28 rounded-full overflow-hidden mb-4 flex-shrink-0"
+        style={{
+          border: `3px solid ${hovered ? "rgba(77,240,172,0.4)" : "rgba(255,255,255,0.12)"}`,
+          transition: "border-color 0.25s ease",
+          background: "#1a2a40",
+        }}
+      >
+        {member.imageUrl && (
+          <img
+            src={member.imageUrl}
+            alt={member.name}
+            className="h-full w-full object-cover"
+          />
+        )}
+      </div>
 
-        {/* no se toca la grilla; sumo un leve padding interno para que cada item no “pegue” al borde */}
-        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
+      <h3
+        className="font-semibold mt-1"
+        style={{ color: "#fff", fontSize: "17px", marginTop: "4px" }}
+      >
+        {member.name}
+      </h3>
+      <p
+        className="font-medium mt-1"
+        style={{ color: "var(--color-accent)", fontSize: "13px", marginTop: "4px" }}
+      >
+        {member.title}
+      </p>
+    </li>
+  );
+};
+
+const TeamSection: React.FC = () => {
+  const { language } = useLanguage();
+  const hero = heroContent[language];
+
+  return (
+    <section id="team" className="w-full text-white" style={{ background: "var(--color-bg-dark)" }}>
+      {/* Hero */}
+      <div className="pt-32 pb-10 text-center px-4">
+        <h1 className="text-5xl md:text-6xl font-semibold text-white mb-3">
+          <span style={{ color: "var(--color-accent)" }}>UX</span> {hero.title}
+        </h1>
+        <p className="text-lg" style={{ color: "rgba(255,255,255,0.6)" }}>
+          {hero.subtitle}
+        </p>
+      </div>
+
+      {/* Grid */}
+      <div className="container mx-auto px-5 pb-24">
+        <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-5">
           {TEAM_MEMBERS.map((member) => (
-            <li key={member.name} className="flex flex-col items-center text-center px-2 md:px-3">
-              <div className="h-28 w-28 rounded-full overflow-hidden ring-2 ring-white/20 shadow-lg mb-4 bg-slate-700">
-                {member.imageUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={member.imageUrl} alt={member.name} className="h-full w-full object-cover" />
-                ) : null}
-              </div>
-
-              <h3 className="text-lg font-semibold">{member.name}</h3>
-              <p className="text-slate-300 text-sm mt-1 max-w-[14rem]">{member.title}</p>
-              {member.badge ? (
-                <span className="mt-3 inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs text-slate-200 ring-1 ring-white/20">
-                  {member.badge}
-                </span>
-              ) : null}
-            </li>
+            <MemberCard key={member.name} member={member} />
           ))}
         </ul>
       </div>

@@ -8,11 +8,9 @@ interface FAQProps {
 
 const FAQ: React.FC<FAQProps> = ({ onOpenBeta }) => {
   return (
-    <div className="min-h-screen bg-[#1C304F]">
+    <div className="min-h-screen" style={{ background: "var(--color-bg-dark)" }}>
       <Navigation onOpenBeta={onOpenBeta} />
-      <div className="pt-20">
-        <FAQSegmentado defaultFilter="general" />
-      </div>
+      <FAQSegmentado defaultFilter="general" />
       <Footer />
     </div>
   );

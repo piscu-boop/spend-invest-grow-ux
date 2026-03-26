@@ -73,11 +73,13 @@ const Press: React.FC = () => {
 
   const content = {
     en: {
-      title: "Featured news",
+      heroTitle: "Featured News",
+      heroSubtitle: "UX Capital in the media",
       ctaText: "Read full article",
     },
     es: {
-      title: "Noticias destacadas",
+      heroTitle: "Noticias Destacadas",
+      heroSubtitle: "UX Capital en los medios",
       ctaText: "Leer la nota completa",
     },
   } as const;
@@ -85,40 +87,82 @@ const Press: React.FC = () => {
   const copy = content[language];
 
   return (
-    <div className="min-h-screen bg-[#1C304F]">
+    <div className="min-h-screen" style={{ background: "var(--color-bg-dark)" }}>
       <Navigation />
 
-      <section className="min-h-screen flex items-center pt-32 pb-24">
-        <div className="container mx-auto px-4">
-          <div className="text-center space-y-2 mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-white">
-              {copy.title}
-            </h1>
-          </div>
+      {/* Hero */}
+      <section className="pt-32 pb-10 text-center px-4" style={{ background: "var(--color-bg-dark)" }}>
+        <h1 className="text-5xl md:text-6xl font-semibold text-white mb-3">
+          {copy.heroTitle}
+        </h1>
+        <p className="text-lg" style={{ color: "rgba(255,255,255,0.6)" }}>
+          {copy.heroSubtitle}
+        </p>
+      </section>
 
-          <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+      {/* Articles grid */}
+      <section className="pb-24 px-4">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-2 gap-5 lg:gap-6">
             {PRESS_ARTICLES.map((article) => (
               <a
                 key={article.url}
                 href={article.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-ux-green/50 hover:shadow-2xl transition-all duration-300"
+                className="group block rounded-2xl p-7 transition-all duration-250"
+                style={{
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "16px",
+                  padding: "28px",
+                  transition: "transform 0.25s ease, border-color 0.25s ease, background 0.25s ease",
+                }}
+                onMouseEnter={e => {
+                  const el = e.currentTarget;
+                  el.style.transform = "translateY(-3px)";
+                  el.style.borderColor = "rgba(77,240,172,0.3)";
+                  el.style.background = "rgba(255,255,255,0.07)";
+                }}
+                onMouseLeave={e => {
+                  const el = e.currentTarget;
+                  el.style.transform = "translateY(0)";
+                  el.style.borderColor = "rgba(255,255,255,0.08)";
+                  el.style.background = "rgba(255,255,255,0.04)";
+                }}
               >
-              <div className="flex items-center justify-between gap-3 mb-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-semibold text-ux-green bg-ux-green/10 px-3 py-1 rounded-full">
-                    {article.source}
-                  </span>
-                  <span className="text-xs text-gray-300 uppercase tracking-wide">
-                    {article.highlight}
+                <div className="flex items-center justify-between gap-3 mb-3">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {/* Badge de fuente */}
+                    <span
+                      className="text-[11px] font-semibold px-2.5 py-0.5 rounded-full"
+                      style={{
+                        background: "rgba(77,240,172,0.12)",
+                        color: "#4DF0AC",
+                        border: "1px solid rgba(77,240,172,0.2)",
+                        letterSpacing: "0.01em",
+                      }}
+                    >
+                      {article.source}
+                    </span>
+                    <span
+                      className="text-[11px] uppercase tracking-[0.08em]"
+                      style={{ color: "rgba(255,255,255,0.35)" }}
+                    >
+                      {article.highlight}
+                    </span>
+                  </div>
+                  <span
+                    className="text-[12px] whitespace-nowrap flex-shrink-0"
+                    style={{ color: "rgba(255,255,255,0.4)" }}
+                  >
+                    {article.date}
                   </span>
                 </div>
-                <span className="text-xs text-gray-300 whitespace-nowrap">
-                  {article.date}
-                </span>
-              </div>
-                <h3 className="text-xl font-bold text-white leading-snug group-hover:text-ux-green transition-colors whitespace-pre-line">
+                <h3
+                  className="whitespace-pre-line leading-[1.4]"
+                  style={{ color: "#fff", fontSize: "18px", fontWeight: 600 }}
+                >
                   {article.title}
                 </h3>
               </a>
@@ -133,4 +177,3 @@ const Press: React.FC = () => {
 };
 
 export default Press;
-

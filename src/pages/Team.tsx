@@ -8,7 +8,7 @@ interface TeamProps {
 
 const Team: React.FC<TeamProps> = ({ onOpenBeta }) => {
   return (
-    <div className="min-h-screen pb-2">
+    <div className="min-h-screen" style={{ background: "var(--color-bg-dark)" }}>
       <Navigation onOpenBeta={onOpenBeta} />
       <TeamSection />
       <Footer />

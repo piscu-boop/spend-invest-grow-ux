@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Button } from "@/components/ui/button";
 
 interface FAQSegmentadoProps {
   defaultFilter?: "general" | "consumer" | "merchant" | "manufacturer";
@@ -13,9 +12,8 @@ const FAQSegmentado = ({ defaultFilter = "general" }: FAQSegmentadoProps) => {
 
   const content = {
     en: {
-      title: "Frequently Asked",
-      titleHighlight: "Questions",
-      subtitle: "Get answers to common questions about UX Dual and how it works.",
+      heroTitle: "Frequently Asked Questions",
+      heroSubtitle: "Get answers to common questions about UX Dual and how it works.",
       filters: {
         general: "Regulations & General Info",
         consumer: "Consumer",
@@ -94,9 +92,8 @@ const FAQSegmentado = ({ defaultFilter = "general" }: FAQSegmentadoProps) => {
       }
     },
     es: {
-      title: "Preguntas",
-      titleHighlight: "Frecuentes",
-      subtitle: "Obtén respuestas a preguntas comunes sobre UX Dual y cómo funciona.",
+      heroTitle: "Preguntas Frecuentes",
+      heroSubtitle: "Obtené respuestas a preguntas comunes sobre UX Dual y cómo funciona.",
       filters: {
         general: "Regulaciones & Info General",
         consumer: "Consumidor",
@@ -180,67 +177,120 @@ const FAQSegmentado = ({ defaultFilter = "general" }: FAQSegmentadoProps) => {
   const currentFAQs = currentContent.faqs[activeFilter];
 
   return (
-    <section className="bg-[#1C304F] text-white py-16">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            {currentContent.title}{" "}
-            <span className="gradient-text">{currentContent.titleHighlight}</span>
-          </h2>
-          <p className="text-xl text-white max-w-3xl mx-auto mb-8">
-            {currentContent.subtitle}
-          </p>
-          
-          {/* Filter Buttons */}
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            {Object.entries(currentContent.filters).map(([key, label]) => (
-              <Button
+    <section className="text-white" style={{ background: "var(--color-bg-dark)" }}>
+      {/* Hero */}
+      <div className="pt-16 pb-10 text-center px-4">
+        <h1 className="text-5xl md:text-6xl font-semibold text-white mb-3">
+          {currentContent.heroTitle}
+        </h1>
+        <p className="text-lg" style={{ color: "rgba(255,255,255,0.6)" }}>
+          {currentContent.heroSubtitle}
+        </p>
+      </div>
+
+      <div className="container mx-auto px-4 pb-24">
+        {/* Filter tabs */}
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
+          {(Object.entries(currentContent.filters) as [typeof activeFilter, string][]).map(([key, label]) => {
+            const isActive = activeFilter === key;
+            return (
+              <button
                 key={key}
-                variant={activeFilter === key ? "default" : "outline"}
-                className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                  activeFilter === key
-                    ? "bg-ux-green text-white hover:bg-ux-green/80"
-                    : "border-ux-green text-white bg-ux-blue-dark/30 hover:bg-ux-green/20 hover:text-ux-green"
-                }`}
-                onClick={() => {
-                  setActiveFilter(key as any);
-                  setOpenIndex(0);
+                onClick={() => { setActiveFilter(key); setOpenIndex(0); }}
+                className="text-sm font-medium transition-all duration-200"
+                style={{
+                  padding: "8px 20px",
+                  borderRadius: "24px",
+                  border: isActive ? "1px solid transparent" : "1px solid rgba(255,255,255,0.1)",
+                  background: isActive ? "var(--color-accent)" : "rgba(255,255,255,0.06)",
+                  color: isActive ? "#0A1A0F" : "rgba(255,255,255,0.6)",
+                  fontWeight: isActive ? 600 : 400,
+                  cursor: "pointer",
+                }}
+                onMouseEnter={e => {
+                  if (!isActive) {
+                    e.currentTarget.style.borderColor = "rgba(77,240,172,0.3)";
+                    e.currentTarget.style.color = "#fff";
+                  }
+                }}
+                onMouseLeave={e => {
+                  if (!isActive) {
+                    e.currentTarget.style.borderColor = "rgba(255,255,255,0.1)";
+                    e.currentTarget.style.color = "rgba(255,255,255,0.6)";
+                  }
                 }}
               >
                 {label}
-              </Button>
-            ))}
-          </div>
+              </button>
+            );
+          })}
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-4">
-          {currentFAQs.map((faq, index) => (
-            <div 
-              key={index}
-              className="bg-ux-blue-dark/50 backdrop-blur-sm rounded-2xl border border-ux-green/20 overflow-hidden animate-slide-up"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <button
-                className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-ux-green/5 transition-colors duration-300"
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+        {/* Accordion */}
+        <div className="max-w-3xl mx-auto space-y-2">
+          {currentFAQs.map((faq, index) => {
+            const isOpen = openIndex === index;
+            return (
+              <div
+                key={index}
+                style={{
+                  background: "rgba(255,255,255,0.03)",
+                  border: `1px solid ${isOpen ? "rgba(77,240,172,0.25)" : "rgba(255,255,255,0.08)"}`,
+                  borderRadius: "12px",
+                  overflow: "hidden",
+                  marginBottom: "8px",
+                  transition: "border-color 0.2s",
+                }}
               >
-                <h3 className="text-lg font-semibold text-white pr-4">
-                  {faq.question}
-                </h3>
-                <div className={`text-ux-green text-2xl transition-transform duration-300 ${openIndex === index ? 'rotate-45' : ''}`}>
-                  +
-                </div>
-              </button>
-              
-              <div className={`overflow-hidden transition-all duration-500 ${openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                <div className="px-8 pb-6">
-                  <p className="text-gray-200 leading-relaxed">
-                    {faq.answer}
-                  </p>
+                <button
+                  className="w-full flex justify-between items-center text-left transition-colors duration-200"
+                  style={{ padding: "20px 24px" }}
+                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  onMouseEnter={e => (e.currentTarget.style.background = "rgba(255,255,255,0.03)")}
+                  onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                >
+                  <h3
+                    className="pr-4"
+                    style={{ color: "#fff", fontSize: "16px", fontWeight: 500, lineHeight: 1.4 }}
+                  >
+                    {faq.question}
+                  </h3>
+                  <span
+                    className="flex-shrink-0 text-xl font-light leading-none"
+                    style={{
+                      color: "var(--color-accent)",
+                      transform: isOpen ? "rotate(45deg)" : "rotate(0deg)",
+                      transition: "transform 0.25s ease",
+                      display: "inline-block",
+                    }}
+                  >
+                    +
+                  </span>
+                </button>
+
+                <div
+                  style={{
+                    maxHeight: isOpen ? "400px" : "0",
+                    opacity: isOpen ? 1 : 0,
+                    overflow: "hidden",
+                    transition: "max-height 0.35s ease, opacity 0.25s ease",
+                  }}
+                >
+                  <div
+                    style={{
+                      padding: "0 24px 20px",
+                      borderTop: "1px solid rgba(255,255,255,0.06)",
+                      paddingTop: "16px",
+                    }}
+                  >
+                    <p style={{ color: "rgba(255,255,255,0.65)", fontSize: "15px", lineHeight: 1.7 }}>
+                      {faq.answer}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
