@@ -1,3 +1,8 @@
+/* ============================================================
+   GOOGLE FONTS — Inter + Plus Jakarta Sans
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -43,13 +48,41 @@
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    /* UX Dual Custom Colors */
+    /* UX Dual Custom Colors (legacy — mantener para compatibilidad) */
     --ux-navy: 222 47% 11%;
     --ux-navy-dark: 220 39% 18%;
     --ux-green: 142 76% 58%;
     --ux-green-light: 142 76% 80%;
     --ux-blue-dark: 220 39% 18%;
     --ux-blue-light: 220 39% 25%;
+
+    /* ── REDESIGN DESIGN SYSTEM ─────────────────────────────── */
+
+    /* Colores de fondo */
+    --color-bg-dark:    #0D0A2B;
+    --color-bg-dark-2:  #0E2240;
+    --color-bg-light:   #FFFFFF;
+    --color-bg-gray:    #F5F5F7;
+
+    /* Colores de acento */
+    --color-accent:       #4DF0AC;
+    --color-accent-hover: #3AD494;
+
+    /* Tipografía */
+    --color-text-primary: #FFFFFF;
+    --color-text-dark:    #1D1D1F;
+    --color-text-muted:   rgba(255, 255, 255, 0.55);
+
+    /* Fuente */
+    --font-primary: 'Inter', 'Plus Jakarta Sans', system-ui, sans-serif;
+
+    /* Border-radius */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 24px;
+
+    /* Transición global */
+    --transition: 0.25s ease;
   }
 
   .dark {
@@ -84,12 +117,118 @@
 }
 
 @layer base {
+  /* Reset básico */
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  img, video {
+    max-width: 100%;
+    display: block;
+  }
+
+  /* Respeta prefers-reduced-motion en TODAS las animaciones */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
   }
 }
 
 @layer utilities {
+  /* ── LAYOUT UTILITIES (redesign) ───────────────────────── */
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .container {
+      padding-inline: 2rem;
+    }
+  }
+
+  .section-padding {
+    padding-block: 4rem;
+  }
+
+  @media (min-width: 768px) {
+    .section-padding {
+      padding-block: 6rem;
+    }
+  }
+
+  /* ── COLOR UTILITIES (redesign) ────────────────────────── */
+
+  .bg-ds-dark    { background-color: var(--color-bg-dark); }
+  .bg-ds-dark-2  { background-color: var(--color-bg-dark-2); }
+  .bg-ds-light   { background-color: var(--color-bg-light); }
+  .bg-ds-gray    { background-color: var(--color-bg-gray); }
+  .bg-ds-accent  { background-color: var(--color-accent); }
+
+  .text-ds-primary { color: var(--color-text-primary); }
+  .text-ds-dark    { color: var(--color-text-dark); }
+  .text-ds-muted   { color: var(--color-text-muted); }
+  .text-ds-accent  { color: var(--color-accent); }
+
+  /* ── ANIMATE ON SCROLL ─────────────────────────────────── */
+
+  /* Estado inicial: invisible y desplazado */
+  .anim-fade-up {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+
+  /* Delays escalonados */
+  .anim-delay-100 { transition-delay: 0.10s; }
+  .anim-delay-200 { transition-delay: 0.20s; }
+  .anim-delay-300 { transition-delay: 0.30s; }
+  .anim-delay-400 { transition-delay: 0.40s; }
+  .anim-delay-500 { transition-delay: 0.50s; }
+
+  /* Clase que JS agrega al entrar en viewport */
+  .anim-fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── GRADIENT TEXT (redesign) ──────────────────────────── */
+
+  .gradient-text-accent {
+    background: linear-gradient(135deg, var(--color-accent), #a8f7d8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── GLASSMORPHISM ─────────────────────────────────────── */
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: var(--radius-md);
+  }
+
+  /* ── LEGACY (mantener para compatibilidad con código existente) ── */
+
   .bg-ux-navy {
     background-color: hsl(var(--ux-navy));
   }
@@ -213,4 +352,34 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+/* ============================================================
+   ANIMACIONES — REDESIGN
+   ============================================================ */
+
+/* Counter: número contando hacia arriba */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Pulso suave del badge del hero */
+@keyframes badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(77, 240, 172, 0.25); }
+  50%       { box-shadow: 0 0 0 6px rgba(77, 240, 172, 0); }
+}
+
+/* Glow del botón accent */
+@keyframes accent-glow {
+  0%, 100% { box-shadow: 0 4px 24px rgba(77, 240, 172, 0.35); }
+  50%       { box-shadow: 0 4px 36px rgba(77, 240, 172, 0.6); }
+}
+
+.animate-badge-pulse {
+  animation: badge-pulse 2.5s ease-in-out infinite;
+}
+
+.animate-accent-glow {
+  animation: accent-glow 2.5s ease-in-out infinite;
 }
