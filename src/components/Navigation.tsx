@@ -1,115 +1,125 @@
-import LanguageToggle from "./LanguageToggle";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { Link, useLocation } from "react-router-dom";
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
 
 interface NavigationProps {
-  onOpenBeta?: () => void; // Optional prop to open beta modal
+  onOpenBeta?: () => void;
 }
 
 const Navigation: React.FC<NavigationProps> = () => {
-  const { language } = useLanguage();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const isHomePage = location.pathname === '/';
-  
-  const navItems = language === 'en' ? [
-    { label: "About UX", href: isHomePage ? "#hero" : "/#hero" },
-    { label: "Simulator", href: "/simulador" },
-    { label: "Press", href: "/press" },
-    { label: "FAQ", href: "/faq" },
-    { label: "Team", href: "/team" },
-  ] : [
-    { label: "Acerca de UX", href: isHomePage ? "#hero" : "/#hero" },
-    { label: "Simulador", href: "/simulador" },
-    { label: "Prensa", href: "/press" },
-    { label: "FAQ", href: "/faq" },
-    { label: "Team", href: "/team" },
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Cerrar menú mobile al cambiar de ruta
+  useEffect(() => { setMobileOpen(false); }, [location.pathname]);
+
+  const navLinks = [
+    { label: "Producto",        href: isHomePage ? "#hero" : "/#hero" },
+    { label: "Cómo funciona",   href: isHomePage ? "#como-funciona" : "/#como-funciona" },
+    { label: "Para empresas",   href: "/merchant" },
   ];
 
+  const LinkItem = ({ label, href, mobile = false }: { label: string; href: string; mobile?: boolean }) => {
+    const cls = mobile
+      ? "block w-full text-left text-white/80 hover:text-white px-4 py-3 rounded-xl hover:bg-white/8 transition-colors duration-200 text-base font-medium"
+      : "text-white/70 hover:text-white transition-colors duration-200 text-sm font-medium";
+
+    if (href.startsWith("#") || href.startsWith("/#")) {
+      return <a href={href} className={cls} onClick={() => setMobileOpen(false)}>{label}</a>;
+    }
+    return <Link to={href} className={cls} onClick={() => setMobileOpen(false)}>{label}</Link>;
+  };
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0E1B38] border-b border-ux-green/20">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between relative">
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-[var(--color-bg-dark)] shadow-[0_2px_24px_rgba(0,0,0,0.4)]"
+          : "bg-transparent"
+      }`}
+    >
+      <nav aria-label="Navegación principal">
+        <div className="container mx-auto px-5 h-16 flex items-center justify-between">
+
           {/* Logo */}
-          <div className="flex items-center space-x-2">
-          <img
-          src="lovable-uploads/logo-capital.png" // Reemplaza con la ruta de tu imagen
-          alt="UX Dual Logo"
-          className="h-7 md:h-8" // Ajusta el tamaño según sea necesario
-          />
-          </div>
+          <Link to="/" className="flex-shrink-0">
+            <img
+              src="lovable-uploads/logo-capital.png"
+              alt="UX Capital"
+              className="h-7 md:h-8"
+            />
+          </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8 ml-auto pr-2">
-            {navItems.map((item) => (
-              item.href.startsWith('#') ? (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="text-gray-300 hover:text-ux-green transition-colors duration-300"
-                >
-                  {item.label}
-                </a>
-              ) : (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className="text-gray-300 hover:text-ux-green transition-colors duration-300"
-                >
-                  {item.label}
-                </Link>
-              )
+          {/* Links — desktop, centrados */}
+          <ul className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
+            {navLinks.map((item) => (
+              <li key={item.label}>
+                <LinkItem label={item.label} href={item.href} />
+              </li>
             ))}
-          </div>
+          </ul>
 
-          {/* Language Toggle: mobile centered, desktop aligned to the right */}
-          <div className="absolute right-16 flex justify-end md:static md:flex md:justify-start md:ml-6">
-            <div className="flex items-center px-3 py-1 rounded-full bg-white/8 border border-white/15 backdrop-blur">
-            <LanguageToggle />
-            </div>
-          </div>
-
-          {/* Mobile Navigation */}
-          <div className="flex md:hidden items-center space-x-3 ml-auto">
-            <button
-              aria-label="Abrir menú"
-              onClick={() => setMobileOpen((o) => !o)}
-              className="rounded-full bg-white/10 border border-white/20 text-white px-3 py-2 text-lg font-semibold hover:bg-white/15 transition-colors"
+          {/* CTA — desktop */}
+          <div className="hidden md:flex items-center gap-3">
+            <a
+              href="https://apps.apple.com/us/app/ux-dual/id6673919572?l=es-MX"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200"
+              style={{
+                background: "var(--color-accent)",
+                color: "var(--color-text-dark)",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "var(--color-accent-hover)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "var(--color-accent)")}
             >
-              ⋯
-            </button>
+              Descargar app
+            </a>
           </div>
+
+          {/* Hamburger — mobile */}
+          <button
+            aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
+            onClick={() => setMobileOpen((o) => !o)}
+            className="md:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5 rounded-lg bg-white/10 border border-white/15 hover:bg-white/15 transition-colors"
+          >
+            <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
+            <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+          </button>
         </div>
 
-        {/* Mobile dropdown */}
+        {/* Mobile menu */}
         {mobileOpen && (
-          <div className="md:hidden mt-4 space-y-2 bg-white/5 border border-white/10 rounded-2xl p-4 shadow-2xl backdrop-blur">
-            {navItems.map((item) =>
-              item.href.startsWith('#') ? (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  className="block w-full text-left text-gray-100 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {item.label}
-                </a>
-              ) : (
-                <Link
-                  key={item.label}
-                  to={item.href}
-                  className="block w-full text-left text-gray-100 px-3 py-2 rounded-lg hover:bg-white/10 transition-colors"
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              )
-            )}
+          <div className="md:hidden mx-4 mb-3 p-3 rounded-2xl border border-white/10 backdrop-blur-xl"
+            style={{ background: "rgba(13,10,43,0.92)" }}
+          >
+            {navLinks.map((item) => (
+              <LinkItem key={item.label} label={item.label} href={item.href} mobile />
+            ))}
+            <div className="pt-2 border-t border-white/10 mt-2">
+              <a
+                href="https://apps.apple.com/us/app/ux-dual/id6673919572?l=es-MX"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block w-full text-center py-3 rounded-xl text-sm font-semibold transition-colors duration-200"
+                style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
+                onClick={() => setMobileOpen(false)}
+              >
+                Descargar app
+              </a>
+            </div>
           </div>
         )}
-      </div>
-    </nav>
+      </nav>
+    </header>
   );
 };
 

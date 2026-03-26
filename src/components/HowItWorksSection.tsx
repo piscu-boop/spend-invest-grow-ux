@@ -1,108 +1,119 @@
+import { useEffect, useRef, useState } from "react";
 
-import { useLanguage } from "@/contexts/LanguageContext";
+const STEPS = [
+  {
+    n: 1,
+    title: "Depositás tu plata",
+    desc: "Transferís a tu CVU como siempre lo hacés. CVU propio, sin intermediarios.",
+  },
+  {
+    n: 2,
+    title: "UX invierte automáticamente",
+    desc: "Tu saldo entra al FCI al instante. Desde el primer peso, cada día.",
+  },
+  {
+    n: 3,
+    title: "Gastás cuando querés",
+    desc: "QR, tarjeta o transferencia. Solo se desinvierte lo que necesitás.",
+  },
+];
 
 const HowItWorksSection = () => {
-  const { language } = useLanguage();
+  const sectionRef = useRef<HTMLElement>(null);
+  const [visible, setVisible] = useState(false);
 
-  const content = {
-    en: {
-      title: "Now, invest with",
-      titleHighlight: "no savings",
-      subtitle: "Four simple steps to transform your everyday purchases into wealth-building opportunities.",
-      steps: [
-        {
-          step: "01",
-          title: "Maximize your spending",
-          description: "Link your UX Dual account to your everyday purchases and start building wealth with daily returns."
-        },
-        {
-          step: "02",
-          title: "Automatic Investment",
-          description: "Your money working for you 24/7, even when you spend it. Turn every purchase into automatic daily growth."
-        },
-        {
-          step: "03",
-          title: "Watch Your Money Grow",
-          description: "Track your investments and returns in real-time while continuing your normal spending habits."
-        },
-        {
-          step: "04",
-          title: "Invest Without Saving",
-          description: "Now you can build wealth without setting money aside — just by spending like you always do."
-        }
-      ]
-    },
-    es: {
-      title: "Invertir es tan simple como",
-titleHighlight: "comprar",
-subtitle: "Cuatro simples pasos para transformar tus compras diarias en oportunidades para construir riqueza.",
-steps: [
-  {
-    step: "01",
-    title: "Maximizá tus gastos",
-    description: "Vinculá tu cuenta UX Dual a tus compras diarias y empezá a generar riqueza con rendimientos diarios."
-  },
-  {
-    step: "02",
-    title: "Inversión automática",
-    description: "Tu dinero trabaja para vos 24/7, incluso cuando lo gastás. Convertí cada compra en crecimiento diario automático."
-  },
-  {
-    step: "03",
-    title: "Observá tu dinero crecer",
-    description: "Seguí tus inversiones y rendimientos en tiempo real, mientras mantenés tus hábitos de gasto."
-  },
-  {
-    step: "04",
-    title: "Invertí sin ahorrar",
-    description: "Ahora podés generar riqueza sin necesidad de apartar dinero — solo gastando como siempre lo haces."
-  }
-]
-
-    }
-  };
-
-  const currentContent = content[language];
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVisible(true); }, { threshold: 0.1 });
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   return (
-    <section id="how-it-works" className="py-20 bg-[#1C304F]">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            {currentContent.title}{" "}
-            <span className="gradient-text">{currentContent.titleHighlight}</span>
+    <section
+      id="como-funciona"
+      ref={sectionRef}
+      className="py-20"
+      style={{ background: "var(--color-bg-gray)" }}
+    >
+      <div className="container mx-auto px-5">
+        {/* Título */}
+        <div
+          className={`text-center mb-14 transition-all duration-500 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+        >
+          <h2
+            className="text-3xl md:text-4xl font-semibold"
+            style={{ color: "var(--color-text-dark)" }}
+          >
+            Tres pasos. Así de simple.
           </h2>
-          <p className="text-xl text-white max-w-3xl mx-auto">
-            {currentContent.subtitle}
-          </p>
         </div>
 
-        <div className="grid lg:grid-cols-4 gap-8">
-          {currentContent.steps.map((step, index) => (
-            <div key={index} className="relative group animate-slide-up" style={{
-              animationDelay: `${index * 0.2}s`
-            }}>
-              {/* Connection Line */}
-              {index < currentContent.steps.length - 1 && (
-                <div className="hidden lg:block absolute top-16 left-full w-full h-0.5 bg-gradient-to-r from-ux-green/50 to-transparent transform translate-x-4 z-0"></div>
-              )}
-              
-              <div className="relative z-10 text-center">
-                {/* Step Number */}
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-ux-green rounded-full text-white font-bold text-xl mb-6 group-hover:scale-110 transition-transform duration-300 animate-pulse-green">
-                  {step.step}
+        {/* Layout desktop: pasos izquierda + mockup derecha */}
+        <div className="flex flex-col lg:flex-row gap-12 items-start">
+
+          {/* Pasos */}
+          <div className="flex-1 flex flex-col gap-0">
+            {STEPS.map((step, i) => (
+              <div
+                key={step.n}
+                className={`flex gap-5 transition-all duration-500 ${visible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"}`}
+                style={{ transitionDelay: `${i * 100}ms` }}
+              >
+                {/* Número + línea conectora */}
+                <div className="flex flex-col items-center">
+                  <div
+                    className="w-10 h-10 flex-shrink-0 rounded-full flex items-center justify-center font-semibold text-sm z-10"
+                    style={{
+                      background: "var(--color-accent)",
+                      color: "var(--color-text-dark)",
+                    }}
+                  >
+                    {step.n}
+                  </div>
+                  {i < STEPS.length - 1 && (
+                    <div className="w-px flex-1 my-1" style={{ background: "rgba(77,240,172,0.3)", minHeight: "40px" }} />
+                  )}
                 </div>
 
-                {/* Content */}
-                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-ux-green transition-colors duration-300">
-                  {step.title}
-                </h3>
-                <p className="text-gray-200 leading-relaxed">
-                  {step.description}
-                </p>
+                {/* Contenido */}
+                <div className="pb-8">
+                  <h3
+                    className="font-semibold text-lg mb-1"
+                    style={{ color: "var(--color-text-dark)" }}
+                  >
+                    {step.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed" style={{ color: "#6B7280" }}>
+                    {step.desc}
+                  </p>
+                </div>
               </div>
+            ))}
+          </div>
+
+          {/* Mockup sticky */}
+          <div
+            className={`flex-1 flex justify-center lg:sticky lg:top-24 transition-all duration-500 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+            style={{ transitionDelay: "200ms" }}
+          >
+            <div
+              className="w-full max-w-[320px] rounded-[var(--radius-lg)] overflow-hidden flex items-center justify-center"
+              style={{
+                background: "var(--color-bg-dark)",
+                aspectRatio: "9/16",
+                minHeight: "360px",
+              }}
+            >
+              <img
+                src="lovable-uploads/200931e1-23f7-4c91-8aa2-73df09bab162.png"
+                alt="UX Dual App"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </section>
