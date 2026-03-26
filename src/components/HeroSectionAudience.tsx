@@ -12,14 +12,14 @@ const content = {
     consumer: "I'm a Consumer",
     merchant: "I'm a Merchant",
     manufacturer: "I'm a Manufacturer",
-    cta: "Join waitlist",
+    cta: "Join",
   },
   es: {
     mainTitle: "Transformando cada Compra en Inversión",
     consumer: "Soy Consumidor",
     merchant: "Soy Comercio",
     manufacturer: "Soy Fabricante",
-    cta: "Sumate a la lista",
+    cta: "Únete",
   },
 };
 

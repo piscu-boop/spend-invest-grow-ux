@@ -1,10 +1,8 @@
 import { useMemo, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import Navigation from "@/components/Navigation";
-import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Footer from "@/components/Footer";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { TrendingUp, Shield, Smartphone, CreditCard } from "lucide-react";
 
 type PartnerStore = {
@@ -82,7 +80,7 @@ interface ConsumerProps {
 const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
   const { language } = useLanguage();
   const location = useLocation();
-  
+
   useEffect(() => {
     // Prevent browser's default scroll restoration
     if ('scrollRestoration' in window.history) {
@@ -92,14 +90,14 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
     // Function to scroll to element with robust retry logic
     const scrollToElement = (selector: string, retries = 30, delay = 100) => {
       const element = document.querySelector(selector);
-      
+
       if (element) {
         // Wait for next frame to ensure layout is complete
         requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
             const offsetPosition = Math.max(0, elementPosition - 80); // Offset for fixed navigation
-            
+
             window.scrollTo({
               top: offsetPosition,
               behavior: "smooth"
@@ -118,7 +116,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
     // Handle hash navigation
     const handleHashNavigation = () => {
       const hash = window.location.hash;
-      
+
       if (!hash) {
         // No hash, scroll to top
         window.scrollTo({ top: 0, behavior: "smooth" });
@@ -161,14 +159,14 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
     const handleHashChange = () => {
       handleHashNavigation();
     };
-    
+
     window.addEventListener('hashchange', handleHashChange);
-    
+
     // Also try after window load (important for production)
     const handleLoad = () => {
       handleHashNavigation();
     };
-    
+
     if (document.readyState === 'complete') {
       setTimeout(handleHashNavigation, 100);
     } else {
@@ -181,7 +179,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       window.removeEventListener('load', handleLoad);
     };
   }, [location.hash, location.pathname]);
-  
+
   const content = useMemo(() => ({
     en: {
       heroTitle: "Your everyday purchases, now generating returns",
@@ -262,7 +260,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       ],
       ctaTitle: "Start earning returns on your purchases today",
       ctaDescription: "Join our waitlist and don't miss our launch.",
-      ctaButton: "Join as Consumer",
+      ctaButton: "Join",
       benefitsTitle: "Why Choose UX Dual?",
       benefitsSubtitle: "Experience the future of shopping and investing combined"
     },
@@ -345,7 +343,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       ],
       ctaTitle: "Empezá a generar rendimientos en tus compras hoy",
       ctaDescription: "Unite a nuestra lista de espera y no te pierdas de nuestro lanzamiento.",
-      ctaButton: "Unite como Consumidor",
+      ctaButton: "Únete",
       benefitsTitle: "¿Por qué elegir UX Dual?",
       benefitsSubtitle: "Experimentá el futuro de comprar e invertir combinados"
     }
@@ -354,76 +352,80 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
   const currentContent = content[language];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-white to-gray-50">
+    <div className="min-h-screen">
       <Navigation onOpenBeta={onOpenBeta} />
-      
+
       {/* Hero Section */}
-      <section id="hero" className="relative min-h-screen bg-[#1C304F] flex items-center overflow-hidden pt-20">
-        {/* Background Elements */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 left-20 w-64 h-64 bg-ux-green/5 rounded-full blur-2xl"></div>
+      <section
+        id="hero"
+        className="relative min-h-screen flex items-center overflow-hidden pt-20"
+        style={{ background: "var(--color-bg-dark)" }}
+      >
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 rounded-full blur-3xl" style={{ background: "rgba(77,240,172,0.10)" }} />
+          <div className="absolute bottom-20 left-20 w-64 h-64 rounded-full blur-2xl" style={{ background: "rgba(77,240,172,0.05)" }} />
         </div>
 
         <div className="container mx-auto px-4 py-16 relative z-10">
           <div className="max-w-6xl mx-auto">
-            {/* Hero Text */}
             <div className="text-center space-y-6 mb-12">
-              <h1 className="text-4xl md:text-5xl lg:text-7l font-bold text-white leading-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight">
                 {currentContent.heroTitle}
               </h1>
             </div>
 
-            {/* Video Section */}
+            {/* Video */}
             <div className="max-w-4xl mx-auto mb-8">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <div style={{padding:"56.25% 0 0 0",position:"relative"}}>
-                  <iframe 
-                    src="https://player.vimeo.com/video/1131704779?title=0&byline=0&portrait=0&badge=0&autopause=1&player_id=0&app_id=58479&muted=0&autoplay=1" 
-                    frameBorder="0" 
-                    allow="fullscreen; picture-in-picture" 
-                    referrerPolicy="strict-origin-when-cross-origin" 
-                    style={{position:"absolute",top:"0",left:"0",width:"100%",height:"100%"}} 
+                <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
+                  <iframe
+                    src="https://player.vimeo.com/video/1131704779?title=0&byline=0&portrait=0&badge=0&autopause=1&player_id=0&app_id=58479&muted=0&autoplay=1"
+                    frameBorder="0"
+                    allow="fullscreen; picture-in-picture"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
                     title="Consumidores UX"
                     loading="lazy"
-                    className="rounded-2xl">
-                  </iframe>
+                    className="rounded-2xl"
+                  />
                 </div>
               </div>
             </div>
 
-            {/* CTA Button */}
             <div className="text-center">
-              <Button
-                size="lg"
-                className="bg-ux-green hover:bg-ux-green-light text-white px-12 py-6 text-lg rounded-full font-semibold transition-colors duration-300"
+              <button
                 onClick={onOpenBeta}
+                className="inline-flex items-center justify-center px-8 py-3.5 rounded-[24px] font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"
+                style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
               >
                 {currentContent.ctaButton}
-              </Button>
+              </button>
             </div>
           </div>
         </div>
-
       </section>
 
       {/* Partner Stores Section */}
-      <section className="relative py-20 bg-[#1C304F] scroll-mt-20" id="partners">
+      <section
+        className="relative py-20 scroll-mt-20"
+        id="partners"
+        style={{ background: "var(--color-bg-dark)" }}
+      >
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 left-20 w-64 h-64 bg-ux-green/5 rounded-full blur-2xl"></div>
+          <div className="absolute top-20 right-20 w-96 h-96 rounded-full blur-3xl" style={{ background: "rgba(77,240,172,0.10)" }} />
+          <div className="absolute bottom-20 left-20 w-64 h-64 rounded-full blur-2xl" style={{ background: "rgba(77,240,172,0.05)" }} />
         </div>
 
-          <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="text-center space-y-4 mb-12">
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-ux-green">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em]" style={{ color: "var(--color-accent)" }}>
               {currentContent.storesTopline}
             </p>
-            <h2 className="text-4xl md:text-5xl font-bold text-white">
+            <h2 className="text-4xl md:text-5xl font-semibold text-white">
               {currentContent.storesTitle}
             </h2>
-            <p className="text-lg text-gray-200 max-w-3xl mx-auto">
-              <span className="text-ux-green font-medium">{currentContent.storesSubtitleGreen}</span>
+            <p className="text-lg max-w-3xl mx-auto" style={{ color: "var(--color-text-muted)" }}>
+              <span className="font-medium" style={{ color: "var(--color-accent)" }}>{currentContent.storesSubtitleGreen}</span>
               {currentContent.storesSubtitleRest}
             </p>
           </div>
@@ -433,9 +435,9 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
               {PARTNER_STORES.map((store) => (
                 <div
                   key={store.name}
-                  className="group relative rounded-xl aspect-[4/5] shadow-xl border border-white/20 overflow-hidden bg-white/5"
+                  className="group relative rounded-xl aspect-[4/5] shadow-xl overflow-hidden"
+                  style={{ border: "1px solid rgba(255,255,255,0.12)", background: "rgba(255,255,255,0.04)" }}
                 >
-                  {/* Logo con blur fuerte: se ve que hay marca pero no identificable */}
                   <div className="absolute inset-0 flex items-center justify-center p-4">
                     <img
                       src={store.image}
@@ -445,7 +447,6 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
                       draggable={false}
                     />
                   </div>
-                  {/* Solo el rubro visible y legible */}
                   <div className="absolute top-2 left-2 z-30">
                     <span className="px-2 py-1 text-[10px] font-semibold rounded-full bg-white/90 text-[#0f1f38] shadow-sm">
                       {store.category}
@@ -454,89 +455,86 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
                 </div>
               ))}
             </div>
-            {/* Overlay con leyenda; rubros quedan por encima (z-30) */}
-            <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[#1C304F]/70 backdrop-blur-sm rounded-2xl min-h-[280px]">
-
-            </div>
+            <div
+              className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-2xl min-h-[280px]"
+              style={{ background: "rgba(13,10,43,0.70)", backdropFilter: "blur(4px)" }}
+            />
           </div>
-
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="py-24 bg-white">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1C304F]">
+            <h2 className="text-4xl md:text-5xl font-semibold text-gray-900">
               {currentContent.benefitsTitle}
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-500 max-w-3xl mx-auto">
               {currentContent.benefitsSubtitle}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {currentContent.benefits.map((benefit, index) => (
-              <Card 
-                key={index} 
-                className="text-center border-2 hover:border-ux-green/50 transition-colors duration-300 hover:shadow-lg bg-white"
+              <div
+                key={index}
+                className="text-center rounded-2xl p-6 transition-all duration-200 hover:scale-[1.02]"
+                style={{ border: "1px solid #E5E5E5", background: "#fff" }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--color-accent)")}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = "#E5E5E5")}
               >
-                <CardHeader>
-                  <div className="mx-auto mb-4 text-ux-green">
-                    {benefit.icon}
-                  </div>
-                  <CardTitle className="text-xl text-[#1C304F]">
-                    {benefit.title}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-gray-600 text-base">
-                    {benefit.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
+                <div className="mx-auto mb-4 w-12 h-12 rounded-xl flex items-center justify-center" style={{ background: "rgba(77,240,172,0.12)", color: "var(--color-accent)" }}>
+                  {benefit.icon}
+                </div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">{benefit.title}</h3>
+                <p className="text-gray-500 text-sm">{benefit.description}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Why Different Section */}
-      <section className="py-24 bg-gradient-to-br from-gray-50 to-white">
+      <section className="py-20" style={{ background: "#F5F5F7" }}>
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1C304F]">
+            <h2 className="text-4xl md:text-5xl font-semibold text-gray-900">
               {currentContent.whyDifferentTitle}
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-500 max-w-3xl mx-auto">
               {currentContent.whyDifferentSubtitle}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {currentContent.features.map((feature, index) => (
-              <div 
+              <div
                 key={index}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100"
+                className="rounded-2xl p-8 bg-white transition-all duration-200 hover:scale-[1.02]"
+                style={{ border: "1px solid #E5E5E5" }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = "var(--color-accent)")}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = "#E5E5E5")}
               >
-                <div className="w-14 h-14 bg-gradient-to-br from-ux-green to-ux-green-light rounded-xl flex items-center justify-center text-white mb-6">
+                <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-6" style={{ background: "rgba(77,240,172,0.12)" }}>
                   {(feature.title === "Ingreso Pasivo" || feature.title === "Passive Income") && (
-                    <svg className="w-6 h-6"  viewBox="0 0 24 24">
+                    <svg className="w-6 h-6" style={{ fill: "var(--color-accent)" }} viewBox="0 0 24 24">
                       <path d="M12 2L13.09 8.26L20 9L13.09 9.74L12 16L10.91 9.74L4 9L10.91 8.26L12 2Z"/>
                     </svg>
                   )}
                   {(feature.title === "Activación Instantánea" || feature.title === "Instant Activation") && (
-                    <svg className="w-6 h-6"  viewBox="0 0 24 24">
+                    <svg className="w-6 h-6" style={{ fill: "var(--color-accent)" }} viewBox="0 0 24 24">
                       <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/>
                     </svg>
                   )}
                   {(feature.title === "Tu dinero, tu inversión." || feature.title === "Smart Allocation") && (
-                    <svg className="w-6 h-6" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6" style={{ fill: "var(--color-accent)" }} viewBox="0 0 24 24">
                       <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20ZM12 6C8.69 6 6 8.69 6 12S8.69 18 12 18 18 15.31 18 12 15.31 6 12 6ZM12 16C9.79 16 8 14.21 8 12S9.79 8 12 8 16 9.79 16 12 14.21 16 12 16Z"/>
                     </svg>
                   )}
                 </div>
-                <h3 className="text-xl font-bold text-[#1C304F] mb-3">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
+                <p className="text-gray-500">{feature.description}</p>
               </div>
             ))}
           </div>
@@ -544,13 +542,13 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-24 bg-white">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1C304F]">
+            <h2 className="text-4xl md:text-5xl font-semibold text-gray-900">
               {currentContent.howItWorksTitle}
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-500 max-w-3xl mx-auto">
               {currentContent.howItWorksSubtitle}
             </p>
           </div>
@@ -559,36 +557,40 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
             {currentContent.howItWorks.map((step, index) => (
               <div key={index} className="text-center group">
                 <div className="relative mb-6">
-                  <div className="mx-auto w-20 h-20 bg-gradient-to-br from-ux-green to-ux-green-light text-white rounded-2xl flex items-center justify-center shadow-lg">
+                  <div
+                    className="mx-auto w-16 h-16 rounded-2xl flex items-center justify-center shadow-sm"
+                    style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
+                  >
                     {step.step === "1" && (
-                      <svg className="w-8 h-8" viewBox="0 0 24 24">
+                      <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
                       </svg>
                     )}
                     {step.step === "2" && (
-                      <svg className="w-8 h-8" viewBox="0 0 24 24">
+                      <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M7 4V2C7 1.45 7.45 1 8 1H16C16.55 1 17 1.45 17 2V4H20C20.55 4 21 4.45 21 5S20.55 6 20 6H19V19C19 20.1 18.1 21 17 21H7C5.9 21 5 20.1 5 19V6H4C3.45 6 3 5.55 3 5S3.45 4 4 4H7ZM9 3V4H15V3H9ZM7 6V19H17V6H7Z"/>
                       </svg>
                     )}
                     {step.step === "3" && (
-                      <svg className="w-8 h-8" viewBox="0 0 24 24">
+                      <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M12 2C6.48 2 2 6.48 2 12S6.48 22 12 22 22 17.52 22 12 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20ZM12 6C8.69 6 6 8.69 6 12S8.69 18 12 18 18 15.31 18 12 15.31 6 12 6ZM12 16C9.79 16 8 14.21 8 12S9.79 8 12 8 16 9.79 16 12 14.21 16 12 16Z"/>
                       </svg>
                     )}
                     {step.step === "4" && (
-                      <svg className="w-8 h-8" viewBox="0 0 24 24">
+                      <svg className="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M5 9.2H7V19H5V9.2ZM10.6 5H12.4V19H10.6V5ZM16.2 13H18V19H16.2V13ZM21.8 2H23.6V19H21.8V2Z"/>
                       </svg>
                     )}
                   </div>
                   {index < currentContent.howItWorks.length - 1 && (
-                    <div className="hidden lg:block absolute top-10 left-[60%] w-full h-0.5 bg-gradient-to-r from-ux-green/50 to-transparent"></div>
+                    <div
+                      className="hidden lg:block absolute top-8 left-[60%] w-full h-px"
+                      style={{ background: "linear-gradient(to right, rgba(77,240,172,0.4), transparent)" }}
+                    />
                   )}
                 </div>
-                <h3 className="text-xl font-bold text-[#1C304F] mb-4">
-                  {step.title}
-                </h3>
-                <p className="text-gray-600">{step.description}</p>
+                <h3 className="text-lg font-semibold text-gray-900 mb-3">{step.title}</h3>
+                <p className="text-gray-500 text-sm">{step.description}</p>
               </div>
             ))}
           </div>
@@ -596,27 +598,30 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       </section>
 
       {/* Final CTA Section */}
-      <section className="py-24 bg-[#1C304F] relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-20 right-20 w-96 h-96 bg-ux-green/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 left-20 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"></div>
+      <section
+        className="py-24 relative overflow-hidden"
+        style={{ background: "var(--color-bg-dark)" }}
+      >
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-20 right-20 w-96 h-96 rounded-full blur-3xl" style={{ background: "rgba(77,240,172,0.10)" }} />
+          <div className="absolute bottom-20 left-20 w-96 h-96 rounded-full blur-3xl" style={{ background: "rgba(77,200,240,0.06)" }} />
         </div>
 
         <div className="container mx-auto px-4 text-center relative z-10">
           <div className="max-w-3xl mx-auto space-y-8">
-            <h2 className="text-4xl md:text-5xl font-bold text-white leading-tight">
+            <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight">
               {currentContent.ctaTitle}
             </h2>
-            <p className="text-xl text-gray-300">
+            <p className="text-xl" style={{ color: "var(--color-text-muted)" }}>
               {currentContent.ctaDescription}
             </p>
-            <Button
-              size="lg"
-              className="bg-ux-green hover:bg-ux-green-light text-white px-12 py-6 text-lg rounded-full font-semibold transition-colors duration-300"
+            <button
               onClick={onOpenBeta}
+              className="inline-flex items-center justify-center px-8 py-3.5 rounded-[24px] font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"
+              style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
             >
               {currentContent.ctaButton}
-            </Button>
+            </button>
           </div>
         </div>
       </section>

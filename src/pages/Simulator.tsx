@@ -363,20 +363,26 @@ function ResultCard({
   return (
     <div
       className={`rounded-2xl p-5 relative overflow-hidden transition-all duration-300 ${
-        featured
-          ? "bg-gradient-to-br from-[#0d2e1a] to-[#0a2520] border-2 border-ux-green/50 shadow-lg shadow-ux-green/10"
-          : "bg-[#0E1B38] border border-white/10"
+        featured ? "border-2 shadow-lg" : "border border-white/10"
       }`}
+      style={featured ? {
+        background: "linear-gradient(135deg, rgba(77,240,172,0.08) 0%, #0E2240 100%)",
+        borderColor: "rgba(77,240,172,0.45)",
+      } : { background: "rgba(255,255,255,0.04)" }}
     >
       {featured && (
-        <div className="absolute top-3 right-3 bg-ux-green text-[#0a1f0f] text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full">
+        <div
+          className="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
+          style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
+        >
           {tag ?? "Destacado"}
         </div>
       )}
       <p
         className={`text-sm font-semibold uppercase tracking-wide mb-1 ${
-          featured ? "text-ux-green" : "text-white/80"
+          featured ? "" : "text-white/80"
         }`}
+        style={featured ? { color: "var(--color-accent)" } : undefined}
       >
         {title}
       </p>
@@ -508,7 +514,7 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
         </div>
 
         <div className="relative z-10 max-w-2xl mx-auto space-y-5">
-          <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] text-ux-green bg-ux-green/10 px-3 py-1 rounded-full">
+          <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full" style={{ color: "var(--color-accent)", background: "rgba(77,240,172,0.12)" }}>
             {t.heroBadge}
           </span>
           <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight">
@@ -520,7 +526,8 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
           </p>
           <a
             href="#simulador"
-            className="inline-flex items-center gap-2 mt-2 text-ux-green font-semibold hover:text-white transition-colors"
+            className="inline-flex items-center gap-2 mt-2 font-semibold transition-colors hover:opacity-80"
+            style={{ color: "var(--color-accent)" }}
           >
             {t.heroStart}
             <ArrowDown className="w-4 h-4 animate-bounce" />
@@ -576,7 +583,8 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
             <button
               type="button"
               onClick={handleCalc}
-              className="w-full bg-ux-green hover:bg-emerald-400 text-[#0a1f0f] font-bold text-base rounded-xl py-4 transition-colors duration-200 shadow-lg shadow-ux-green/20"
+              className="w-full font-bold text-base rounded-xl py-4 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
             >
               {t.submitBtn}
             </button>
@@ -594,12 +602,12 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
 
               {/* Encabezado */}
               <div className="text-center space-y-1 pt-4">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-ux-green">
+                <p className="text-xs font-bold uppercase tracking-[0.2em]" style={{ color: "var(--color-accent)" }}>
                   {t.resultBadge}
                 </p>
                 <h2 className="text-2xl font-bold text-white">
                   {t.resultTitle1}
-                  <span className="text-ux-green">
+                  <span style={{ color: "var(--color-accent)" }}>
                     {formatARS(result.uxAdvantageMonthly)}{t.resultTitle2}
                   </span>
                 </h2>
@@ -628,7 +636,7 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
               </div>
 
               {/* Barra comparativa */}
-              <div className="bg-[#0E1B38] rounded-2xl p-5 border border-white/10">
+              <div className="rounded-2xl p-5 border border-white/10" style={{ background: "var(--color-bg-dark-2)" }}>
                 <CompareBar
                   uxValue={result.uxMonthlyReturn}
                   tradValue={result.traditionalAverageMonthlyReturn}
@@ -671,7 +679,10 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
               <button
                 type="button"
                 onClick={handleReset}
-                className="w-full text-sm text-white hover:text-ux-green py-2 transition-colors"
+                className="w-full text-sm py-2 transition-colors"
+                style={{ color: "var(--color-text-muted)" }}
+                onMouseEnter={e => (e.currentTarget.style.color = "var(--color-accent)")}
+                onMouseLeave={e => (e.currentTarget.style.color = "var(--color-text-muted)")}
               >
                 {t.resetBtn}
               </button>
@@ -686,7 +697,8 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
               <button
                 type="button"
                 onClick={() => setWalletsExpanded((e) => !e)}
-                className="w-full flex items-center justify-between bg-[#0E1B38] hover:bg-[#0c1830] border border-white/10 rounded-2xl px-5 py-4 text-left transition-colors"
+                className="w-full flex items-center justify-between border border-white/10 rounded-2xl px-5 py-4 text-left transition-colors hover:brightness-110"
+                style={{ background: "var(--color-bg-dark-2)" }}
               >
                 <div>
                   <p className="font-semibold text-white text-sm">
@@ -706,7 +718,7 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
               {walletsExpanded && (
                 <div className="mt-3 space-y-2">
                   {/* UX Dual como referencia */}
-                  <div className="flex items-center justify-between bg-ux-green/10 border border-ux-green/30 rounded-xl px-4 py-3">
+                  <div className="flex items-center justify-between rounded-xl px-4 py-3" style={{ background: "rgba(77,240,172,0.10)", border: "1px solid rgba(77,240,172,0.30)" }}>
                     <div className="flex items-center gap-3">
                       <img
                         src="/favicon.png"
@@ -718,7 +730,7 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
                         <span className="text-xs text-white/80 ml-1.5">{uxTnaDisplay}</span>
                       </div>
                     </div>
-                    <span className="font-bold text-ux-green text-sm">
+                    <span className="font-bold text-sm" style={{ color: "var(--color-accent)" }}>
                       {formatARS(result.uxMonthlyReturn)}
                     </span>
                   </div>
@@ -730,7 +742,8 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
                     .map((w) => (
                         <div
                           key={w.id}
-                          className="flex items-center justify-between bg-[#0E1B38] border border-white/10 rounded-xl px-4 py-3"
+                          className="flex items-center justify-between border border-white/10 rounded-xl px-4 py-3"
+                          style={{ background: "var(--color-bg-dark-2)" }}
                         >
                           <div className="flex items-center gap-3 min-w-0">
                             <WalletLogo id={w.id} color={w.color} size={28} />
@@ -771,7 +784,8 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
             {t.eduSteps.map((item) => (
               <div
                 key={item.title}
-                className="flex items-start gap-4 bg-[#0E1B38] rounded-2xl p-4 border border-white/10"
+                className="flex items-start gap-4 rounded-2xl p-4 border border-white/10"
+                style={{ background: "var(--color-bg-dark-2)" }}
               >
                 <span className="text-2xl">{item.emoji}</span>
                 <div>
@@ -831,8 +845,11 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
       {/* CTA FINAL                                          */}
       {/* ================================================== */}
       <section className="px-4 pb-20">
-        <div className="max-w-lg mx-auto bg-gradient-to-br from-[#0d2e1a] to-[#0a2520] rounded-3xl border border-ux-green/20 p-8 text-center space-y-4">
-          <TrendingUp className="w-10 h-10 text-ux-green mx-auto" />
+        <div
+          className="max-w-lg mx-auto rounded-3xl p-8 text-center space-y-4"
+          style={{ background: "var(--color-bg-dark-2)", border: "1px solid rgba(77,240,172,0.25)" }}
+        >
+          <TrendingUp className="w-10 h-10 mx-auto" style={{ color: "var(--color-accent)" }} />
           <h3 className="text-2xl font-bold text-white">
             {t.ctaTitle}
           </h3>
@@ -843,7 +860,8 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
             <button
               type="button"
               onClick={onOpenBeta}
-              className="bg-ux-green hover:bg-emerald-400 text-[#0a1f0f] font-bold px-8 py-3 rounded-xl transition-colors text-sm"
+              className="font-bold px-8 py-3 rounded-[24px] transition-all duration-200 hover:scale-105 active:scale-95 text-sm"
+              style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
             >
               {t.ctaBtn}
             </button>

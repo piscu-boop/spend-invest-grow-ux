@@ -9,12 +9,12 @@ const content = {
   es: {
     title: "Empezá a ganar desde mañana",
     subtitle: "Gratis. Sin comisiones. Sin excusas.",
-    cta: "Sumate a la lista de espera",
+    cta: "Únete",
   },
   en: {
     title: "Start earning from tomorrow",
     subtitle: "Free. No fees. No excuses.",
-    cta: "Join the waitlist",
+    cta: "Join",
   },
 };
 

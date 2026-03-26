@@ -16,8 +16,8 @@ const TrustedBySection = () => {
   const { language } = useLanguage();
 
   return (
-    <section style={{ background: "var(--color-bg-light)" }} className="py-10 border-t border-gray-100">
-      <p className="text-center text-sm font-medium mb-7" style={{ color: "#9CA3AF" }}>
+    <section className="py-10" style={{ background: "var(--color-bg-dark)", borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+      <p className="text-center text-sm font-medium mb-7" style={{ color: "rgba(255,255,255,0.45)" }}>
         {titles[language]}
       </p>
       <div className="overflow-hidden">
@@ -27,7 +27,8 @@ const TrustedBySection = () => {
               <img
                 src={l.src}
                 alt={l.alt}
-                className="object-contain max-h-10 opacity-60 hover:opacity-100 transition-opacity"
+                className="object-contain max-h-10 transition-opacity"
+                style={{ filter: "brightness(0) invert(1)", opacity: 0.55 }}
                 width={110}
                 height={40}
                 loading="lazy"

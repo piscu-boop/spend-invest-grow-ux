@@ -36,7 +36,7 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
     { label: "Team",         href: "/team" },
   ];
 
-  const ctaLabel = language === 'en' ? 'Join waitlist' : 'Sumate a la lista';
+  const ctaLabel = language === 'en' ? 'Join' : 'Únete';
 
   const LinkItem = ({ label, href, mobile = false }: { label: string; href: string; mobile?: boolean }) => {
     const cls = mobile
