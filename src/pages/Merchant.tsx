@@ -96,15 +96,22 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
       {/* Hero Section */}
       <section
         id="hero"
-        className="relative overflow-hidden pt-20"
-        style={{ background: "var(--color-bg-dark)" }}
+        className="relative overflow-hidden"
+        style={{
+          background: "var(--color-bg-dark)",
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          paddingTop: "80px",
+          boxSizing: "border-box",
+        }}
       >
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-20 right-20 w-96 h-96 rounded-full blur-3xl" style={{ background: "rgba(77,240,172,0.10)" }} />
           <div className="absolute bottom-20 left-20 w-64 h-64 rounded-full blur-2xl" style={{ background: "rgba(77,240,172,0.05)" }} />
         </div>
 
-        <div className="container mx-auto px-4 relative z-10" style={{ paddingTop: "80px", paddingBottom: "80px" }}>
+        <div className="container mx-auto px-4 relative z-10" style={{ paddingTop: "40px", paddingBottom: "40px" }}>
           <div className="max-w-6xl mx-auto">
             {/* 2-col layout desktop / stack mobile */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
