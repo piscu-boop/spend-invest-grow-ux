@@ -358,7 +358,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       {/* Hero Section */}
       <section
         id="hero"
-        className="relative min-h-screen flex items-center overflow-hidden pt-20"
+        className="relative overflow-hidden pt-20"
         style={{ background: "var(--color-bg-dark)" }}
       >
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -366,40 +366,51 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
           <div className="absolute bottom-20 left-20 w-64 h-64 rounded-full blur-2xl" style={{ background: "rgba(77,240,172,0.05)" }} />
         </div>
 
-        <div className="container mx-auto px-4 py-16 relative z-10">
+        <div className="container mx-auto px-4 relative z-10" style={{ paddingTop: "80px", paddingBottom: "80px" }}>
           <div className="max-w-6xl mx-auto">
-            <div className="text-center space-y-6 mb-12">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-tight">
-                {currentContent.heroTitle}
-              </h1>
-            </div>
+            {/* 2-col layout desktop / stack mobile */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Columna izquierda: badge + título + CTA */}
+              <div className="flex flex-col items-start gap-6">
+                {/* Badge */}
+                <span style={{
+                  background: "rgba(77,240,172,0.1)",
+                  border: "1px solid rgba(77,240,172,0.25)",
+                  color: "#4DF0AC",
+                  borderRadius: "20px",
+                  padding: "5px 14px",
+                  fontSize: "12px",
+                  fontWeight: 500,
+                  display: "inline-block",
+                }}>
+                  {language === "en" ? "For Consumers" : "Para Consumidores"}
+                </span>
+                <h1 style={{ fontSize: "clamp(32px, 4vw, 44px)", fontWeight: 700, color: "#fff", lineHeight: 1.15, margin: 0 }}>
+                  {currentContent.heroTitle}
+                </h1>
+                <button
+                  onClick={onOpenBeta}
+                  className="inline-flex items-center justify-center px-8 py-3.5 rounded-[24px] font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"
+                  style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
+                >
+                  {currentContent.ctaButton}
+                </button>
+              </div>
 
-            {/* Video */}
-            <div className="max-w-4xl mx-auto mb-8">
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              {/* Columna derecha: video */}
+              <div style={{ borderRadius: "16px", overflow: "hidden" }}>
                 <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>
                   <iframe
                     src="https://player.vimeo.com/video/1131704779?title=0&byline=0&portrait=0&badge=0&autopause=1&player_id=0&app_id=58479&muted=0&autoplay=1"
                     frameBorder="0"
                     allow="fullscreen; picture-in-picture"
                     referrerPolicy="strict-origin-when-cross-origin"
-                    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+                    style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", borderRadius: "16px" }}
                     title="Consumidores UX"
                     loading="lazy"
-                    className="rounded-2xl"
                   />
                 </div>
               </div>
-            </div>
-
-            <div className="text-center">
-              <button
-                onClick={onOpenBeta}
-                className="inline-flex items-center justify-center px-8 py-3.5 rounded-[24px] font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"
-                style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
-              >
-                {currentContent.ctaButton}
-              </button>
             </div>
           </div>
         </div>

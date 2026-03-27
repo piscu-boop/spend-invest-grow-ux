@@ -1,24 +1,50 @@
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const CARDS = [
-  {
-    icon: "⚡",
-    title: "Tu saldo siempre rinde",
-    text: "Cada peso que depositás se invierte automáticamente en un FCI de liquidez inmediata. Sin que hagas nada.",
-  },
-  {
-    icon: "🔗",
-    title: "Gastás sin perder rendimiento",
-    text: "Cuando pagás con QR o tarjeta, solo desinvertimos lo exactamente necesario. El resto sigue generando.",
-  },
-  {
-    icon: "🛡️",
-    title: "Regulado y transparente",
-    text: "Fondo regulado por la CNV. Tu dinero siempre visible, siempre disponible, con rendimiento diario.",
-  },
-];
+const CARDS = {
+  es: [
+    {
+      icon: "⚡",
+      title: "Tu saldo siempre rinde",
+      text: "Cada peso que depositás se invierte automáticamente en un FCI de liquidez inmediata. Sin que hagas nada.",
+    },
+    {
+      icon: "🔗",
+      title: "Gastás sin perder rendimiento",
+      text: "Cuando pagás con QR o tarjeta, solo desinvertimos lo exactamente necesario. El resto sigue generando.",
+    },
+    {
+      icon: "🛡️",
+      title: "Regulado y transparente",
+      text: "Fondo regulado por la CNV. Tu dinero siempre visible, siempre disponible, con rendimiento diario.",
+    },
+  ],
+  en: [
+    {
+      icon: "⚡",
+      title: "Your balance always earns",
+      text: "Every peso you deposit is automatically invested in an instant-liquidity fund. Without lifting a finger.",
+    },
+    {
+      icon: "🔗",
+      title: "Spend without losing returns",
+      text: "When you pay with QR or card, we only divest exactly what's needed. The rest keeps generating.",
+    },
+    {
+      icon: "🛡️",
+      title: "Regulated and transparent",
+      text: "Fund regulated by the CNV. Your money always visible, always available, with daily returns.",
+    },
+  ],
+};
+
+const TITLE = {
+  es: "¿Por qué UX Dual?",
+  en: "Why UX Dual?",
+};
 
 export const WhyUxDual = () => {
+  const { language } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -29,6 +55,8 @@ export const WhyUxDual = () => {
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
+
+  const cards = CARDS[language];
 
   return (
     <section
@@ -45,13 +73,13 @@ export const WhyUxDual = () => {
             className="text-3xl md:text-4xl font-semibold"
             style={{ color: "var(--color-text-dark)" }}
           >
-            ¿Por qué UX Dual?
+            {TITLE[language]}
           </h2>
         </div>
 
         {/* Grid de cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {CARDS.map((card, i) => (
+          {cards.map((card, i) => (
             <div
               key={card.title}
               className={`group flex flex-col gap-5 p-7 rounded-2xl border transition-all duration-300 cursor-default

@@ -7,13 +7,13 @@ interface FinalCTASectionProps {
 
 const content = {
   es: {
-    title: "Empezá a ganar desde mañana",
-    subtitle: "Gratis. Sin comisiones. Sin excusas.",
+    title: "Empezá a generar rendimientos en tus compras hoy",
+    subtitle: "Unite a nuestra lista de espera y no te pierdas de nuestro lanzamiento.",
     cta: "Únete",
   },
   en: {
-    title: "Start earning from tomorrow",
-    subtitle: "Free. No fees. No excuses.",
+    title: "Start generating returns on your purchases today",
+    subtitle: "Join our waitlist and don't miss our launch.",
     cta: "Join",
   },
 };
