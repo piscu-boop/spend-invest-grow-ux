@@ -36,7 +36,7 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
     { label: "Team",         href: "/team" },
   ];
 
-  const ctaLabel = language === 'en' ? 'Join' : 'Unite';
+  const ctaLabel = 'Portal Web UX';
 
   const LinkItem = ({ label, href, mobile = false }: { label: string; href: string; mobile?: boolean }) => {
     const cls = mobile
@@ -83,8 +83,10 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
             <div className="flex items-center px-3 py-1 rounded-full bg-white/8 border border-white/15 backdrop-blur">
               <LanguageToggle />
             </div>
-            <button
-              onClick={onOpenBeta}
+            <a
+              href="https://uxdual.com"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 hover:opacity-90"
               style={{
                 background: "var(--color-accent)",
@@ -92,7 +94,7 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
               }}
             >
               {ctaLabel}
-            </button>
+            </a>
           </div>
 
           {/* Hamburger mobile */}
@@ -122,13 +124,16 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
                   <LanguageToggle />
                 </div>
               </div>
-              <button
-                onClick={() => { setMobileOpen(false); onOpenBeta?.(); }}
+              <a
+                href="https://uxdual.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileOpen(false)}
                 className="block w-full text-center py-3 rounded-xl text-sm font-semibold transition-colors duration-200"
                 style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
               >
                 {ctaLabel}
-              </button>
+              </a>
             </div>
           </div>
         )}
