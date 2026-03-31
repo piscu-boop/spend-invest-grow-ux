@@ -343,7 +343,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
       ],
       ctaTitle: "Empezá a generar rendimientos en tus compras hoy",
       ctaDescription: "Unite a nuestra lista de espera y no te pierdas de nuestro lanzamiento.",
-      ctaButton: "Únete",
+      ctaButton: "Unite",
       benefitsTitle: "¿Por qué elegir UX Dual?",
       benefitsSubtitle: "Experimentá el futuro de comprar e invertir combinados"
     }

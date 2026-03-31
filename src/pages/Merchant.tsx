@@ -83,7 +83,7 @@ const Merchant: React.FC<MerchantProps> = ({ onOpenBeta }) => {
       howItWorksSubtitle: "Seguí estos pasos para unirte a nuestra red de comercios",
       ctaTitle: "Unite a nuestra red de comerciantes que crecen con UX Dual",
       ctaDescription: "Agenda una llamada con nuestro equipo y empezá a crecer con UX Dual",
-      ctaButton: "Únete"
+      ctaButton: "Unite"
     }
   };
 

@@ -19,7 +19,7 @@ const content = {
     consumer: "Soy Consumidor",
     merchant: "Soy Comercio",
     manufacturer: "Soy Fabricante",
-    cta: "Únete",
+    cta: "Unite",
   },
 };
 

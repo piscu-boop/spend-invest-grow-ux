@@ -81,7 +81,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
       howItWorksSubtitle: "Unite a nuestra red de manufactura y empezá a escalar tu negocio",
       ctaTitle: "Unite al futuro de la manufactura con recompensas de inversión",
       ctaDescription: "Agendá una llamada con nuestro equipo y empezá a escalar con UX Dual",
-      ctaButton: "Únete"
+      ctaButton: "Unite"
     }
   };
 

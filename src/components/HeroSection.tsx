@@ -41,7 +41,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({onOpenBeta}) => {
       highlightTitle: "INGRESOS DIARIOS",
       subtitle: "Estamos en fase de prueba con UX DUAL, una infraestructura de pagos única que hace que invertir sea posible para todos.",
       description: "Por primera vez desde la aparición de las tarjetas de crédito en 1950 y las de débito en 1966, millones de personas en todo el mundo podrán invertir mientras gastan, al mismo tiempo y con el mismo dinero.",
-      joinButton: "Únete Ahora",
+      joinButton: "Unite Ahora",
       howItWorksButton: "¿Cómo Funciona?"
     }
   };

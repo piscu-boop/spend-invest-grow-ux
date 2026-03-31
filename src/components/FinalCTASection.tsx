@@ -9,7 +9,7 @@ const content = {
   es: {
     title: "Empezá a generar rendimientos en tus compras hoy",
     subtitle: "Unite a nuestra lista de espera y no te pierdas de nuestro lanzamiento.",
-    cta: "Únete",
+    cta: "Unite",
   },
   en: {
     title: "Start generating returns on your purchases today",
