@@ -42,7 +42,7 @@ const Footer = () => (
 
         {/* Brand */}
         <div className="flex flex-col gap-5 max-w-sm">
-          <img src="/lovable-uploads/logo-capital.png" alt="UX Capital" style={{ height: "48px", width: "auto" }} />
+          <img src="/lovable-uploads/logo-capital.png" alt="UX Capital" style={{ height: "40px", width: "180px" }} />
           <p className="text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
             La primera plataforma que transforma cada gasto en una inversión con retornos diarios. Construyendo el futuro de la creación automatizada de riqueza.
           </p>

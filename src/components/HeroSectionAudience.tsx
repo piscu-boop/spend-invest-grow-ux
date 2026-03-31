@@ -12,14 +12,16 @@ const content = {
     consumer: "I'm a Consumer",
     merchant: "I'm a Merchant",
     manufacturer: "I'm a Manufacturer",
-    cta: "Join",
+    ctaTitle: "Start Earning Returns on Your Purchases Today",
+    ctaDescription: "Join our waitlist and be the first to know when we launch."
   },
   es: {
     mainTitle: "Transformando cada Compra en Inversión",
     consumer: "Soy Consumidor",
     merchant: "Soy Comercio",
     manufacturer: "Soy Fabricante",
-    cta: "Unite",
+    ctaTitle: "Empezá a generar rendimientos en tus compras hoy",
+    ctaDescription: "Unite a nuestra lista de espera y no te pierdas de nuestro lanzamiento."
   },
 };
 
@@ -37,6 +39,8 @@ const HeroSectionAudience: React.FC<HeroSectionAudienceProps> = ({ onOpenBeta })
     const t = setTimeout(() => setVisible(true), 60);
     return () => clearTimeout(t);
   }, []);
+
+  const currentContent = content[language];
 
   return (
     <section
@@ -96,21 +100,6 @@ const HeroSectionAudience: React.FC<HeroSectionAudienceProps> = ({ onOpenBeta })
               {c.manufacturer}
             </button>
           </div>
-
-          {/* CTA principal → BetaModal */}
-          <div
-            className={`transition-all duration-500 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-            style={{ transitionDelay: "200ms" }}
-          >
-            <button
-              onClick={onOpenBeta}
-              className="inline-flex items-center justify-center px-8 py-3.5 rounded-[24px] font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"
-              style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
-            >
-              {c.cta}
-            </button>
-          </div>
-
         </div>
       </div>
     </section>

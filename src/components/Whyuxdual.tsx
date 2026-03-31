@@ -11,12 +11,12 @@ const CARDS = {
     {
       icon: "🔗",
       title: "Gastás sin perder rendimiento",
-      text: "Cuando pagás con QR o tarjeta, solo desinvertimos lo exactamente necesario. El resto sigue generando.",
+      text: "Cuando pagás con QR UX, el dinero de tu compra sigue generando rendimientos diarios hasta fin de mes.",
     },
     {
       icon: "🛡️",
       title: "Regulado y transparente",
-      text: "Fondo regulado por la CNV. Tu dinero siempre visible, siempre disponible, con rendimiento diario.",
+      text: "Tu dinero siempre visible, siempre disponible, con rendimiento diario.",
     },
   ],
   en: [
@@ -28,12 +28,12 @@ const CARDS = {
     {
       icon: "🔗",
       title: "Spend without losing returns",
-      text: "When you pay with QR or card, we only divest exactly what's needed. The rest keeps generating.",
+      text: "When you pay with QR UX, the money from your purchase continues generating daily returns until the end of the month.",
     },
     {
       icon: "🛡️",
       title: "Regulated and transparent",
-      text: "Fund regulated by the CNV. Your money always visible, always available, with daily returns.",
+      text: "Your money always visible, always available, with daily returns.",
     },
   ],
 };

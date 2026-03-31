@@ -1,12 +1,10 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const trustedLogos = [
-  { name: "BCRA",          src: "/lovable-uploads/logo-bcra.png",     alt: "BCRA" },
   { name: "DraperHouseAm", src: "/lovable-uploads/logo-draperHA.png", alt: "Draper House America" },
   { name: "Delta",         src: "/lovable-uploads/logo-delta.png",    alt: "Delta" },
   { name: "Bizland",       src: "/lovable-uploads/logo-bizland.png",  alt: "Bizland" },
   { name: "DraperHouse",   src: "/lovable-uploads/logo-draperHo.png", alt: "Draper House" },
-  { name: "TrustCapital",  src: "/lovable-uploads/logo-tcp.png",      alt: "Trust Capital" },
   { name: "DraperUniv",    src: "/lovable-uploads/logo-draperU.png",  alt: "Draper University" },
 ];
 

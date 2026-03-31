@@ -132,7 +132,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
                   {currentContent.heroTitle}
                 </h1>
                 <button
-                  onClick={() => window.open("https://calendly.com/santicesar", "_blank")}
+                  onClick={() => window.open("https://calendly.com/uxcapital", "_blank")}
                   className="inline-flex items-center justify-center px-8 py-3.5 rounded-[24px] font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"
                   style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
                 >
@@ -272,7 +272,7 @@ const Manufacturer: React.FC<ManufacturerProps> = ({ onOpenBeta }) => {
               {currentContent.ctaDescription}
             </p>
             <button
-              onClick={() => window.open("https://calendly.com/santicesar", "_blank")}
+              onClick={() => window.open("https://calendly.com/uxcapital", "_blank")}
               className="inline-flex items-center justify-center px-8 py-3.5 rounded-[24px] font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"
               style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
             >
