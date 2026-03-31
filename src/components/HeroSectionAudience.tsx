@@ -12,16 +12,14 @@ const content = {
     consumer: "I'm a Consumer",
     merchant: "I'm a Merchant",
     manufacturer: "I'm a Manufacturer",
-    ctaTitle: "Start Earning Returns on Your Purchases Today",
-    ctaDescription: "Join our waitlist and be the first to know when we launch."
+    cta: "Join"
   },
   es: {
     mainTitle: "Transformando cada Compra en Inversión",
     consumer: "Soy Consumidor",
     merchant: "Soy Comercio",
     manufacturer: "Soy Fabricante",
-    ctaTitle: "Empezá a generar rendimientos en tus compras hoy",
-    ctaDescription: "Unite a nuestra lista de espera y no te pierdas de nuestro lanzamiento."
+    cta: "Unite"
   },
 };
 
@@ -99,6 +97,14 @@ const HeroSectionAudience: React.FC<HeroSectionAudienceProps> = ({ onOpenBeta })
             >
               {c.manufacturer}
             </button>
+            
+              <button
+                onClick={onOpenBeta}
+                className="px-8 py-3.5 rounded-full font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"
+                style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
+              >
+                {c.cta}
+              </button>
           </div>
         </div>
       </div>
