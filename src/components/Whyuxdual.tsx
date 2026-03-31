@@ -62,7 +62,7 @@ export const WhyUxDual = () => {
     <section
       ref={sectionRef}
       className="py-20"
-      style={{ background: "var(--color-bg-light)" }}
+      style={{ background: "var(--color-bg-dark)" }}
     >
       <div className="container mx-auto px-5">
         {/* Título */}
@@ -71,51 +71,78 @@ export const WhyUxDual = () => {
         >
           <h2
             className="text-3xl md:text-4xl font-semibold"
-            style={{ color: "var(--color-text-dark)" }}
+            style={{ color: "var(--color-text-primary)" }}
           >
             {TITLE[language]}
           </h2>
         </div>
 
-        {/* Grid de cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {cards.map((card, i) => (
-            <div
-              key={card.title}
-              className={`group flex flex-col gap-5 p-7 rounded-2xl border transition-all duration-300 cursor-default
-                hover:-translate-y-1 hover:shadow-[0_8px_32px_rgba(0,0,0,0.08)]
-                ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}
-              `}
-              style={{
-                borderColor: "#E5E5E5",
-                background: "#fff",
-                transitionDelay: `${i * 80}ms`,
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--color-accent)")}
-              onMouseLeave={(e) => (e.currentTarget.style.borderColor = "#E5E5E5")}
-            >
-              {/* Ícono */}
-              <div
-                className="w-12 h-12 flex items-center justify-center rounded-xl text-2xl"
-                style={{ background: "rgba(77,240,172,0.10)" }}
-              >
-                {card.icon}
-              </div>
+        {/* Layout 2 columnas desktop / columna única mobile */}
+        <div className="flex flex-col lg:flex-row items-center gap-12">
 
-              {/* Texto */}
-              <div className="flex flex-col gap-2">
-                <h3
-                  className="text-lg font-semibold"
-                  style={{ color: "var(--color-text-dark)" }}
-                >
-                  {card.title}
-                </h3>
-                <p className="text-sm leading-relaxed" style={{ color: "#6B7280" }}>
+          {/* Columna izquierda — teléfono mockup */}
+          <div
+            className={`flex-shrink-0 flex justify-center transition-all duration-600 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
+            style={{ transitionDelay: "80ms" }}
+          >
+            <div className="relative">
+              {/* Glow de fondo */}
+              <div
+                className="absolute inset-0 rounded-full blur-3xl"
+                style={{
+                  width: "340px",
+                  height: "340px",
+                  background: "radial-gradient(circle, rgba(77,240,172,0.18) 0%, rgba(77,240,172,0.05) 70%, transparent 100%)",
+                  transform: "translate(-10%, -5%)",
+                }}
+              />
+              <img
+                src="/lovable-uploads/200931e1-23f7-4c91-8aa2-73df09bab162.png"
+                alt="UX Dual App"
+                className="relative z-10 drop-shadow-2xl"
+                style={{ width: "300px", height: "auto" }}
+              />
+            </div>
+          </div>
+
+          {/* Columna derecha — cards apiladas */}
+          <div className="flex flex-col gap-5 flex-1">
+            {cards.map((card, i) => (
+              <div
+                key={card.title}
+                className={`group flex flex-col gap-4 p-6 rounded-2xl border transition-all duration-300 cursor-default
+                  hover:-translate-y-1
+                  ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}
+                `}
+                style={{
+                  borderColor: "rgba(255,255,255,0.10)",
+                  background: "rgba(255,255,255,0.06)",
+                  transitionDelay: `${(i + 1) * 100}ms`,
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--color-accent)")}
+                onMouseLeave={(e) => (e.currentTarget.style.borderColor = "rgba(255,255,255,0.10)")}
+              >
+                <div className="flex items-center gap-4">
+                  {/* Ícono */}
+                  <div
+                    className="w-11 h-11 flex-shrink-0 flex items-center justify-center rounded-xl text-xl"
+                    style={{ background: "rgba(77,240,172,0.10)" }}
+                  >
+                    {card.icon}
+                  </div>
+                  <h3
+                    className="text-base font-semibold"
+                    style={{ color: "var(--color-text-primary)" }}
+                  >
+                    {card.title}
+                  </h3>
+                </div>
+                <p className="text-sm leading-relaxed" style={{ color: "var(--color-text-muted)" }}>
                   {card.text}
                 </p>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

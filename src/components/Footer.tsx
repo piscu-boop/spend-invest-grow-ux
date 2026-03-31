@@ -38,7 +38,7 @@ const SOCIAL = [
 ];
 
 const Footer = () => (
-  <footer id="footer" style={{ background: "#08061A" }}>
+  <footer id="footer" style={{ background: "var(--color-bg-dark)" }}>
     <div className="container mx-auto px-5 py-14">
 
       {/* Top row */}
@@ -49,6 +49,18 @@ const Footer = () => (
           <img src="/lovable-uploads/logo-capital.png" alt="UX Capital" style={{ height: "28px", width: "auto" }} />
           <p className="text-sm leading-relaxed" style={{ color: "rgba(255,255,255,0.45)" }}>
             La primera plataforma que transforma cada compra en inversión. Regulado por la CNV.
+          </p>
+          <a
+            href="mailto:info@uxcapital.la"
+            className="text-sm transition-colors duration-200"
+            style={{ color: "rgba(255,255,255,0.55)" }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-accent)")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}
+          >
+            info@uxcapital.la
+          </a>
+          <p className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
+            Síguenos en redes sociales
           </p>
           <div className="flex items-center gap-4">
             {SOCIAL.map((s) => (

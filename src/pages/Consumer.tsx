@@ -475,7 +475,7 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
             </div>
             <div
               className="absolute inset-0 z-10 flex flex-col items-center justify-center rounded-2xl min-h-[280px]"
-              style={{ background: "rgba(13,10,43,0.70)", backdropFilter: "blur(4px)" }}
+              style={{ background: "rgba(41,70,118,0.70)", backdropFilter: "blur(4px)" }}
             />
           </div>
         </div>

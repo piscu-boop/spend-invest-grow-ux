@@ -111,7 +111,7 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
         {mobileOpen && (
           <div
             className="md:hidden mx-4 mb-3 p-3 rounded-2xl border border-white/10 backdrop-blur-xl"
-            style={{ background: "rgba(13,10,43,0.92)" }}
+            style={{ background: "rgba(41,70,118,0.95)" }}
           >
             {navLinks.map((item) => (
               <LinkItem key={item.label} label={item.label} href={item.href} mobile />
