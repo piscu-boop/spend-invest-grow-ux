@@ -97,7 +97,7 @@ const HeroSectionAudience: React.FC<HeroSectionAudienceProps> = ({ onOpenBeta })
             >
               {c.manufacturer}
             </button>
-            
+
               <button
                 onClick={onOpenBeta}
                 className="px-8 py-3.5 rounded-full font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"

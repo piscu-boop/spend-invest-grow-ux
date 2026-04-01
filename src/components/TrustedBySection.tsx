@@ -1,11 +1,11 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const trustedLogos = [
-  { name: "DraperHouseAm", src: "/lovable-uploads/logo-draperHA.png", alt: "Draper House America" },
-  { name: "Delta",         src: "/lovable-uploads/logo-delta.png",    alt: "Delta" },
-  { name: "Bizland",       src: "/lovable-uploads/logo-bizland.png",  alt: "Bizland" },
-  { name: "DraperHouse",   src: "/lovable-uploads/logo-draperHo.png", alt: "Draper House" },
-  { name: "DraperUniv",    src: "/lovable-uploads/logo-draperU.png",  alt: "Draper University" },
+  { name: "DraperHouseAm", src: "/lovable-uploads/logo-draperHA.png", alt: "Draper House America", filter: "brightness(1.1) saturate(0.9)", opacity: 0.85 },
+  { name: "Delta",         src: "/lovable-uploads/logo-delta.png",    alt: "Delta",               filter: "brightness(0) invert(1)",     opacity: 0.75 },
+  { name: "Bizland",       src: "/lovable-uploads/logo-bizland.png",  alt: "Bizland",             filter: "brightness(0) invert(1)",     opacity: 0.75 },
+  { name: "DraperHouse",   src: "/lovable-uploads/logo-draperHo.png", alt: "Draper House",        filter: "brightness(1.2) saturate(0.8) contrast(1.1)", opacity: 0.85 },
+  { name: "DraperUniv",    src: "/lovable-uploads/logo-draperU.png",  alt: "Draper University",   filter: "brightness(0) invert(1)",     opacity: 0.75 },
 ];
 
 const titles = { en: "Trusted by", es: "Confían en nosotros" };
@@ -26,7 +26,7 @@ const TrustedBySection = () => {
                 src={l.src}
                 alt={l.alt}
                 className="object-contain max-h-10 transition-opacity"
-                style={{ filter: "brightness(0) invert(1)", opacity: 0.55 }}
+                style={{ filter: l.filter, opacity: l.opacity }}
                 width={110}
                 height={40}
                 loading="lazy"
