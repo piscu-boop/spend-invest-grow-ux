@@ -14,6 +14,7 @@ import Manufacturer from "./pages/Manufacturer";
 import NotFound from "./pages/NotFound";
 import Press from "./pages/Press";
 import Simulator from "./pages/Simulator";
+import MerchantSimulator from "./pages/MerchantSimulator";
 import { useState, useEffect, useCallback } from "react";
 
 const queryClient = new QueryClient();
@@ -94,6 +95,9 @@ const AppInner: React.FC = () => {
         />
         <Route path="/simulador"
           element={<Simulator onOpenBeta={() => setBetaOpen(true)} />}
+        />
+        <Route path="/comercios"
+          element={<MerchantSimulator onOpenBeta={() => setBetaOpen(true)} />}
         />
         <Route path="/registro"
           element={
