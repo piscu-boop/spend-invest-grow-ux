@@ -20,16 +20,10 @@ import {
 const CALENDLY_URL = "https://calendly.com/uxcapital"; // ← Replace with final Calendly URL
 
 // Business rules (internal only — not exposed in UI)
-const TRADITIONAL_RATES = {
-  debit: 0.0168,
-  qr: 0.008,
-};
-const UX_RATES = {
-  debit: Math.max(0.005, TRADITIONAL_RATES.debit * 0.5), // → 0.0084
-  qr: Math.max(0.005, TRADITIONAL_RATES.qr * 0.5),       // → 0.005
-};
-
-type PaymentMethod = "debit" | "qr" | "combined";
+// Combined traditional benchmark: (1.68% debit + 0.80% QR) / 2 = 1.24%
+const TRADITIONAL_RATE = 0.0124;
+// UX Dual rate: max(50% of traditional average, 0.5% floor) = max(0.0062, 0.005) = 0.0062
+const UX_RATE = Math.max(TRADITIONAL_RATE * 0.5, 0.005); // → 0.0062
 
 // ---------------------------------------------------------------------------
 // Translations
@@ -40,49 +34,34 @@ const t = {
     heroTag: "Para comercios y negocios",
     heroTitle: "¿Cuánto te cobran de más por cada venta?",
     heroSubtitle:
-      "Calculá cuánto podrías ahorrar cobrando con UX Capital versus los procesadores de pago tradicionales. Sin compromisos, sin datos sensibles.",
+      "Calculá cuánto podrías ahorrar cobrando con UX Dual versus los procesadores de pago tradicionales. Sin compromisos, sin datos sensibles.",
     heroStart: "Calcular mi ahorro",
 
     // Inputs
     inputsTitle: "Datos de tu negocio",
     labelVolume: "Volumen mensual de ventas",
-    hintVolume: "Total que facturás por mes con tarjetas y QR",
-    labelTicket: "Ticket promedio",
-    hintTicket: "Valor promedio de cada transacción",
-    labelMethod: "Método de cobro principal",
-    methodDebit: "Débito",
-    methodQr: "QR",
-    methodCombined: "Combinación",
-    labelDebitPct: "% Débito",
-    labelQrPct: "% QR",
-    combinedHint: "El total debe sumar 100%",
-    combinedError: "El porcentaje de débito y QR debe sumar exactamente 100%",
+    hintVolume: "Total que facturás por mes con medios de pago digitales",
     calcBtn: "Ver mi ahorro estimado",
     resetBtn: "Calcular de nuevo",
 
     // Validation
     errVolume: "Ingresá un volumen mayor a cero.",
-    errTicket: "Ingresá un ticket promedio mayor a cero.",
-    errExceedsVolume: "El ticket promedio no puede superar el volumen mensual.",
 
     // Results
-    resultTitle: "Tu ahorro estimado con UX Capital",
+    resultTitle: "Tu ahorro estimado con UX Dual",
     resultSubtitle: "Comparando con valores de referencia del mercado",
     savingsMonthly: "Ahorro mensual",
     savingsAnnual: "Proyección anual",
     savingsTagline: "menos en costos de cobro",
-    transactionsEst: "Transacciones estimadas / mes",
 
     // Comparison table
     compareTitle: "Comparativa detallada",
-    colUx: "UX Capital",
+    colUx: "UX Dual",
     colTraditional: "Tradicional",
-    rowCommissionDebit: "Costo por cobro débito",
-    rowCommissionQr: "Costo por cobro QR",
-    rowTotalCost: "Costo mensual total",
+    rowTotalCost: "Costo estimado por cobros",
     rowNetIncome: "Ingreso neto mensual",
 
-    // Settlement info banner (below results, not a comparison row)
+    // Settlement info banner
     settlementInfoTitle: "Dos modalidades de acreditación",
     settlementInfoBody:
       "Contamos con acreditación instantánea vía e-check o acreditación estándar con un promedio de 17 días corridos. La mejor alternativa para tu negocio la definimos juntos en una reunión con nuestro equipo.",
@@ -99,52 +78,37 @@ const t = {
     methodologyBtn: "Ver supuestos del cálculo",
     methodologyTitle: "Supuestos del cálculo",
     methodologyItems: [
-      "Las condiciones comparadas responden a valores de referencia de mercado y a la propuesta comercial de UX Capital.",
+      "La comparativa utiliza valores de referencia de soluciones de cobro digital tradicionales disponibles en el mercado.",
+      "UX Dual aplica una condición comercial equivalente al 50% del promedio tradicional del mercado, con un piso mínimo del 0,5%.",
       "El cálculo no incluye impuestos, percepciones ni otros cargos adicionales.",
       "Los valores son estimativos. La propuesta final puede variar según el perfil y volumen del comercio.",
-      "Las modalidades de acreditación disponibles se definen en la propuesta comercial.",
     ],
   },
   en: {
     heroTag: "For businesses & merchants",
     heroTitle: "How much are you overpaying per sale?",
     heroSubtitle:
-      "Calculate how much you could save by accepting payments with UX Capital vs. traditional payment processors. No commitment, no sensitive data required.",
+      "Calculate how much you could save by accepting payments with UX Dual vs. traditional payment processors. No commitment, no sensitive data required.",
     heroStart: "Calculate my savings",
 
     inputsTitle: "Your business data",
     labelVolume: "Monthly sales volume",
-    hintVolume: "Total you invoice per month via cards and QR",
-    labelTicket: "Average ticket",
-    hintTicket: "Average value per transaction",
-    labelMethod: "Main payment method",
-    methodDebit: "Debit",
-    methodQr: "QR",
-    methodCombined: "Combination",
-    labelDebitPct: "% Debit",
-    labelQrPct: "% QR",
-    combinedHint: "Must add up to 100%",
-    combinedError: "Debit and QR percentages must add up to exactly 100%",
+    hintVolume: "Total you invoice per month via digital payment methods",
     calcBtn: "See my estimated savings",
     resetBtn: "Recalculate",
 
     errVolume: "Enter a volume greater than zero.",
-    errTicket: "Enter an average ticket greater than zero.",
-    errExceedsVolume: "Average ticket cannot exceed monthly volume.",
 
-    resultTitle: "Your estimated savings with UX Capital",
+    resultTitle: "Your estimated savings with UX Dual",
     resultSubtitle: "Compared to market benchmark rates",
     savingsMonthly: "Monthly savings",
     savingsAnnual: "Annual projection",
     savingsTagline: "less in payment processing costs",
-    transactionsEst: "Estimated transactions / month",
 
     compareTitle: "Detailed comparison",
-    colUx: "UX Capital",
+    colUx: "UX Dual",
     colTraditional: "Traditional",
-    rowCommissionDebit: "Debit processing cost",
-    rowCommissionQr: "QR processing cost",
-    rowTotalCost: "Total monthly cost",
+    rowTotalCost: "Estimated processing cost",
     rowNetIncome: "Monthly net income",
 
     settlementInfoTitle: "Two settlement options",
@@ -161,10 +125,10 @@ const t = {
     methodologyBtn: "View calculation assumptions",
     methodologyTitle: "Calculation assumptions",
     methodologyItems: [
-      "Figures are based on market reference rates and UX Capital's commercial offering.",
+      "The comparison uses benchmark reference values from traditional digital payment solutions available in the market.",
+      "UX Dual applies a commercial condition equivalent to 50% of the traditional market average, with a 0.5% minimum floor.",
       "Calculation excludes taxes, withholdings, and other additional charges.",
       "Values are estimates. The final proposal may vary based on merchant profile and volume.",
-      "Available settlement options are defined in the commercial proposal.",
     ],
   },
 };
@@ -181,7 +145,6 @@ function formatARS(value: number): string {
 }
 
 function parseNum(raw: string): number {
-  // Strip thousand separators (dots in es-AR) then parse
   const cleaned = raw.replace(/\./g, "").replace(",", ".");
   return parseFloat(cleaned) || 0;
 }
@@ -197,16 +160,9 @@ function applyThousandSeparators(digits: string): string {
 // ---------------------------------------------------------------------------
 interface CalcInput {
   volume: number;
-  ticket: number;
-  method: PaymentMethod;
-  debitPct: number;
-  qrPct: number;
 }
 
 interface CalcResult {
-  transactions: number;
-  debitVolume: number;
-  qrVolume: number;
   traditionalCost: number;
   uxCost: number;
   monthlySavings: number;
@@ -216,36 +172,16 @@ interface CalcResult {
 }
 
 function calculate(input: CalcInput): CalcResult {
-  const { volume, ticket, method, debitPct, qrPct } = input;
+  const { volume } = input;
 
-  const transactions = Math.round(volume / ticket);
-
-  let debitVolume = 0;
-  let qrVolume = 0;
-
-  if (method === "debit") {
-    debitVolume = volume;
-  } else if (method === "qr") {
-    qrVolume = volume;
-  } else {
-    debitVolume = volume * (debitPct / 100);
-    qrVolume = volume * (qrPct / 100);
-  }
-
-  const traditionalCost =
-    debitVolume * TRADITIONAL_RATES.debit + qrVolume * TRADITIONAL_RATES.qr;
-  const uxCost =
-    debitVolume * UX_RATES.debit + qrVolume * UX_RATES.qr;
-
+  const traditionalCost = volume * TRADITIONAL_RATE;
+  const uxCost = volume * UX_RATE;
   const monthlySavings = traditionalCost - uxCost;
   const annualSavings = monthlySavings * 12;
   const traditionalNet = volume - traditionalCost;
   const uxNet = volume - uxCost;
 
   return {
-    transactions,
-    debitVolume,
-    qrVolume,
     traditionalCost,
     uxCost,
     monthlySavings,
@@ -281,10 +217,7 @@ const NumericInput: React.FC<NumericInputProps> = ({
     const raw = e.target.value;
     const cursorPos = e.target.selectionStart ?? raw.length;
 
-    // Count how many digit characters appear before the cursor in the old string
     const digitsBeforeCursor = raw.slice(0, cursorPos).replace(/\D/g, "").length;
-
-    // Strip everything except digits
     const digitsOnly = raw.replace(/\D/g, "");
 
     if (!digitsOnly) {
@@ -295,12 +228,11 @@ const NumericInput: React.FC<NumericInputProps> = ({
     const formatted = applyThousandSeparators(digitsOnly);
     onChange(formatted);
 
-    // Restore cursor position after React re-renders
     requestAnimationFrame(() => {
       const el = inputRef.current;
       if (!el) return;
       let digitCount = 0;
-      let newPos = formatted.length; // default: end of string
+      let newPos = formatted.length;
       if (digitsBeforeCursor === 0) {
         newPos = 0;
       } else {
@@ -355,31 +287,6 @@ const NumericInput: React.FC<NumericInputProps> = ({
 };
 
 // ---------------------------------------------------------------------------
-// MethodButton
-// ---------------------------------------------------------------------------
-interface MethodButtonProps {
-  label: string;
-  selected: boolean;
-  onClick: () => void;
-}
-
-const MethodButton: React.FC<MethodButtonProps> = ({ label, selected, onClick }) => (
-  <button
-    type="button"
-    onClick={onClick}
-    className={`flex-1 py-2.5 px-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
-      selected ? "text-[var(--color-text-dark)]" : "text-white/60 hover:text-white/90"
-    }`}
-    style={{
-      background: selected ? "var(--color-accent)" : "rgba(255,255,255,0.06)",
-      border: selected ? "none" : "1px solid rgba(255,255,255,0.1)",
-    }}
-  >
-    {label}
-  </button>
-);
-
-// ---------------------------------------------------------------------------
 // CompareRow
 // ---------------------------------------------------------------------------
 interface CompareRowProps {
@@ -421,69 +328,32 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
   const { language } = useLanguage();
   const tx = t[language];
 
-  // Inputs
   const [volumeStr, setVolumeStr] = useState("");
-  const [ticketStr, setTicketStr] = useState("");
-  const [method, setMethod] = useState<PaymentMethod>("debit");
-  const [debitPct, setDebitPct] = useState(70);
-  const [qrPct, setQrPct] = useState(30);
-
-  // Validation errors
-  const [errors, setErrors] = useState<{ volume?: string; ticket?: string; combined?: string }>({});
-
-  // Result
+  const [errors, setErrors] = useState<{ volume?: string }>({});
   const [result, setResult] = useState<CalcResult | null>(null);
-
-  // Methodology accordion
   const [showMethodology, setShowMethodology] = useState(false);
-
-  const handleDebitPctChange = useCallback((val: number) => {
-    const clamped = Math.max(0, Math.min(100, val));
-    setDebitPct(clamped);
-    setQrPct(100 - clamped);
-  }, []);
-
-  const handleQrPctChange = useCallback((val: number) => {
-    const clamped = Math.max(0, Math.min(100, val));
-    setQrPct(clamped);
-    setDebitPct(100 - clamped);
-  }, []);
 
   const handleCalc = useCallback(() => {
     const volume = parseNum(volumeStr);
-    const ticket = parseNum(ticketStr);
     const newErrors: typeof errors = {};
 
     if (!volume || volume <= 0) newErrors.volume = tx.errVolume;
-    if (!ticket || ticket <= 0) newErrors.ticket = tx.errTicket;
-    if (ticket > volume) newErrors.ticket = tx.errExceedsVolume;
-    if (method === "combined" && debitPct + qrPct !== 100)
-      newErrors.combined = tx.combinedError;
 
     setErrors(newErrors);
     if (Object.keys(newErrors).length > 0) return;
 
-    setResult(
-      calculate({
-        volume,
-        ticket,
-        method,
-        debitPct: method === "combined" ? debitPct : method === "debit" ? 100 : 0,
-        qrPct: method === "combined" ? qrPct : method === "qr" ? 100 : 0,
-      })
-    );
+    setResult(calculate({ volume }));
 
     setTimeout(() => {
       document.getElementById("merchant-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 50);
-  }, [volumeStr, ticketStr, method, debitPct, qrPct, tx]);
+  }, [volumeStr, tx]);
 
   const handleReset = useCallback(() => {
     setResult(null);
     setErrors({});
   }, []);
 
-  // Savings percentage vs traditional cost
   const savingsPct =
     result && result.traditionalCost > 0
       ? ((result.monthlySavings / result.traditionalCost) * 100).toFixed(1)
@@ -495,14 +365,12 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
 
       {/* ──────────────────────────────────────── HERO ── */}
       <section className="relative min-h-[60vh] flex flex-col items-center justify-center text-center px-4 pt-24 pb-16 overflow-hidden">
-        {/* Decorative blobs — same diffuse treatment as consumer simulator */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-24 right-10 w-80 h-80 bg-ux-green/8 rounded-full blur-3xl" />
           <div className="absolute bottom-10 left-10 w-60 h-60 bg-blue-500/5 rounded-full blur-3xl" />
         </div>
 
         <div className="relative z-10 max-w-2xl mx-auto space-y-5">
-          {/* Badge */}
           <span
             className="inline-block px-3 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase"
             style={{
@@ -517,9 +385,7 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
           <h1 className="text-4xl md:text-5xl font-bold leading-tight text-white">
             {tx.heroTitle}
           </h1>
-          <p
-            className="text-lg text-white/70 leading-relaxed"
-          >
+          <p className="text-lg text-white/70 leading-relaxed">
             {tx.heroSubtitle}
           </p>
 
@@ -555,7 +421,6 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
               </div>
 
               <div className="flex flex-col gap-5">
-                {/* Volume */}
                 <NumericInput
                   label={tx.labelVolume}
                   hint={tx.hintVolume}
@@ -564,121 +429,6 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                   error={errors.volume}
                 />
 
-                {/* Ticket */}
-                <NumericInput
-                  label={tx.labelTicket}
-                  hint={tx.hintTicket}
-                  value={ticketStr}
-                  onChange={setTicketStr}
-                  error={errors.ticket}
-                />
-
-                {/* Payment method */}
-                <div className="flex flex-col gap-2">
-                  <label
-                    className="text-sm font-medium"
-                    style={{ color: "rgba(255,255,255,0.85)" }}
-                  >
-                    {tx.labelMethod}
-                  </label>
-                  <div className="flex gap-2">
-                    <MethodButton
-                      label={tx.methodDebit}
-                      selected={method === "debit"}
-                      onClick={() => setMethod("debit")}
-                    />
-                    <MethodButton
-                      label={tx.methodQr}
-                      selected={method === "qr"}
-                      onClick={() => setMethod("qr")}
-                    />
-                    <MethodButton
-                      label={tx.methodCombined}
-                      selected={method === "combined"}
-                      onClick={() => setMethod("combined")}
-                    />
-                  </div>
-                </div>
-
-                {/* Combined split sliders */}
-                {method === "combined" && (
-                  <div
-                    className="p-4 rounded-2xl flex flex-col gap-4"
-                    style={{
-                      background: "rgba(255,255,255,0.04)",
-                      border: "1px solid rgba(255,255,255,0.06)",
-                    }}
-                  >
-                    <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
-                      {tx.combinedHint}
-                    </p>
-
-                    {/* Debit % */}
-                    <div className="flex flex-col gap-2">
-                      <div className="flex justify-between items-center">
-                        <label
-                          className="text-sm font-medium"
-                          style={{ color: "rgba(255,255,255,0.8)" }}
-                        >
-                          {tx.labelDebitPct}
-                        </label>
-                        <span
-                          className="text-sm font-bold"
-                          style={{ color: "var(--color-accent)" }}
-                        >
-                          {debitPct}%
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={0}
-                        max={100}
-                        step={5}
-                        value={debitPct}
-                        onChange={(e) => handleDebitPctChange(Number(e.target.value))}
-                        className="w-full accent-[var(--color-accent)] h-1.5"
-                      />
-                    </div>
-
-                    {/* QR % */}
-                    <div className="flex flex-col gap-2">
-                      <div className="flex justify-between items-center">
-                        <label
-                          className="text-sm font-medium"
-                          style={{ color: "rgba(255,255,255,0.8)" }}
-                        >
-                          {tx.labelQrPct}
-                        </label>
-                        <span
-                          className="text-sm font-bold"
-                          style={{ color: "var(--color-accent)" }}
-                        >
-                          {qrPct}%
-                        </span>
-                      </div>
-                      <input
-                        type="range"
-                        min={0}
-                        max={100}
-                        step={5}
-                        value={qrPct}
-                        onChange={(e) => handleQrPctChange(Number(e.target.value))}
-                        className="w-full accent-[var(--color-accent)] h-1.5"
-                      />
-                    </div>
-
-                    {errors.combined && (
-                      <p
-                        className="text-xs flex items-center gap-1"
-                        style={{ color: "#f87171" }}
-                      >
-                        <AlertCircle size={12} /> {errors.combined}
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {/* Calculate / Reset button */}
                 {!result ? (
                   <button
                     type="button"
@@ -709,7 +459,6 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
             {/* ── RIGHT: Results ── */}
             <div id="merchant-results" className="flex flex-col gap-5">
               {!result ? (
-                /* Placeholder before calculation */
                 <div
                   className="p-8 rounded-3xl flex flex-col items-center justify-center gap-4 text-center min-h-[280px]"
                   style={{
@@ -733,7 +482,6 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                       border: "1px solid rgba(77,240,172,0.25)",
                     }}
                   >
-                    {/* Decorative glow */}
                     <div
                       className="absolute top-0 right-0 w-40 h-40 rounded-full pointer-events-none"
                       style={{
@@ -767,10 +515,7 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                             {formatARS(result.monthlySavings)}
                           </p>
                           {savingsPct && (
-                            <p
-                              className="text-xs mt-1"
-                              style={{ color: "var(--color-accent)" }}
-                            >
+                            <p className="text-xs mt-1" style={{ color: "var(--color-accent)" }}>
                               {savingsPct}% {tx.savingsTagline}
                             </p>
                           )}
@@ -792,12 +537,6 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                         </div>
                       </div>
 
-                      <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
-                        {tx.transactionsEst}:{" "}
-                        <span className="text-white font-semibold">
-                          {result.transactions.toLocaleString("es-AR")}
-                        </span>
-                      </p>
                     </div>
                   </div>
 
@@ -829,31 +568,12 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                      {/* Debit cost — only if debit involved */}
-                      {(method === "debit" || method === "combined") && (
-                        <CompareRow
-                          label={tx.rowCommissionDebit}
-                          ux={formatARS(result.debitVolume * UX_RATES.debit)}
-                          traditional={formatARS(result.debitVolume * TRADITIONAL_RATES.debit)}
-                        />
-                      )}
-
-                      {/* QR cost — only if QR involved */}
-                      {(method === "qr" || method === "combined") && (
-                        <CompareRow
-                          label={tx.rowCommissionQr}
-                          ux={formatARS(result.qrVolume * UX_RATES.qr)}
-                          traditional={formatARS(result.qrVolume * TRADITIONAL_RATES.qr)}
-                        />
-                      )}
-
                       <CompareRow
                         label={tx.rowTotalCost}
                         ux={formatARS(result.uxCost)}
                         traditional={formatARS(result.traditionalCost)}
                         highlight
                       />
-
                       <CompareRow
                         label={tx.rowNetIncome}
                         ux={formatARS(result.uxNet)}

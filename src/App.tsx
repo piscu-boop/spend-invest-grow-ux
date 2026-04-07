@@ -56,6 +56,15 @@ const AutoOpenBeta: React.FC<{ onOpen: () => void }> = ({ onOpen }) => {
   return null;
 };
 
+// Scroll to top on every route change
+const ScrollToTop: React.FC = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
+
 // Inner component — lives inside BrowserRouter so it can use useLocation/useNavigate
 const AppInner: React.FC = () => {
   const [betaOpen, setBetaOpen] = useState(false);
@@ -72,6 +81,7 @@ const AppInner: React.FC = () => {
 
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route path="/"
           element={<Index onOpenBeta={() => setBetaOpen(true)} />}

@@ -1,9 +1,9 @@
 import { useMemo, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import { useLanguage } from "@/contexts/LanguageContext";
 import Footer from "@/components/Footer";
-import { TrendingUp, Shield, Smartphone, CreditCard } from "lucide-react";
+import { TrendingUp, Shield, Smartphone, CreditCard, Wallet, ArrowRight } from "lucide-react";
 
 type PartnerStore = {
   name: string;
@@ -611,6 +611,44 @@ const Consumer: React.FC<ConsumerProps> = ({ onOpenBeta }) => {
                 <p className="text-gray-500 text-sm">{step.description}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Simulator Banner */}
+      <section className="py-12 md:py-14" style={{ background: "var(--color-bg-dark)" }}>
+        <div className="container mx-auto px-4">
+          <div
+            className="max-w-3xl mx-auto flex flex-col md:flex-row items-center gap-6 p-7 md:p-9 rounded-3xl"
+            style={{ background: "rgba(77,240,172,0.06)", border: "1px solid rgba(77,240,172,0.18)" }}
+          >
+            <div
+              className="flex-shrink-0 w-14 h-14 rounded-2xl flex items-center justify-center"
+              style={{ background: "rgba(77,240,172,0.12)", border: "1px solid rgba(77,240,172,0.2)" }}
+            >
+              <Wallet size={26} style={{ color: "var(--color-accent)" }} />
+            </div>
+            <div className="flex-1 text-center md:text-left">
+              <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: "var(--color-accent)" }}>
+                {language === "en" ? "Try the simulator" : "Probá el simulador"}
+              </p>
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-1">
+                {language === "en" ? "See how your money works for you" : "Mirá cómo tu plata trabaja por vos"}
+              </h3>
+              <p className="text-sm" style={{ color: "rgba(255,255,255,0.6)" }}>
+                {language === "en"
+                  ? "Simulate your daily spending and discover your real returns with UX Dual."
+                  : "Simulá tus gastos diarios y descubrí cuánto rendimiento generás con UX Dual."}
+              </p>
+            </div>
+            <Link
+              to="/simulador"
+              className="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
+              style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
+            >
+              {language === "en" ? "Go to simulator" : "Ir al simulador"}
+              <ArrowRight size={16} />
+            </Link>
           </div>
         </div>
       </section>
