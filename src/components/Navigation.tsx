@@ -23,19 +23,17 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
   useEffect(() => { setMobileOpen(false); }, [location.pathname]);
 
   const navLinks = language === 'en' ? [
-    { label: "About UX",        href: isHomePage ? "#hero" : "/#hero" },
-    { label: "Simulator",       href: "/simulador" },
-    { label: "For Businesses",  href: "/comercios" },
-    { label: "Press",           href: "/press" },
-    { label: "FAQ",             href: "/faq" },
-    { label: "Team",            href: "/team" },
+    { label: "About UX",    href: isHomePage ? "#hero" : "/#hero" },
+    { label: "Simulators",  href: "/simuladores" },
+    { label: "Press",       href: "/press" },
+    { label: "FAQ",         href: "/faq" },
+    { label: "Team",        href: "/team" },
   ] : [
-    { label: "Acerca de UX",   href: isHomePage ? "#hero" : "/#hero" },
-    { label: "Simulador",      href: "/simulador" },
-    { label: "Para Comercios", href: "/comercios" },
-    { label: "Prensa",         href: "/press" },
-    { label: "FAQ",            href: "/faq" },
-    { label: "Team",           href: "/team" },
+    { label: "Acerca de UX", href: isHomePage ? "#hero" : "/#hero" },
+    { label: "Simuladores",  href: "/simuladores" },
+    { label: "Prensa",       href: "/press" },
+    { label: "FAQ",          href: "/faq" },
+    { label: "Team",         href: "/team" },
   ];
 
   const ctaLabel = 'Portal Web UX';
