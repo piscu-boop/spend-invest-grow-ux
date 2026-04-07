@@ -494,61 +494,43 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
       <Navigation onOpenBeta={onOpenBeta} />
 
       {/* ──────────────────────────────────────── HERO ── */}
-      <section
-        className="relative pt-36 pb-28 md:pt-52 md:pb-40 overflow-hidden"
-        style={{ minHeight: "clamp(480px, 60vh, 780px)" }}
-      >
-        {/* Decorative blobs */}
-        <div
-          className="absolute top-0 right-0 w-[520px] h-[520px] rounded-full pointer-events-none"
-          style={{
-            background: "radial-gradient(circle, rgba(77,240,172,0.09) 0%, transparent 65%)",
-            transform: "translate(35%, -30%)",
-          }}
-        />
-        <div
-          className="absolute bottom-0 left-0 w-80 h-80 rounded-full pointer-events-none"
-          style={{
-            background: "radial-gradient(circle, rgba(77,240,172,0.06) 0%, transparent 70%)",
-            transform: "translate(-30%, 35%)",
-          }}
-        />
+      <section className="relative min-h-[60vh] flex flex-col items-center justify-center text-center px-4 pt-24 pb-16 overflow-hidden">
+        {/* Decorative blobs — same diffuse treatment as consumer simulator */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-24 right-10 w-80 h-80 bg-ux-green/8 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 left-10 w-60 h-60 bg-blue-500/5 rounded-full blur-3xl" />
+        </div>
 
-        <div className="container mx-auto px-5 relative z-10">
-          <div className="max-w-2xl">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 mb-6">
-              <span
-                className="px-3 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase"
-                style={{
-                  background: "rgba(77,240,172,0.12)",
-                  color: "var(--color-accent)",
-                  border: "1px solid rgba(77,240,172,0.25)",
-                }}
-              >
-                {tx.heroTag}
-              </span>
-            </div>
+        <div className="relative z-10 max-w-2xl mx-auto space-y-5">
+          {/* Badge */}
+          <span
+            className="inline-block px-3 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase"
+            style={{
+              background: "rgba(77,240,172,0.12)",
+              color: "var(--color-accent)",
+              border: "1px solid rgba(77,240,172,0.25)",
+            }}
+          >
+            {tx.heroTag}
+          </span>
 
-            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6 text-white">
-              {tx.heroTitle}
-            </h1>
-            <p
-              className="text-base md:text-xl leading-relaxed mb-10 max-w-xl"
-              style={{ color: "rgba(255,255,255,0.65)" }}
-            >
-              {tx.heroSubtitle}
-            </p>
+          <h1 className="text-4xl md:text-5xl font-bold leading-tight text-white">
+            {tx.heroTitle}
+          </h1>
+          <p
+            className="text-lg text-white/70 leading-relaxed"
+          >
+            {tx.heroSubtitle}
+          </p>
 
-            <a
-              href="#merchant-simulator"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
-              style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
-            >
-              {tx.heroStart}
-              <ArrowRight size={16} />
-            </a>
-          </div>
+          <a
+            href="#merchant-simulator"
+            className="inline-flex items-center gap-2 mt-2 px-8 py-4 rounded-full font-bold text-sm transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
+            style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
+          >
+            {tx.heroStart}
+            <ArrowRight size={16} />
+          </a>
         </div>
       </section>
 
