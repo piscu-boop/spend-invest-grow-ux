@@ -64,7 +64,7 @@ const t = {
     // Settlement info banner
     settlementInfoTitle: "Dos modalidades de acreditación",
     settlementInfoBody:
-      "Contamos con acreditación instantánea vía e-check o acreditación estándar con un promedio de 17 días corridos. La mejor alternativa para tu negocio la definimos juntos en una reunión con nuestro equipo.",
+      "Contamos con acreditación instantánea o acreditación estándar con un promedio de 17 días corridos. La mejor alternativa para tu negocio la definimos juntos en una reunión con nuestro equipo.",
 
     // CTA
     ctaTitle: "Hablemos de tu negocio",
@@ -113,7 +113,7 @@ const t = {
 
     settlementInfoTitle: "Two settlement options",
     settlementInfoBody:
-      "We offer instant settlement via e-check or standard settlement averaging 17 calendar days. The best option for your business is something we'll work out together during your call with our team.",
+      "We offer instant settlement or standard settlement averaging 17 calendar days. The best option for your business is something we'll work out together during your call with our team.",
 
     ctaTitle: "Let's talk about your business",
     ctaBody:
