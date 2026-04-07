@@ -490,16 +490,13 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
       : null;
 
   return (
-    <div className="min-h-screen" style={{ background: "var(--color-bg-dark-2)" }}>
+    <div className="min-h-screen" style={{ background: "var(--color-bg-dark)" }}>
       <Navigation onOpenBeta={onOpenBeta} />
 
       {/* ──────────────────────────────────────── HERO ── */}
       <section
         className="relative pt-36 pb-28 md:pt-52 md:pb-40 overflow-hidden"
-        style={{
-          background: "linear-gradient(160deg, #0E2240 0%, #1A3560 60%, #0E2240 100%)",
-          minHeight: "clamp(480px, 60vh, 780px)",
-        }}
+        style={{ minHeight: "clamp(480px, 60vh, 780px)" }}
       >
         {/* Decorative blobs */}
         <div
@@ -953,12 +950,7 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
       </section>
 
       {/* ──────────────────────────────────────── CTA ── */}
-      <section
-        className="py-16 md:py-24"
-        style={{
-          background: "linear-gradient(160deg, #0E2240 0%, #1A3560 100%)",
-        }}
-      >
+      <section className="py-16 md:py-24">
         <div className="container mx-auto px-5 text-center max-w-xl">
           <div
             className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-6"
