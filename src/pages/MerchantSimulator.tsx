@@ -1,10 +1,9 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   TrendingDown,
-  CalendarClock,
   AlertCircle,
   ArrowRight,
   ChevronDown,
@@ -12,6 +11,7 @@ import {
   Zap,
   CircleDollarSign,
   BarChart3,
+  Info,
 } from "lucide-react";
 
 // ---------------------------------------------------------------------------
@@ -19,44 +19,29 @@ import {
 // ---------------------------------------------------------------------------
 const CALENDLY_URL = "https://calendly.com/uxcapital"; // ← Replace with final Calendly URL
 
-// Business rules
+// Business rules (internal only — not exposed in UI)
 const TRADITIONAL_RATES = {
-  debit: 0.0168, // 1.68%
-  qr: 0.008,    // 0.80%
+  debit: 0.0168,
+  qr: 0.008,
 };
 const UX_RATES = {
-  // max(0.5%, traditional * 0.5) for each method
-  debit: Math.max(0.005, TRADITIONAL_RATES.debit * 0.5), // → 0.0084 (0.84%)
-  qr: Math.max(0.005, TRADITIONAL_RATES.qr * 0.5),       // → 0.005 (0.50%)
-};
-const SETTLEMENT = {
-  traditional: { debit: 1, qr: 0 }, // business days
-  ux: 17.4, // calendar days average (2nd business day of following month)
+  debit: Math.max(0.005, TRADITIONAL_RATES.debit * 0.5), // → 0.0084
+  qr: Math.max(0.005, TRADITIONAL_RATES.qr * 0.5),       // → 0.005
 };
 
 type PaymentMethod = "debit" | "qr" | "combined";
-type SimMode = "estimated" | "real";
 
 // ---------------------------------------------------------------------------
 // Translations
 // ---------------------------------------------------------------------------
 const t = {
   es: {
-    // Nav badge
-    pageBadge: "Simulador para Comercios",
-
     // Hero
     heroTag: "Para comercios y negocios",
     heroTitle: "¿Cuánto te cobran de más por cada venta?",
     heroSubtitle:
       "Calculá cuánto podrías ahorrar cobrando con UX Capital versus los procesadores de pago tradicionales. Sin compromisos, sin datos sensibles.",
-    heroStart: "Calcular ahorro",
-
-    // Mode tabs
-    modeEstimated: "Estimado",
-    modeReal: "Con mis datos",
-    modeEstimatedHint: "Rápido — usá valores aproximados",
-    modeRealHint: "Más preciso — ingresá tus datos reales",
+    heroStart: "Calcular mi ahorro",
 
     // Inputs
     inputsTitle: "Datos de tu negocio",
@@ -66,10 +51,10 @@ const t = {
     hintTicket: "Valor promedio de cada transacción",
     labelMethod: "Método de cobro principal",
     methodDebit: "Débito",
-    methodQr: "QR / transferencia",
+    methodQr: "QR",
     methodCombined: "Combinación",
     labelDebitPct: "% Débito",
-    labelQrPct: "% QR / transferencia",
+    labelQrPct: "% QR",
     combinedHint: "El total debe sumar 100%",
     combinedError: "El porcentaje de débito y QR debe sumar exactamente 100%",
     calcBtn: "Ver mi ahorro estimado",
@@ -82,33 +67,25 @@ const t = {
 
     // Results
     resultTitle: "Tu ahorro estimado con UX Capital",
-    resultSubtitle: "Comparando con el benchmark de procesadores tradicionales",
+    resultSubtitle: "Comparando con valores de referencia del mercado",
     savingsMonthly: "Ahorro mensual",
     savingsAnnual: "Proyección anual",
-    savingsTagline: "menos por cada peso cobrado",
+    savingsTagline: "menos en costos de cobro",
     transactionsEst: "Transacciones estimadas / mes",
 
     // Comparison table
     compareTitle: "Comparativa detallada",
     colUx: "UX Capital",
     colTraditional: "Tradicional",
-    rowCommissionDebit: "Comisión débito",
-    rowCommissionQr: "Comisión QR",
+    rowCommissionDebit: "Costo por cobro débito",
+    rowCommissionQr: "Costo por cobro QR",
     rowTotalCost: "Costo mensual total",
     rowNetIncome: "Ingreso neto mensual",
-    rowSettlement: "Acreditación",
 
-    // Settlement labels
-    settlementDebitTrad: "T+1",
-    settlementQrTrad: "Inmediata",
-    settlementCombinedTrad: (days: string) => `Prom. ${days} día(s)`,
-    settlementUx: "2° día hábil del mes siguiente",
-    settlementUxHint: "Acreditación por defecto al 2° día hábil del mes siguiente",
-
-    // Immediate settlement flag
-    immediateTitle: "¿Necesitás acreditación inmediata?",
-    immediateBody:
-      "Podemos evaluar condiciones de acreditación especiales con un asesor. Hablalo en tu llamada.",
+    // Settlement info banner (below results, not a comparison row)
+    settlementInfoTitle: "Dos modalidades de acreditación",
+    settlementInfoBody:
+      "Contamos con acreditación instantánea vía e-check o acreditación estándar con un promedio de 17 días corridos. La mejor alternativa para tu negocio la definimos juntos en una reunión con nuestro equipo.",
 
     // CTA
     ctaTitle: "Hablemos de tu negocio",
@@ -122,25 +99,18 @@ const t = {
     methodologyBtn: "Ver supuestos del cálculo",
     methodologyTitle: "Supuestos del cálculo",
     methodologyItems: [
-      "Las tasas tradicionales son valores de referencia de mercado: débito 1,68%, QR 0,80%.",
-      "La comisión de UX Capital es max(0,50%, tasa_tradicional × 0,5): débito 0,84%, QR 0,50%.",
-      "La acreditación UX por defecto se modela como promedio de 17,4 días calendario (2° día hábil del mes siguiente).",
-      "El cálculo no incluye impuestos ni otros cargos asociados a cada procesador.",
+      "Las condiciones comparadas responden a valores de referencia de mercado y a la propuesta comercial de UX Capital.",
+      "El cálculo no incluye impuestos, percepciones ni otros cargos adicionales.",
       "Los valores son estimativos. La propuesta final puede variar según el perfil y volumen del comercio.",
+      "Las modalidades de acreditación disponibles se definen en la propuesta comercial.",
     ],
   },
   en: {
-    pageBadge: "Business Simulator",
     heroTag: "For businesses & merchants",
     heroTitle: "How much are you overpaying per sale?",
     heroSubtitle:
       "Calculate how much you could save by accepting payments with UX Capital vs. traditional payment processors. No commitment, no sensitive data required.",
-    heroStart: "Calculate savings",
-
-    modeEstimated: "Estimated",
-    modeReal: "With my data",
-    modeEstimatedHint: "Quick — use approximate values",
-    modeRealHint: "More precise — enter your real figures",
+    heroStart: "Calculate my savings",
 
     inputsTitle: "Your business data",
     labelVolume: "Monthly sales volume",
@@ -149,10 +119,10 @@ const t = {
     hintTicket: "Average value per transaction",
     labelMethod: "Main payment method",
     methodDebit: "Debit",
-    methodQr: "QR / transfer",
+    methodQr: "QR",
     methodCombined: "Combination",
     labelDebitPct: "% Debit",
-    labelQrPct: "% QR / transfer",
+    labelQrPct: "% QR",
     combinedHint: "Must add up to 100%",
     combinedError: "Debit and QR percentages must add up to exactly 100%",
     calcBtn: "See my estimated savings",
@@ -163,30 +133,23 @@ const t = {
     errExceedsVolume: "Average ticket cannot exceed monthly volume.",
 
     resultTitle: "Your estimated savings with UX Capital",
-    resultSubtitle: "Compared to the traditional processor benchmark",
+    resultSubtitle: "Compared to market benchmark rates",
     savingsMonthly: "Monthly savings",
     savingsAnnual: "Annual projection",
-    savingsTagline: "less per peso collected",
+    savingsTagline: "less in payment processing costs",
     transactionsEst: "Estimated transactions / month",
 
     compareTitle: "Detailed comparison",
     colUx: "UX Capital",
     colTraditional: "Traditional",
-    rowCommissionDebit: "Debit commission",
-    rowCommissionQr: "QR commission",
+    rowCommissionDebit: "Debit processing cost",
+    rowCommissionQr: "QR processing cost",
     rowTotalCost: "Total monthly cost",
     rowNetIncome: "Monthly net income",
-    rowSettlement: "Settlement",
 
-    settlementDebitTrad: "T+1",
-    settlementQrTrad: "Immediate",
-    settlementCombinedTrad: (days: string) => `Avg. ${days} day(s)`,
-    settlementUx: "2nd business day of following month",
-    settlementUxHint: "Default settlement on the 2nd business day of the following month",
-
-    immediateTitle: "Need immediate settlement?",
-    immediateBody:
-      "We can evaluate special settlement conditions with an advisor. Discuss this on your call.",
+    settlementInfoTitle: "Two settlement options",
+    settlementInfoBody:
+      "We offer instant settlement via e-check or standard settlement averaging 17 calendar days. The best option for your business is something we'll work out together during your call with our team.",
 
     ctaTitle: "Let's talk about your business",
     ctaBody:
@@ -198,11 +161,10 @@ const t = {
     methodologyBtn: "View calculation assumptions",
     methodologyTitle: "Calculation assumptions",
     methodologyItems: [
-      "Traditional rates are market benchmarks: debit 1.68%, QR 0.80%.",
-      "UX Capital commission is max(0.50%, traditional_rate × 0.5): debit 0.84%, QR 0.50%.",
-      "Default UX settlement is modeled as an average of 17.4 calendar days (2nd business day of following month).",
-      "Calculation excludes taxes and other processor-specific fees.",
+      "Figures are based on market reference rates and UX Capital's commercial offering.",
+      "Calculation excludes taxes, withholdings, and other additional charges.",
       "Values are estimates. The final proposal may vary based on merchant profile and volume.",
+      "Available settlement options are defined in the commercial proposal.",
     ],
   },
 };
@@ -218,18 +180,15 @@ function formatARS(value: number): string {
   }).format(value);
 }
 
-function formatPct(value: number): string {
-  return `${(value * 100).toFixed(2)}%`;
-}
-
 function parseNum(raw: string): number {
+  // Strip thousand separators (dots in es-AR) then parse
   const cleaned = raw.replace(/\./g, "").replace(",", ".");
   return parseFloat(cleaned) || 0;
 }
 
-function formatInput(raw: string): string {
-  const num = parseNum(raw);
-  if (!num) return raw;
+function applyThousandSeparators(digits: string): string {
+  const num = parseInt(digits, 10);
+  if (isNaN(num)) return "";
   return new Intl.NumberFormat("es-AR", { maximumFractionDigits: 0 }).format(num);
 }
 
@@ -240,8 +199,8 @@ interface CalcInput {
   volume: number;
   ticket: number;
   method: PaymentMethod;
-  debitPct: number; // 0–100
-  qrPct: number;    // 0–100
+  debitPct: number;
+  qrPct: number;
 }
 
 interface CalcResult {
@@ -254,7 +213,6 @@ interface CalcResult {
   annualSavings: number;
   traditionalNet: number;
   uxNet: number;
-  traditionalSettlementDays: number; // weighted
 }
 
 function calculate(input: CalcInput): CalcResult {
@@ -281,14 +239,8 @@ function calculate(input: CalcInput): CalcResult {
 
   const monthlySavings = traditionalCost - uxCost;
   const annualSavings = monthlySavings * 12;
-
   const traditionalNet = volume - traditionalCost;
   const uxNet = volume - uxCost;
-
-  const debitShare = debitVolume / volume;
-  const qrShare = qrVolume / volume;
-  const traditionalSettlementDays =
-    debitShare * SETTLEMENT.traditional.debit + qrShare * SETTLEMENT.traditional.qr;
 
   return {
     transactions,
@@ -300,12 +252,11 @@ function calculate(input: CalcInput): CalcResult {
     annualSavings,
     traditionalNet,
     uxNet,
-    traditionalSettlementDays,
   };
 }
 
 // ---------------------------------------------------------------------------
-// Sub-components
+// NumericInput — with live thousand-separator formatting
 // ---------------------------------------------------------------------------
 interface NumericInputProps {
   label: string;
@@ -323,43 +274,89 @@ const NumericInput: React.FC<NumericInputProps> = ({
   onChange,
   prefix = "$",
   error,
-}) => (
-  <div className="flex flex-col gap-1.5">
-    <label className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.85)" }}>
-      {label}
-    </label>
-    {hint && (
-      <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
-        {hint}
-      </p>
-    )}
-    <div
-      className={`flex items-center gap-2 px-4 py-3 rounded-xl border transition-colors ${
-        error ? "border-red-400/60" : "border-white/15 focus-within:border-[var(--color-accent)]"
-      }`}
-      style={{ background: "rgba(255,255,255,0.05)" }}
-    >
-      <span className="text-sm font-medium" style={{ color: "var(--color-accent)" }}>
-        {prefix}
-      </span>
-      <input
-        type="text"
-        inputMode="numeric"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onBlur={(e) => onChange(formatInput(e.target.value))}
-        className="flex-1 bg-transparent text-white text-sm font-medium outline-none placeholder:text-white/30"
-        placeholder="0"
-      />
-    </div>
-    {error && (
-      <p className="text-xs flex items-center gap-1" style={{ color: "#f87171" }}>
-        <AlertCircle size={12} /> {error}
-      </p>
-    )}
-  </div>
-);
+}) => {
+  const inputRef = useRef<HTMLInputElement>(null);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    const cursorPos = e.target.selectionStart ?? raw.length;
+
+    // Count how many digit characters appear before the cursor in the old string
+    const digitsBeforeCursor = raw.slice(0, cursorPos).replace(/\D/g, "").length;
+
+    // Strip everything except digits
+    const digitsOnly = raw.replace(/\D/g, "");
+
+    if (!digitsOnly) {
+      onChange("");
+      return;
+    }
+
+    const formatted = applyThousandSeparators(digitsOnly);
+    onChange(formatted);
+
+    // Restore cursor position after React re-renders
+    requestAnimationFrame(() => {
+      const el = inputRef.current;
+      if (!el) return;
+      let digitCount = 0;
+      let newPos = formatted.length; // default: end of string
+      if (digitsBeforeCursor === 0) {
+        newPos = 0;
+      } else {
+        for (let i = 0; i < formatted.length; i++) {
+          if (/\d/.test(formatted[i])) digitCount++;
+          if (digitCount === digitsBeforeCursor) {
+            newPos = i + 1;
+            break;
+          }
+        }
+      }
+      el.setSelectionRange(newPos, newPos);
+    });
+  };
+
+  return (
+    <div className="flex flex-col gap-1.5">
+      <label className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.85)" }}>
+        {label}
+      </label>
+      {hint && (
+        <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
+          {hint}
+        </p>
+      )}
+      <div
+        className={`flex items-center gap-2 px-4 py-3 rounded-xl border transition-colors ${
+          error ? "border-red-400/60" : "border-white/15 focus-within:border-[var(--color-accent)]"
+        }`}
+        style={{ background: "rgba(255,255,255,0.05)" }}
+      >
+        <span className="text-sm font-medium" style={{ color: "var(--color-accent)" }}>
+          {prefix}
+        </span>
+        <input
+          ref={inputRef}
+          type="text"
+          inputMode="numeric"
+          value={value}
+          onChange={handleChange}
+          className="flex-1 bg-transparent text-white text-sm font-medium outline-none placeholder:text-white/30"
+          placeholder="0"
+        />
+      </div>
+      {error && (
+        <p className="text-xs flex items-center gap-1" style={{ color: "#f87171" }}>
+          <AlertCircle size={12} /> {error}
+        </p>
+      )}
+    </div>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// MethodButton
+// ---------------------------------------------------------------------------
 interface MethodButtonProps {
   label: string;
   selected: boolean;
@@ -371,9 +368,7 @@ const MethodButton: React.FC<MethodButtonProps> = ({ label, selected, onClick })
     type="button"
     onClick={onClick}
     className={`flex-1 py-2.5 px-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
-      selected
-        ? "text-[var(--color-text-dark)]"
-        : "text-white/60 hover:text-white/90"
+      selected ? "text-[var(--color-text-dark)]" : "text-white/60 hover:text-white/90"
     }`}
     style={{
       background: selected ? "var(--color-accent)" : "rgba(255,255,255,0.06)",
@@ -384,6 +379,9 @@ const MethodButton: React.FC<MethodButtonProps> = ({ label, selected, onClick })
   </button>
 );
 
+// ---------------------------------------------------------------------------
+// CompareRow
+// ---------------------------------------------------------------------------
 interface CompareRowProps {
   label: string;
   ux: React.ReactNode;
@@ -397,24 +395,16 @@ const CompareRow: React.FC<CompareRowProps> = ({ label, ux, traditional, highlig
       highlight ? "ring-1 ring-[var(--color-accent)]/30" : ""
     }`}
     style={{
-      background: highlight
-        ? "rgba(77,240,172,0.07)"
-        : "rgba(255,255,255,0.03)",
+      background: highlight ? "rgba(77,240,172,0.07)" : "rgba(255,255,255,0.03)",
     }}
   >
     <span className="text-xs" style={{ color: "rgba(255,255,255,0.55)" }}>
       {label}
     </span>
-    <span
-      className="text-xs font-semibold text-center"
-      style={{ color: "var(--color-accent)" }}
-    >
+    <span className="text-xs font-semibold text-center" style={{ color: "var(--color-accent)" }}>
       {ux}
     </span>
-    <span
-      className="text-xs font-medium text-center"
-      style={{ color: "rgba(255,255,255,0.5)" }}
-    >
+    <span className="text-xs font-medium text-center" style={{ color: "rgba(255,255,255,0.5)" }}>
       {traditional}
     </span>
   </div>
@@ -431,9 +421,6 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
   const { language } = useLanguage();
   const tx = t[language];
 
-  // Mode
-  const [mode, setMode] = useState<SimMode>("estimated");
-
   // Inputs
   const [volumeStr, setVolumeStr] = useState("");
   const [ticketStr, setTicketStr] = useState("");
@@ -441,7 +428,7 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
   const [debitPct, setDebitPct] = useState(70);
   const [qrPct, setQrPct] = useState(30);
 
-  // Validation
+  // Validation errors
   const [errors, setErrors] = useState<{ volume?: string; ticket?: string; combined?: string }>({});
 
   // Result
@@ -486,7 +473,6 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
       })
     );
 
-    // Scroll to results on mobile
     setTimeout(() => {
       document.getElementById("merchant-results")?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 50);
@@ -497,20 +483,11 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
     setErrors({});
   }, []);
 
-  // Settlement display
-  const settlementTraditionalLabel = () => {
-    if (method === "debit") return tx.settlementDebitTrad;
-    if (method === "qr") return tx.settlementQrTrad;
-    if (result) {
-      return tx.settlementCombinedTrad(result.traditionalSettlementDays.toFixed(1));
-    }
-    return "—";
-  };
-
-  // Savings percentage
-  const savingsPct = result && result.traditionalCost > 0
-    ? ((result.monthlySavings / result.traditionalCost) * 100).toFixed(1)
-    : null;
+  // Savings percentage vs traditional cost
+  const savingsPct =
+    result && result.traditionalCost > 0
+      ? ((result.monthlySavings / result.traditionalCost) * 100).toFixed(1)
+      : null;
 
   return (
     <div className="min-h-screen" style={{ background: "var(--color-bg-dark-2)" }}>
@@ -518,31 +495,34 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
 
       {/* ──────────────────────────────────────── HERO ── */}
       <section
-        className="relative pt-28 pb-16 md:pt-36 md:pb-20 overflow-hidden"
-        style={{ background: "linear-gradient(160deg, #0E2240 0%, #1A3560 60%, #0E2240 100%)" }}
+        className="relative pt-36 pb-28 md:pt-52 md:pb-40 overflow-hidden"
+        style={{
+          background: "linear-gradient(160deg, #0E2240 0%, #1A3560 60%, #0E2240 100%)",
+          minHeight: "clamp(480px, 60vh, 780px)",
+        }}
       >
-        {/* decorative blobs */}
+        {/* Decorative blobs */}
         <div
-          className="absolute top-0 right-0 w-96 h-96 rounded-full pointer-events-none"
+          className="absolute top-0 right-0 w-[520px] h-[520px] rounded-full pointer-events-none"
           style={{
-            background: "radial-gradient(circle, rgba(77,240,172,0.08) 0%, transparent 70%)",
-            transform: "translate(30%, -30%)",
+            background: "radial-gradient(circle, rgba(77,240,172,0.09) 0%, transparent 65%)",
+            transform: "translate(35%, -30%)",
           }}
         />
         <div
-          className="absolute bottom-0 left-0 w-72 h-72 rounded-full pointer-events-none"
+          className="absolute bottom-0 left-0 w-80 h-80 rounded-full pointer-events-none"
           style={{
-            background: "radial-gradient(circle, rgba(77,240,172,0.05) 0%, transparent 70%)",
-            transform: "translate(-30%, 30%)",
+            background: "radial-gradient(circle, rgba(77,240,172,0.06) 0%, transparent 70%)",
+            transform: "translate(-30%, 35%)",
           }}
         />
 
         <div className="container mx-auto px-5 relative z-10">
           <div className="max-w-2xl">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 mb-5">
+            <div className="inline-flex items-center gap-2 mb-6">
               <span
-                className="px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase"
+                className="px-3 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase"
                 style={{
                   background: "rgba(77,240,172,0.12)",
                   color: "var(--color-accent)",
@@ -553,16 +533,19 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
               </span>
             </div>
 
-            <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-5 text-white">
+            <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6 text-white">
               {tx.heroTitle}
             </h1>
-            <p className="text-base md:text-lg leading-relaxed mb-8" style={{ color: "rgba(255,255,255,0.65)" }}>
+            <p
+              className="text-base md:text-xl leading-relaxed mb-10 max-w-xl"
+              style={{ color: "rgba(255,255,255,0.65)" }}
+            >
               {tx.heroSubtitle}
             </p>
 
             <a
               href="#merchant-simulator"
-              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-full font-semibold text-sm transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-sm transition-all duration-200 hover:opacity-90 hover:scale-[1.02]"
               style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
             >
               {tx.heroStart}
@@ -575,30 +558,6 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
       {/* ──────────────────────────────────────── SIMULATOR ── */}
       <section id="merchant-simulator" className="py-14 md:py-20">
         <div className="container mx-auto px-5">
-
-          {/* Mode tabs */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-8 max-w-lg">
-            {(["estimated", "real"] as SimMode[]).map((m) => (
-              <button
-                key={m}
-                type="button"
-                onClick={() => { setMode(m); setResult(null); setErrors({}); }}
-                className={`flex-1 flex flex-col items-center gap-0.5 py-3 px-4 rounded-2xl border text-sm font-medium transition-all duration-200`}
-                style={{
-                  background: mode === m ? "rgba(77,240,172,0.1)" : "rgba(255,255,255,0.04)",
-                  borderColor: mode === m ? "var(--color-accent)" : "rgba(255,255,255,0.1)",
-                  color: mode === m ? "var(--color-accent)" : "rgba(255,255,255,0.55)",
-                }}
-              >
-                <span className="font-semibold">
-                  {m === "estimated" ? tx.modeEstimated : tx.modeReal}
-                </span>
-                <span className="text-xs opacity-70">
-                  {m === "estimated" ? tx.modeEstimatedHint : tx.modeRealHint}
-                </span>
-              </button>
-            ))}
-          </div>
 
           {/* Two-column layout */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
@@ -637,7 +596,10 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
 
                 {/* Payment method */}
                 <div className="flex flex-col gap-2">
-                  <label className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.85)" }}>
+                  <label
+                    className="text-sm font-medium"
+                    style={{ color: "rgba(255,255,255,0.85)" }}
+                  >
                     {tx.labelMethod}
                   </label>
                   <div className="flex gap-2">
@@ -659,11 +621,14 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                   </div>
                 </div>
 
-                {/* Combined split */}
+                {/* Combined split sliders */}
                 {method === "combined" && (
                   <div
                     className="p-4 rounded-2xl flex flex-col gap-4"
-                    style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.06)" }}
+                    style={{
+                      background: "rgba(255,255,255,0.04)",
+                      border: "1px solid rgba(255,255,255,0.06)",
+                    }}
                   >
                     <p className="text-xs" style={{ color: "rgba(255,255,255,0.45)" }}>
                       {tx.combinedHint}
@@ -672,10 +637,16 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                     {/* Debit % */}
                     <div className="flex flex-col gap-2">
                       <div className="flex justify-between items-center">
-                        <label className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.8)" }}>
+                        <label
+                          className="text-sm font-medium"
+                          style={{ color: "rgba(255,255,255,0.8)" }}
+                        >
                           {tx.labelDebitPct}
                         </label>
-                        <span className="text-sm font-bold" style={{ color: "var(--color-accent)" }}>
+                        <span
+                          className="text-sm font-bold"
+                          style={{ color: "var(--color-accent)" }}
+                        >
                           {debitPct}%
                         </span>
                       </div>
@@ -693,10 +664,16 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                     {/* QR % */}
                     <div className="flex flex-col gap-2">
                       <div className="flex justify-between items-center">
-                        <label className="text-sm font-medium" style={{ color: "rgba(255,255,255,0.8)" }}>
+                        <label
+                          className="text-sm font-medium"
+                          style={{ color: "rgba(255,255,255,0.8)" }}
+                        >
                           {tx.labelQrPct}
                         </label>
-                        <span className="text-sm font-bold" style={{ color: "var(--color-accent)" }}>
+                        <span
+                          className="text-sm font-bold"
+                          style={{ color: "var(--color-accent)" }}
+                        >
                           {qrPct}%
                         </span>
                       </div>
@@ -712,14 +689,17 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                     </div>
 
                     {errors.combined && (
-                      <p className="text-xs flex items-center gap-1" style={{ color: "#f87171" }}>
+                      <p
+                        className="text-xs flex items-center gap-1"
+                        style={{ color: "#f87171" }}
+                      >
                         <AlertCircle size={12} /> {errors.combined}
                       </p>
                     )}
                   </div>
                 )}
 
-                {/* CTA */}
+                {/* Calculate / Reset button */}
                 {!result ? (
                   <button
                     type="button"
@@ -752,14 +732,14 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
               {!result ? (
                 /* Placeholder before calculation */
                 <div
-                  className="p-8 rounded-3xl flex flex-col items-center justify-center gap-4 text-center min-h-[260px]"
+                  className="p-8 rounded-3xl flex flex-col items-center justify-center gap-4 text-center min-h-[280px]"
                   style={{
                     background: "rgba(255,255,255,0.03)",
                     border: "1px dashed rgba(255,255,255,0.1)",
                   }}
                 >
-                  <TrendingDown size={40} style={{ color: "rgba(255,255,255,0.15)" }} />
-                  <p style={{ color: "rgba(255,255,255,0.35)" }} className="text-sm">
+                  <TrendingDown size={40} style={{ color: "rgba(255,255,255,0.12)" }} />
+                  <p style={{ color: "rgba(255,255,255,0.3)" }} className="text-sm">
                     {tx.calcBtn}
                   </p>
                 </div>
@@ -769,7 +749,8 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                   <div
                     className="p-6 md:p-8 rounded-3xl relative overflow-hidden"
                     style={{
-                      background: "linear-gradient(135deg, rgba(77,240,172,0.12) 0%, rgba(77,240,172,0.04) 100%)",
+                      background:
+                        "linear-gradient(135deg, rgba(77,240,172,0.12) 0%, rgba(77,240,172,0.04) 100%)",
                       border: "1px solid rgba(77,240,172,0.25)",
                     }}
                   >
@@ -777,7 +758,8 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                     <div
                       className="absolute top-0 right-0 w-40 h-40 rounded-full pointer-events-none"
                       style={{
-                        background: "radial-gradient(circle, rgba(77,240,172,0.15) 0%, transparent 70%)",
+                        background:
+                          "radial-gradient(circle, rgba(77,240,172,0.15) 0%, transparent 70%)",
                         transform: "translate(20%, -20%)",
                       }}
                     />
@@ -785,7 +767,10 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                     <div className="relative z-10">
                       <div className="flex items-center gap-2 mb-2">
                         <Zap size={16} style={{ color: "var(--color-accent)" }} />
-                        <span className="text-xs font-semibold uppercase tracking-widest" style={{ color: "var(--color-accent)" }}>
+                        <span
+                          className="text-xs font-semibold uppercase tracking-widest"
+                          style={{ color: "var(--color-accent)" }}
+                        >
                           {tx.resultTitle}
                         </span>
                       </div>
@@ -793,7 +778,7 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                         {tx.resultSubtitle}
                       </p>
 
-                      {/* Main KPI */}
+                      {/* Main KPIs */}
                       <div className="flex flex-col sm:flex-row gap-5 mb-5">
                         <div>
                           <p className="text-xs mb-1" style={{ color: "rgba(255,255,255,0.55)" }}>
@@ -803,29 +788,41 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                             {formatARS(result.monthlySavings)}
                           </p>
                           {savingsPct && (
-                            <p className="text-xs mt-1" style={{ color: "var(--color-accent)" }}>
+                            <p
+                              className="text-xs mt-1"
+                              style={{ color: "var(--color-accent)" }}
+                            >
                               {savingsPct}% {tx.savingsTagline}
                             </p>
                           )}
                         </div>
 
-                        <div className="sm:border-l sm:pl-5" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+                        <div
+                          className="sm:border-l sm:pl-5"
+                          style={{ borderColor: "rgba(255,255,255,0.1)" }}
+                        >
                           <p className="text-xs mb-1" style={{ color: "rgba(255,255,255,0.55)" }}>
                             {tx.savingsAnnual}
                           </p>
-                          <p className="text-2xl font-bold" style={{ color: "var(--color-accent)" }}>
+                          <p
+                            className="text-2xl font-bold"
+                            style={{ color: "var(--color-accent)" }}
+                          >
                             {formatARS(result.annualSavings)}
                           </p>
                         </div>
                       </div>
 
                       <p className="text-xs" style={{ color: "rgba(255,255,255,0.4)" }}>
-                        {tx.transactionsEst}: <span className="text-white font-semibold">{result.transactions.toLocaleString("es-AR")}</span>
+                        {tx.transactionsEst}:{" "}
+                        <span className="text-white font-semibold">
+                          {result.transactions.toLocaleString("es-AR")}
+                        </span>
                       </p>
                     </div>
                   </div>
 
-                  {/* ── Detailed comparison ── */}
+                  {/* ── Detailed comparison table ── */}
                   <div
                     className="p-6 rounded-3xl"
                     style={{
@@ -837,29 +834,35 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
 
                     {/* Column headers */}
                     <div className="grid grid-cols-3 gap-2 mb-2 px-3">
-                      <span className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }} />
-                      <span className="text-xs font-semibold text-center" style={{ color: "var(--color-accent)" }}>
+                      <span style={{ color: "rgba(255,255,255,0.35)" }} />
+                      <span
+                        className="text-xs font-semibold text-center"
+                        style={{ color: "var(--color-accent)" }}
+                      >
                         {tx.colUx}
                       </span>
-                      <span className="text-xs font-semibold text-center" style={{ color: "rgba(255,255,255,0.5)" }}>
+                      <span
+                        className="text-xs font-semibold text-center"
+                        style={{ color: "rgba(255,255,255,0.5)" }}
+                      >
                         {tx.colTraditional}
                       </span>
                     </div>
 
                     <div className="flex flex-col gap-1.5">
-                      {/* Commission debit — only if debit involved */}
+                      {/* Debit cost — only if debit involved */}
                       {(method === "debit" || method === "combined") && (
                         <CompareRow
-                          label={`${tx.rowCommissionDebit} (${formatPct(UX_RATES.debit)} vs ${formatPct(TRADITIONAL_RATES.debit)})`}
+                          label={tx.rowCommissionDebit}
                           ux={formatARS(result.debitVolume * UX_RATES.debit)}
                           traditional={formatARS(result.debitVolume * TRADITIONAL_RATES.debit)}
                         />
                       )}
 
-                      {/* Commission QR — only if QR involved */}
+                      {/* QR cost — only if QR involved */}
                       {(method === "qr" || method === "combined") && (
                         <CompareRow
-                          label={`${tx.rowCommissionQr} (${formatPct(UX_RATES.qr)} vs ${formatPct(TRADITIONAL_RATES.qr)})`}
+                          label={tx.rowCommissionQr}
                           ux={formatARS(result.qrVolume * UX_RATES.qr)}
                           traditional={formatARS(result.qrVolume * TRADITIONAL_RATES.qr)}
                         />
@@ -877,45 +880,31 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                         ux={formatARS(result.uxNet)}
                         traditional={formatARS(result.traditionalNet)}
                       />
-
-                      {/* Settlement */}
-                      <div
-                        className="grid grid-cols-3 gap-2 py-3 px-3 rounded-xl"
-                        style={{ background: "rgba(255,255,255,0.03)" }}
-                      >
-                        <span className="text-xs" style={{ color: "rgba(255,255,255,0.55)" }}>
-                          {tx.rowSettlement}
-                        </span>
-                        <div className="flex flex-col items-center gap-0.5">
-                          <span className="text-xs font-semibold text-center" style={{ color: "var(--color-accent)" }}>
-                            {tx.settlementUx}
-                          </span>
-                          <span className="text-[10px] text-center" style={{ color: "rgba(255,255,255,0.3)" }}>
-                            (~{SETTLEMENT.ux}d prom.)
-                          </span>
-                        </div>
-                        <span className="text-xs font-medium text-center" style={{ color: "rgba(255,255,255,0.5)" }}>
-                          {settlementTraditionalLabel()}
-                        </span>
-                      </div>
                     </div>
                   </div>
 
-                  {/* ── Immediate settlement flag ── */}
+                  {/* ── Settlement info banner ── */}
                   <div
-                    className="p-4 rounded-2xl flex items-start gap-3"
+                    className="p-4 md:p-5 rounded-2xl flex items-start gap-3"
                     style={{
-                      background: "rgba(251,191,36,0.07)",
-                      border: "1px solid rgba(251,191,36,0.2)",
+                      background: "rgba(77,240,172,0.05)",
+                      border: "1px solid rgba(77,240,172,0.15)",
                     }}
                   >
-                    <CalendarClock size={18} className="shrink-0 mt-0.5" style={{ color: "#fbbf24" }} />
+                    <Info
+                      size={18}
+                      className="shrink-0 mt-0.5"
+                      style={{ color: "var(--color-accent)" }}
+                    />
                     <div>
-                      <p className="text-sm font-semibold mb-0.5" style={{ color: "#fbbf24" }}>
-                        {tx.immediateTitle}
+                      <p
+                        className="text-sm font-semibold mb-1"
+                        style={{ color: "var(--color-accent)" }}
+                      >
+                        {tx.settlementInfoTitle}
                       </p>
-                      <p className="text-xs" style={{ color: "rgba(255,255,255,0.55)" }}>
-                        {tx.immediateBody}
+                      <p className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.6)" }}>
+                        {tx.settlementInfoBody}
                       </p>
                     </div>
                   </div>
@@ -939,10 +928,16 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
                         border: "1px solid rgba(255,255,255,0.06)",
                       }}
                     >
-                      <p className="text-xs font-semibold mb-3 text-white">{tx.methodologyTitle}</p>
+                      <p className="text-xs font-semibold mb-3 text-white">
+                        {tx.methodologyTitle}
+                      </p>
                       <ul className="flex flex-col gap-2">
                         {tx.methodologyItems.map((item, i) => (
-                          <li key={i} className="flex items-start gap-2 text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>
+                          <li
+                            key={i}
+                            className="flex items-start gap-2 text-xs"
+                            style={{ color: "rgba(255,255,255,0.5)" }}
+                          >
                             <span style={{ color: "var(--color-accent)" }}>·</span>
                             {item}
                           </li>
@@ -967,7 +962,10 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
         <div className="container mx-auto px-5 text-center max-w-xl">
           <div
             className="inline-flex items-center justify-center w-14 h-14 rounded-2xl mb-6"
-            style={{ background: "rgba(77,240,172,0.1)", border: "1px solid rgba(77,240,172,0.2)" }}
+            style={{
+              background: "rgba(77,240,172,0.1)",
+              border: "1px solid rgba(77,240,172,0.2)",
+            }}
           >
             <ArrowRight size={24} style={{ color: "var(--color-accent)" }} />
           </div>
