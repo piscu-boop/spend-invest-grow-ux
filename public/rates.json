@@ -17,7 +17,7 @@
     "Para verificar un ID CAFCI: abrir https://www.cafci.org.ar/ficha-fondo.html?q={fundId};{classId}"
   ],
   "version": "3",
-  "lastUpdated": "2026-05-23T10:40:59.584Z",
+  "lastUpdated": "2026-05-23T16:06:57.795Z",
   "generatedBy": "scripts/fetchRates.js",
   "liveRatesCount": 0,
   "totalWallets": 4,
