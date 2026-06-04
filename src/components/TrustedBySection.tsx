@@ -1,11 +1,12 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const trustedLogos = [
-  { name: "DraperHouseAm", src: "/lovable-uploads/logo-draperHA.png", alt: "Draper House America", filter: "brightness(1.1) saturate(0.9)", opacity: 0.85 },
-  { name: "Delta",         src: "/lovable-uploads/logo-delta.png",    alt: "Delta",               filter: "brightness(0) invert(1)",     opacity: 0.75 },
-  { name: "Bizland",       src: "/lovable-uploads/logo-bizland.png",  alt: "Bizland",             filter: "brightness(0) invert(1)",     opacity: 0.75 },
-  { name: "DraperHouse",   src: "/lovable-uploads/logo-draperHo.png", alt: "Draper House",        filter: "brightness(1.2) saturate(0.8) contrast(1.1)", opacity: 0.85 },
-  { name: "DraperUniv",    src: "/lovable-uploads/logo-draperU.png",  alt: "Draper University",   filter: "brightness(0) invert(1)",     opacity: 0.75 },
+  { name: "DraperHouseAm", src: "/lovable-uploads/logo-draperHA.png",      alt: "Draper House America", filter: "brightness(1.1) saturate(0.9)", opacity: 0.85 },
+  { name: "Delta",         src: "/lovable-uploads/logo-delta.png",          alt: "Delta",               filter: "brightness(0) invert(1)",     opacity: 0.75 },
+  { name: "Bizland",       src: "/lovable-uploads/logo-bizland.png",        alt: "Bizland",             filter: "brightness(0) invert(1)",     opacity: 0.75 },
+  { name: "DraperHouse",   src: "/lovable-uploads/logo-draperHo.png",       alt: "Draper House",        filter: "brightness(1.2) saturate(0.8) contrast(1.1)", opacity: 0.85 },
+  { name: "DraperUniv",    src: "/lovable-uploads/logo-draperU.png",        alt: "Draper University",   filter: "brightness(0) invert(1)",     opacity: 0.75 },
+  { name: "EndeavorHIT",   src: "/lovable-uploads/logo-endeavor-hit.svg",   alt: "Endeavor HIT",        filter: "none",                        opacity: 0.90, width: 180, height: 44 },
 ];
 
 const titles = { en: "Trusted by", es: "Confían en nosotros" };
@@ -21,14 +22,14 @@ const TrustedBySection = () => {
       <div className="overflow-hidden">
         <div className="flex items-center gap-16 animate-scroll-logos min-w-[200%]">
           {[...trustedLogos, ...trustedLogos, ...trustedLogos].map((l, i) => (
-            <div key={l.name + i} className="flex items-center justify-center h-12 min-w-[120px]">
+            <div key={l.name + i} className="flex items-center justify-center h-14 min-w-[120px]">
               <img
                 src={l.src}
                 alt={l.alt}
-                className="object-contain max-h-10 transition-opacity"
-                style={{ filter: l.filter, opacity: l.opacity }}
-                width={110}
-                height={40}
+                className="object-contain transition-opacity"
+                style={{ filter: l.filter, opacity: l.opacity, maxHeight: l.height ?? 40 }}
+                width={l.width ?? 110}
+                height={l.height ?? 40}
                 loading="lazy"
               />
             </div>
