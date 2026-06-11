@@ -86,9 +86,13 @@ const Footer = () => {
 
           {/* Brand */}
           <div className="flex flex-col gap-5 max-w-sm">
-            <p className="font-display text-2xl">
-              UX <span className="text-teal">Capital</span>
-            </p>
+          <div className="flex items-center">
+          <img
+            src="/lovable-uploads/logo-capital.png"
+            alt="UX Capital"
+            className="max-h-16 w-auto"
+          />
+          </div>
             <p className="text-base leading-[1.7] text-uxc-muted-foreground">
               {c.description}
             </p>

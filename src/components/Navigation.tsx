@@ -12,12 +12,10 @@ const SECTION_LINKS = {
   es: [
     { href: "#nodo-bank", label: "UX Nodo Bank" },
     { href: "#ux-dual", label: "UX Dual" },
-    { href: "#contacto", label: "Contacto" },
   ],
   en: [
     { href: "#nodo-bank", label: "UX Nodo Bank" },
     { href: "#ux-dual", label: "UX Dual" },
-    { href: "#contacto", label: "Contact" },
   ],
 };
 

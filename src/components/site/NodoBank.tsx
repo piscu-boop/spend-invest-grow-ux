@@ -35,13 +35,13 @@ const content = {
       {
         icon: Code2,
         title: "Time-to-market en semanas, no años",
-        body: "SDK, sandbox y documentación completa. Equipos de ingeniería trabajan en paralelo con tu banco para llegar a producción en ciclos cortos y previsibles.",
+        body: "API, sandbox y documentación completa. Equipos de ingeniería trabajan en paralelo con tu banco para llegar a producción en ciclos cortos y previsibles.",
       },
     ],
     apiTag: "Integración técnica",
     apiTitle: "Una llamada. Cinco campos. Listo.",
     apiDesc:
-      "Documentación completa, sandbox público, SDKs para los stacks más usados en bancos LATAM. Compliance, idempotencia y trazabilidad de auditoría desde el primer request.",
+      "Documentación completa, sandbox público, APIs para integración en bancos LATAM. Compliance, idempotencia y trazabilidad de auditoría desde el primer request.",
     apiCta: "Solicitar acceso a docs",
   },
   en: {
@@ -76,13 +76,13 @@ const content = {
       {
         icon: Code2,
         title: "Time-to-market in weeks, not years",
-        body: "SDK, sandbox and full documentation. Engineering teams work in parallel with your bank to reach production in short, predictable cycles.",
+        body: "APIs, sandbox and full documentation. Engineering teams work in parallel with your bank to reach production in short, predictable cycles.",
       },
     ],
     apiTag: "Technical integration",
     apiTitle: "One call. Five fields. Done.",
     apiDesc:
-      "Full documentation, public sandbox, SDKs for the most-used stacks at LATAM banks. Compliance, idempotency and audit traceability from the first request.",
+      "Full documentation, public sandbox, APIs for integration in LATAM banks. Compliance, idempotency and audit traceability from the first request.",
     apiCta: "Request docs access",
   },
 };

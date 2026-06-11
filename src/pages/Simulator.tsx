@@ -632,7 +632,7 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
                   title={t.cardUxTitle}
                   value={formatARS(result.uxMonthlyReturn)}
                   subtitle={t.cardUxSubtitle(uxTnaDisplay)}
-                  featured
+                  featured={result.uxAdvantageMonthly >= 0}
                   tag={t.cardUxTag}
                 />
                 <ResultCard

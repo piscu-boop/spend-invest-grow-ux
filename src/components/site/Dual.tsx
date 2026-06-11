@@ -55,7 +55,7 @@ const content = {
 
 function PhoneMockup() {
   return (
-    <div className="relative mx-auto flex w-[260px] items-center justify-center">
+    <div className="relative mx-auto flex w-[340px] max-w-full items-center justify-center">
       <div
         className="absolute inset-0 rounded-full blur-3xl"
         style={{
