@@ -433,6 +433,15 @@ html {
 }
 
 /* Section palettes — never flat, never white, never grey */
+.bg-palette-a,
+.bg-palette-b,
+.bg-bifurcation-wrap,
+.bg-vision,
+.bg-footer-deep,
+.bg-nav-solid,
+.bg-navy-deep {
+  color: #ffffff;
+}
 .bg-palette-a       { background: var(--uxc-gradient-palette-a); }
 .bg-palette-b       { background: var(--uxc-gradient-palette-b); }
 .bg-bifurcation-wrap { background-color: var(--uxc-bg-bifurcation); }
