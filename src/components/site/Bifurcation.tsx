@@ -5,6 +5,7 @@ function NodoVisual() {
   return (
     <svg
       viewBox="0 0 320 200"
+      preserveAspectRatio="none"
       className="absolute right-0 top-0 h-full w-full opacity-40"
       aria-hidden
     >
@@ -49,6 +50,7 @@ function DualVisual() {
   return (
     <svg
       viewBox="0 0 320 200"
+      preserveAspectRatio="none"
       className="absolute right-0 top-0 h-full w-full opacity-40"
       aria-hidden
     >
@@ -157,7 +159,7 @@ export function Bifurcation() {
               <img
                 src="/lovable-uploads/logo-dual.png"
                 alt="UX Dual"
-                className="mb-6 h-10 w-auto"
+                className="mb-6 mt-3 h-10 w-auto"
               />
               <p className="eyebrow text-teal">Para usuarios y comercios</p>
               <h3 className="mt-4 font-display text-4xl md:text-5xl">UX Dual</h3>
