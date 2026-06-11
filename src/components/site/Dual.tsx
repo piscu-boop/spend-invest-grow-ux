@@ -15,37 +15,20 @@ const merchantFeatures = [
 
 function PhoneMockup() {
   return (
-    <div className="relative mx-auto aspect-[9/19] w-[260px] rounded-[2.5rem] border border-white/15 bg-gradient-to-b from-[#16213d] to-[#0a0f1c] p-3 shadow-[0_40px_120px_-30px_rgba(0,200,150,0.5)]">
-      <div className="h-full w-full rounded-[2rem] border border-white/10 bg-navy-deep p-5">
-        <div className="flex items-center justify-between text-xs text-uxc-muted-foreground">
-          <span>9:41</span>
-          <span className="h-2 w-2 rounded-full bg-teal" />
-        </div>
-        <div className="mt-6">
-          <p className="text-xs text-uxc-muted-foreground">Saldo invertido</p>
-          <p className="font-display text-3xl">$ 482.190</p>
-          <p className="mt-1 text-xs text-teal">+ $312 hoy · 31,5% TNA</p>
-        </div>
-        <div className="mt-6 grid aspect-square w-full place-items-center rounded-2xl bg-white p-4">
-          <svg viewBox="0 0 100 100" className="h-full w-full">
-            {Array.from({ length: 13 }).map((_, i) =>
-              Array.from({ length: 13 }).map((_, j) => (
-                <rect
-                  key={`${i}-${j}`}
-                  x={i * 7 + 4}
-                  y={j * 7 + 4}
-                  width="6"
-                  height="6"
-                  fill={(i * j + i + j) % 3 === 0 ? "#0A0F1E" : "transparent"}
-                />
-              )),
-            )}
-          </svg>
-        </div>
-        <button className="mt-5 w-full rounded-full bg-teal py-3 text-sm font-semibold text-navy-deep">
-          Pagar
-        </button>
-      </div>
+    <div className="relative mx-auto flex w-[260px] items-center justify-center">
+      <div
+        className="absolute inset-0 rounded-full blur-3xl"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(0,200,150,0.25) 0%, rgba(0,200,150,0.08) 70%, transparent 100%)",
+          transform: "translate(-5%, -5%)",
+        }}
+      />
+      <img
+        src="/lovable-uploads/200931e1-23f7-4c91-8aa2-73df09bab162.png"
+        alt="UX Dual App"
+        className="relative z-10 w-full drop-shadow-2xl"
+      />
     </div>
   );
 }
@@ -66,6 +49,13 @@ export function Dual() {
         <div className="max-w-3xl">
           <FadeUp>
             <p className="eyebrow text-teal">UX Dual</p>
+          </FadeUp>
+          <FadeUp delay={0.025}>
+            <img
+              src="/lovable-uploads/logo-dual.png"
+              alt="UX Dual"
+              className="mt-6 h-10 w-auto"
+            />
           </FadeUp>
           <FadeUp delay={0.05}>
             <h2 className="mt-6 text-balance font-display text-4xl leading-[1.1] sm:text-5xl md:text-6xl">
