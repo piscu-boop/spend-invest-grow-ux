@@ -28,30 +28,23 @@ export function Contact() {
         </FadeUp>
 
         <FadeUp delay={0.15}>
-          <form
-            className="mx-auto mt-12 flex max-w-xl flex-col gap-3 sm:flex-row"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input
-              type="email"
-              required
-              placeholder="email@tubanco.com"
-              className="flex-1 rounded-full border border-white/15 bg-white/5 px-5 py-3.5 text-sm placeholder:text-uxc-muted-foreground focus:border-teal focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="rounded-full bg-teal px-6 py-3.5 text-sm font-semibold text-navy-deep transition hover:opacity-90"
+          <div className="mx-auto mt-12 flex max-w-xl justify-center">
+            <a
+              href="https://calendly.com/uxcapital"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-teal px-8 py-3.5 text-sm font-semibold text-navy-deep transition hover:opacity-90"
             >
               Agendar demo
-            </button>
-          </form>
+            </a>
+          </div>
         </FadeUp>
 
         <FadeUp delay={0.2}>
           <p className="mt-6 text-xs text-uxc-muted-foreground">
             O escribinos a{" "}
-            <a className="text-teal hover:underline" href="mailto:hola@uxcapital.io">
-              hola@uxcapital.io
+            <a className="text-teal hover:underline" href="mailto:info@uxcapital.la">
+              info@uxcapital.la
             </a>
           </p>
         </FadeUp>
