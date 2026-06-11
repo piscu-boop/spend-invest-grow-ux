@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { ArrowDown } from "lucide-react";
+import { motion } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useNavigate } from "react-router-dom";
 
@@ -8,18 +9,26 @@ interface HeroSectionAudienceProps {
 
 const content = {
   en: {
-    mainTitle: "Turning Every Purchase into an Investment",
+    eyebrow: "PAYMENTS WITH INVESTMENT",
+    title: "Turning every payment into an investment",
+    subtitle: "Investment-powered payment infrastructure for your bank and your business.",
+    bank: "I'm a Bank",
+    dual: "I'm a user or merchant",
     consumer: "I'm a Consumer",
     merchant: "I'm a Merchant",
     manufacturer: "I'm a Manufacturer",
-    cta: "Join"
+    cta: "Join",
   },
   es: {
-    mainTitle: "Transformando cada Compra en Inversión",
+    eyebrow: "PAGOS CON INVERSIÓN",
+    title: "Transformando cada pago en inversión",
+    subtitle: "Infraestructura de Pagos con Inversión para tu banco y tu negocio.",
+    bank: "Soy Banco",
+    dual: "Soy usuario o comercio",
     consumer: "Soy Consumidor",
     merchant: "Soy Comercio",
     manufacturer: "Soy Fabricante",
-    cta: "Unite"
+    cta: "Unite",
   },
 };
 
@@ -28,86 +37,114 @@ const HeroSectionAudience: React.FC<HeroSectionAudienceProps> = ({ onOpenBeta })
   const navigate = useNavigate();
   const c = content[language];
 
-  const heroRef = useRef<HTMLElement>(null);
-  // Hero siempre está above-the-fold — animar desde el primer render
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    // Pequeño delay para que las transiciones CSS sean visibles
-    const t = setTimeout(() => setVisible(true), 60);
-    return () => clearTimeout(t);
-  }, []);
-
-  const currentContent = content[language];
-
   return (
     <section
       id="hero"
-      ref={heroRef}
-      className="relative min-h-screen flex items-center overflow-hidden"
-      style={{ background: "var(--color-bg-dark)" }}
+      className="bg-palette-b relative flex min-h-screen items-center justify-center overflow-hidden px-6 pt-20"
     >
-      {/* Gradiente decorativo */}
-      <div
-        className="absolute top-0 right-0 w-[600px] h-[600px] pointer-events-none"
-        style={{ background: "radial-gradient(circle at 80% 20%, rgba(77,240,172,0.12) 0%, transparent 70%)" }}
-      />
-      <div
-        className="absolute bottom-0 left-0 w-[400px] h-[400px] pointer-events-none"
-        style={{ background: "radial-gradient(circle at 20% 80%, rgba(77,240,172,0.05) 0%, transparent 70%)" }}
-      />
-
-      <div className="container mx-auto px-5 pt-24 pb-16 relative z-10">
-        <div className="max-w-[700px] mx-auto text-center flex flex-col items-center gap-8">
-
-          {/* H1 */}
-          <h1
-            className={`font-semibold leading-tight text-white transition-all duration-500 text-[clamp(2rem,5vw,3.25rem)] ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-            style={{ transitionDelay: "0ms" }}
-          >
-            {c.mainTitle}
-          </h1>
-
-          {/* Botones de audiencia */}
-          <div
-            className={`flex flex-col sm:flex-row gap-3 justify-center flex-wrap transition-all duration-500 ${visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
-            style={{ transitionDelay: "100ms" }}
-          >
-            <button
-              type="button"
-              onClick={() => navigate("/consumer#hero")}
-              className="px-7 py-3.5 rounded-full font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"
-              style={{ background: "var(--color-bg-dark-2)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)" }}
-            >
-              {c.consumer}
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate("/merchant#hero")}
-              className="px-7 py-3.5 rounded-full font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"
-              style={{ background: "var(--color-bg-dark-2)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)" }}
-            >
-              {c.merchant}
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate("/manufacturer#hero")}
-              className="px-7 py-3.5 rounded-full font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"
-              style={{ background: "var(--color-bg-dark-2)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)" }}
-            >
-              {c.manufacturer}
-            </button>
-
-              <button
-                onClick={onOpenBeta}
-                className="px-8 py-3.5 rounded-full font-semibold text-base transition-all duration-200 hover:scale-105 active:scale-95"
-                style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
-              >
-                {c.cta}
-              </button>
-          </div>
-        </div>
+      {/* Animated mesh */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="orb-teal left-[10%] top-[20%] h-[420px] w-[420px]" />
+        <div className="orb-blue right-[8%] top-[10%] h-[480px] w-[480px]" />
+        <div className="orb-teal bottom-[5%] left-[40%] h-[360px] w-[360px] opacity-60" />
+        <div className="absolute inset-0 bg-gradient-mesh" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#001a1a]" />
       </div>
+
+      <div className="relative z-10 mx-auto max-w-4xl text-center">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="eyebrow text-teal"
+        >
+          {c.eyebrow}
+        </motion.p>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-6 text-balance font-display text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl md:text-7xl lg:text-[6rem]"
+        >
+          <span className="bg-gradient-to-r from-teal via-teal to-blue bg-clip-text text-transparent">
+            {c.title}
+          </span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.25 }}
+          className="mx-auto mt-8 max-w-xl text-balance text-base text-uxc-muted-foreground sm:text-lg md:text-[1.125rem] md:leading-[1.7]"
+        >
+          {c.subtitle}
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.4 }}
+          className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap"
+        >
+          <a
+            href="#nodo-bank"
+            className="inline-flex items-center justify-center rounded-full bg-teal px-6 py-3.5 text-sm font-semibold text-navy-deep shadow-[0_10px_40px_-10px_rgba(0,200,150,0.6)] transition hover:opacity-90"
+          >
+            {c.bank}
+          </a>
+          <a
+            href="#ux-dual"
+            className="inline-flex items-center justify-center rounded-full border border-white/25 bg-transparent px-6 py-3.5 text-sm font-semibold transition hover:bg-white/5"
+          >
+            {c.dual}
+          </a>
+          <button
+            type="button"
+            onClick={onOpenBeta}
+            className="inline-flex items-center justify-center rounded-full border border-white/15 bg-navy/60 px-6 py-3.5 text-sm font-semibold text-white transition hover:bg-white/10"
+          >
+            {c.cta}
+          </button>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, delay: 0.5 }}
+          className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap"
+        >
+          <button
+            type="button"
+            onClick={() => navigate("/consumer#hero")}
+            className="px-5 py-2.5 rounded-full text-sm font-medium text-uxc-muted-foreground border border-white/10 transition hover:text-white hover:border-white/25"
+          >
+            {c.consumer}
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/merchant#hero")}
+            className="px-5 py-2.5 rounded-full text-sm font-medium text-uxc-muted-foreground border border-white/10 transition hover:text-white hover:border-white/25"
+          >
+            {c.merchant}
+          </button>
+          <button
+            type="button"
+            onClick={() => navigate("/manufacturer#hero")}
+            className="px-5 py-2.5 rounded-full text-sm font-medium text-uxc-muted-foreground border border-white/10 transition hover:text-white hover:border-white/25"
+          >
+            {c.manufacturer}
+          </button>
+        </motion.div>
+      </div>
+
+      <a
+        href="#problema"
+        aria-label="Scroll"
+        className="animate-bounce-soft absolute bottom-8 left-1/2 -translate-x-1/2 text-uxc-muted-foreground"
+      >
+        <ArrowDown className="h-5 w-5" />
+      </a>
     </section>
   );
 };
