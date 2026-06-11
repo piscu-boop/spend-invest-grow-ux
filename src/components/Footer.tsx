@@ -1,6 +1,10 @@
 const QUICK_LINKS = [
-  { label: "Acerca de UX", href: "/#hero" },
-  { label: "Cómo Funciona", href: "/#how-it-works" },
+  { label: "Inicio", href: "/#hero" },
+  { label: "UX Nodo Bank", href: "/#nodo-bank" },
+  { label: "UX Dual", href: "/#ux-dual" },
+  { label: "Partners", href: "/#partners" },
+  { label: "Contacto", href: "/#contacto" },
+  { label: "Prensa", href: "/press" },
 ];
 
 const SOCIAL = [
