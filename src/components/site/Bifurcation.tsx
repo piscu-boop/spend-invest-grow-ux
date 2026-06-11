@@ -1,5 +1,33 @@
 import { ArrowRight } from "lucide-react";
 import { FadeUp } from "./Reveal";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+const content = {
+  es: {
+    nodoTag: "Para bancos",
+    nodoDesc:
+      "Tecnología de pagos con inversión que tu banco integra vía API sobre su infraestructura existente. Vos mantenés la licencia, el custody y la relación con el cliente.",
+    nodoBadges: ["API-first", "Plug-in sobre tu core", "Nueva línea de ingresos"],
+    nodoCta: "Ver tecnología",
+    dualTag: "Para usuarios y comercios",
+    dualDesc:
+      "La primera billetera donde tu saldo sigue invertido en FCI mientras pagás con QR. Y si sos comercio, aceptás pagos inteligentes con liquidación garantizada.",
+    dualBadges: ["Pago con QR", "Rendimiento diario", "Sin fricciones"],
+    dualCta: "Conocer UX Dual",
+  },
+  en: {
+    nodoTag: "For banks",
+    nodoDesc:
+      "Investment-powered payment technology that your bank integrates via API on top of its existing infrastructure. You keep the license, the custody, and the customer relationship.",
+    nodoBadges: ["API-first", "Plugs into your core", "New revenue stream"],
+    nodoCta: "See the technology",
+    dualTag: "For users and merchants",
+    dualDesc:
+      "The first wallet where your balance stays invested in money market funds while you pay with QR. And if you're a merchant, you accept smart payments with guaranteed settlement.",
+    dualBadges: ["QR payments", "Daily yield", "Frictionless"],
+    dualCta: "Discover UX Dual",
+  },
+};
 
 function NodoVisual() {
   return (
@@ -108,6 +136,9 @@ function DualVisual() {
 }
 
 export function Bifurcation() {
+  const { language } = useLanguage();
+  const c = content[language];
+
   return (
     <section className="bg-bifurcation-wrap relative px-6 py-20">
       <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
@@ -119,17 +150,15 @@ export function Bifurcation() {
           >
             <NodoVisual />
             <div className="relative">
-              <p className="eyebrow text-blue">Para bancos</p>
+              <p className="eyebrow text-blue">{c.nodoTag}</p>
               <h3 className="mt-4 font-display text-4xl md:text-5xl">
                 UX Nodo Bank
               </h3>
               <p className="mt-5 max-w-md text-base leading-[1.7] text-uxc-muted-foreground">
-                Tecnología de pagos con inversión que tu banco integra vía API
-                sobre su infraestructura existente. Vos mantenés la licencia,
-                el custody y la relación con el cliente.
+                {c.nodoDesc}
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
-                {["API-first", "Plug-in sobre tu core", "Nueva línea de ingresos"].map(
+                {c.nodoBadges.map(
                   (t) => (
                     <span
                       key={t}
@@ -141,7 +170,7 @@ export function Bifurcation() {
                 )}
               </div>
               <span className="mt-10 inline-flex items-center gap-2 rounded-full bg-blue px-5 py-2.5 text-sm font-semibold text-white transition group-hover:gap-3">
-                Ver tecnología
+                {c.nodoCta}
                 <ArrowRight className="h-4 w-4" />
               </span>
             </div>
@@ -161,15 +190,13 @@ export function Bifurcation() {
                 alt="UX Dual"
                 className="mb-6 mt-3 h-10 w-auto"
               />
-              <p className="eyebrow text-teal">Para usuarios y comercios</p>
+              <p className="eyebrow text-teal">{c.dualTag}</p>
               <h3 className="mt-4 font-display text-4xl md:text-5xl">UX Dual</h3>
               <p className="mt-5 max-w-md text-base leading-[1.7] text-uxc-muted-foreground">
-                La primera billetera donde tu saldo sigue invertido en FCI
-                mientras pagás con QR. Y si sos comercio, aceptás pagos
-                inteligentes con liquidación garantizada.
+                {c.dualDesc}
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
-                {["Pago con QR", "Rendimiento diario", "Sin fricciones"].map(
+                {c.dualBadges.map(
                   (t) => (
                     <span
                       key={t}
@@ -181,7 +208,7 @@ export function Bifurcation() {
                 )}
               </div>
               <span className="mt-10 inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 text-sm font-semibold text-navy-deep transition group-hover:gap-3">
-                Conocer UX Dual
+                {c.dualCta}
                 <ArrowRight className="h-4 w-4" />
               </span>
             </div>

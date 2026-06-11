@@ -2,6 +2,12 @@ import { ArrowUpRight } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { FadeUp } from "@/components/site/Reveal";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+const content = {
+  es: { eyebrow: "UX Capital en los medios", title: "Noticias Destacadas" },
+  en: { eyebrow: "UX Capital in the media", title: "Featured News" },
+};
 
 const PRESS_ARTICLES = [
   {
@@ -78,20 +84,23 @@ const PRESS_ARTICLES = [
 ];
 
 const Press: React.FC = () => {
+  const { language } = useLanguage();
+  const c = content[language];
+
   return (
     <div className="min-h-screen bg-palette-a">
       <Navigation />
 
       <section className="px-6 pb-10 pt-32 text-center md:pt-40">
         <FadeUp>
-          <p className="eyebrow text-teal">UX Capital en los medios</p>
+          <p className="eyebrow text-teal">{c.eyebrow}</p>
         </FadeUp>
         <FadeUp delay={0.05}>
           <h1
             className="mt-4 font-display"
             style={{ fontSize: 60, lineHeight: 1.05, letterSpacing: "-0.02em" }}
           >
-            Noticias Destacadas
+            {c.title}
           </h1>
         </FadeUp>
       </section>

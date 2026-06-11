@@ -1,11 +1,46 @@
-const QUICK_LINKS = [
-  { label: "Inicio", href: "/#hero" },
-  { label: "UX Nodo Bank", href: "/#nodo-bank" },
-  { label: "UX Dual", href: "/#ux-dual" },
-  { label: "Partners", href: "/#partners" },
-  { label: "Contacto", href: "/#contacto" },
-  { label: "Prensa", href: "/press" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
+
+const QUICK_LINKS = {
+  es: [
+    { label: "Inicio", href: "/#hero" },
+    { label: "UX Nodo Bank", href: "/#nodo-bank" },
+    { label: "UX Dual", href: "/#ux-dual" },
+    { label: "Partners", href: "/#partners" },
+    { label: "Contacto", href: "/#contacto" },
+    { label: "Prensa", href: "/press" },
+  ],
+  en: [
+    { label: "Home", href: "/#hero" },
+    { label: "UX Nodo Bank", href: "/#nodo-bank" },
+    { label: "UX Dual", href: "/#ux-dual" },
+    { label: "Partners", href: "/#partners" },
+    { label: "Contact", href: "/#contacto" },
+    { label: "Press", href: "/press" },
+  ],
+};
+
+const content = {
+  es: {
+    description:
+      "La primera plataforma que transforma cada gasto en una inversión con retornos diarios. Construyendo el futuro de la creación automatizada de riqueza.",
+    emailLabel: "Email: ",
+    social: "Síguenos en redes sociales para actualizaciones y consejos",
+    quickLinks: "Enlaces Rápidos",
+    rights: "© 2025 UX Capital S.A.S. Todos los derechos reservados.",
+    disclaimer:
+      "Los rendimientos pasados no garantizan rendimientos futuros. El fondo está regulado por la CNV. Invertir implica riesgos.",
+  },
+  en: {
+    description:
+      "The first platform that turns every purchase into an investment with daily returns. Building the future of automated wealth creation.",
+    emailLabel: "Email: ",
+    social: "Follow us on social media for updates and tips",
+    quickLinks: "Quick Links",
+    rights: "© 2025 UX Capital S.A.S. All rights reserved.",
+    disclaimer:
+      "Past returns do not guarantee future returns. The fund is regulated by the CNV. Investing involves risk.",
+  },
+};
 
 const SOCIAL = [
   {
@@ -37,76 +72,82 @@ const SOCIAL = [
   },
 ];
 
-const Footer = () => (
-  <footer id="footer" className="bg-footer-deep border-t border-white/10">
-    <div className="container mx-auto px-5 py-14 md:py-20">
+const Footer = () => {
+  const { language } = useLanguage();
+  const c = content[language];
+  const quickLinks = QUICK_LINKS[language];
 
-      {/* Top row */}
-      <div className="flex flex-col md:flex-row justify-between gap-12 pb-10 border-b border-white/10">
+  return (
+    <footer id="footer" className="bg-footer-deep border-t border-white/10">
+      <div className="container mx-auto px-5 py-14 md:py-20">
 
-        {/* Brand */}
-        <div className="flex flex-col gap-5 max-w-sm">
-          <p className="font-display text-2xl">
-            UX <span className="text-teal">Capital</span>
-          </p>
-          <p className="text-base leading-[1.7] text-uxc-muted-foreground">
-            La primera plataforma que transforma cada gasto en una inversión con retornos diarios. Construyendo el futuro de la creación automatizada de riqueza.
-          </p>
-          <p className="text-base text-uxc-muted-foreground">
-            <span className="font-semibold text-white">Email: </span>
-            <a
-              href="mailto:info@uxcapital.la"
-              className="transition-colors duration-200 hover:text-teal"
-            >
-              info@uxcapital.la
-            </a>
-          </p>
-          <p className="text-base text-uxc-muted-foreground">
-            Síguenos en redes sociales para actualizaciones y consejos
-          </p>
-          <div className="flex items-center gap-4">
-            {SOCIAL.map((s) => (
+        {/* Top row */}
+        <div className="flex flex-col md:flex-row justify-between gap-12 pb-10 border-b border-white/10">
+
+          {/* Brand */}
+          <div className="flex flex-col gap-5 max-w-sm">
+            <p className="font-display text-2xl">
+              UX <span className="text-teal">Capital</span>
+            </p>
+            <p className="text-base leading-[1.7] text-uxc-muted-foreground">
+              {c.description}
+            </p>
+            <p className="text-base text-uxc-muted-foreground">
+              <span className="font-semibold text-white">{c.emailLabel}</span>
               <a
-                key={s.label}
-                href={s.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={s.label}
-                className="glass flex h-11 w-11 items-center justify-center rounded-full text-uxc-muted-foreground transition-colors duration-200 hover:text-teal"
+                href="mailto:info@uxcapital.la"
+                className="transition-colors duration-200 hover:text-teal"
               >
-                {s.icon}
+                info@uxcapital.la
               </a>
-            ))}
+            </p>
+            <p className="text-base text-uxc-muted-foreground">
+              {c.social}
+            </p>
+            <div className="flex items-center gap-4">
+              {SOCIAL.map((s) => (
+                <a
+                  key={s.label}
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={s.label}
+                  className="glass flex h-11 w-11 items-center justify-center rounded-full text-uxc-muted-foreground transition-colors duration-200 hover:text-teal"
+                >
+                  {s.icon}
+                </a>
+              ))}
+            </div>
           </div>
+
+          {/* Quick links */}
+          <nav aria-label="Footer">
+            <p className="eyebrow text-teal mb-5">{c.quickLinks}</p>
+            <ul className="flex flex-col gap-4">
+              {quickLinks.map((l) => (
+                <li key={l.label}>
+                  <a
+                    href={l.href}
+                    className="text-base text-uxc-muted-foreground transition-colors duration-200 hover:text-white"
+                  >
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
 
-        {/* Enlaces Rápidos */}
-        <nav aria-label="Footer">
-          <p className="eyebrow text-teal mb-5">Enlaces Rápidos</p>
-          <ul className="flex flex-col gap-4">
-            {QUICK_LINKS.map((l) => (
-              <li key={l.label}>
-                <a
-                  href={l.href}
-                  className="text-base text-uxc-muted-foreground transition-colors duration-200 hover:text-white"
-                >
-                  {l.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {/* Bottom row */}
+        <div className="pt-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-uxc-muted-foreground/60">
+          <p>{c.rights}</p>
+          <p className="max-w-md text-right">
+            {c.disclaimer}
+          </p>
+        </div>
       </div>
-
-      {/* Bottom row */}
-      <div className="pt-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-uxc-muted-foreground/60">
-        <p>© 2025 UX Capital S.A.S. Todos los derechos reservados.</p>
-        <p className="max-w-md text-right">
-          Los rendimientos pasados no garantizan rendimientos futuros. El fondo está regulado por la CNV. Invertir implica riesgos.
-        </p>
-      </div>
-    </div>
-  </footer>
-);
+    </footer>
+  );
+};
 
 export default Footer;

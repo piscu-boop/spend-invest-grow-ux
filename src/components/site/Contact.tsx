@@ -1,6 +1,29 @@
 import { FadeUp } from "./Reveal";
+import { useLanguage } from "@/contexts/LanguageContext";
+
+const content = {
+  es: {
+    eyebrow: "Hablemos",
+    title: "Si queres ofrecer pagos con Inversión, empezamos hoy.",
+    subtitle:
+      "Contanos sobre tu banco o comercio y te mostramos cómo integrar pagos con inversión en semanas.",
+    cta: "Agendar demo",
+    emailPrefix: "O escribinos a",
+  },
+  en: {
+    eyebrow: "Let's talk",
+    title: "If you want to offer payments with investment, let's start today.",
+    subtitle:
+      "Tell us about your bank or business and we'll show you how to integrate payments with investment in weeks.",
+    cta: "Book a demo",
+    emailPrefix: "Or email us at",
+  },
+};
 
 export function Contact() {
+  const { language } = useLanguage();
+  const c = content[language];
+
   return (
     <section
       id="contacto"
@@ -13,17 +36,16 @@ export function Contact() {
 
       <div className="relative mx-auto max-w-3xl text-center">
         <FadeUp>
-          <p className="eyebrow text-gold">Hablemos</p>
+          <p className="eyebrow text-gold">{c.eyebrow}</p>
         </FadeUp>
         <FadeUp delay={0.05}>
           <h2 className="mt-6 text-balance font-display text-4xl leading-[1.1] sm:text-5xl md:text-6xl">
-            Si queres ofrecer pagos con Inversión, empezamos hoy.
+            {c.title}
           </h2>
         </FadeUp>
         <FadeUp delay={0.1}>
           <p className="mx-auto mt-6 max-w-xl text-balance text-lg leading-[1.7] text-uxc-muted-foreground">
-            Contanos sobre tu banco o comercio y te mostramos cómo integrar
-            pagos con inversión en semanas.
+            {c.subtitle}
           </p>
         </FadeUp>
 
@@ -35,14 +57,14 @@ export function Contact() {
               rel="noopener noreferrer"
               className="rounded-full bg-teal px-8 py-3.5 text-sm font-semibold text-navy-deep transition hover:opacity-90"
             >
-              Agendar demo
+              {c.cta}
             </a>
           </div>
         </FadeUp>
 
         <FadeUp delay={0.2}>
           <p className="mt-6 text-xs text-uxc-muted-foreground">
-            O escribinos a{" "}
+            {c.emailPrefix}{" "}
             <a className="text-teal hover:underline" href="mailto:info@uxcapital.la">
               info@uxcapital.la
             </a>

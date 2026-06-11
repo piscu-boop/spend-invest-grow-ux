@@ -2,28 +2,53 @@ import LanguageToggle from "./LanguageToggle";
 import { Link, useLocation } from "react-router-dom";
 import { memo, useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface NavigationProps {
   onOpenBeta?: () => void;
 }
 
-const SECTION_LINKS = [
-  { href: "#nodo-bank", label: "UX Nodo Bank" },
-  { href: "#ux-dual", label: "UX Dual" },
-  { href: "#contacto", label: "Contacto" },
-];
+const SECTION_LINKS = {
+  es: [
+    { href: "#nodo-bank", label: "UX Nodo Bank" },
+    { href: "#ux-dual", label: "UX Dual" },
+    { href: "#contacto", label: "Contacto" },
+  ],
+  en: [
+    { href: "#nodo-bank", label: "UX Nodo Bank" },
+    { href: "#ux-dual", label: "UX Dual" },
+    { href: "#contacto", label: "Contact" },
+  ],
+};
 
-const ROUTE_LINKS = [
-  { href: "/simuladores", label: "Simulador" },
-  { href: "/team", label: "Equipo" },
-  { href: "/faq", label: "FAQ" },
-  { href: "/press", label: "Prensa" },
-];
+const ROUTE_LINKS = {
+  es: [
+    { href: "/simuladores", label: "Simulador" },
+    { href: "/team", label: "Equipo" },
+    { href: "/faq", label: "FAQ" },
+    { href: "/press", label: "Prensa" },
+  ],
+  en: [
+    { href: "/simuladores", label: "Simulator" },
+    { href: "/team", label: "Team" },
+    { href: "/faq", label: "FAQ" },
+    { href: "/press", label: "Press" },
+  ],
+};
+
+const content = {
+  es: { cta: "Agendar demo", openMenu: "Abrir menú", closeMenu: "Cerrar menú" },
+  en: { cta: "Book a demo", openMenu: "Open menu", closeMenu: "Close menu" },
+};
 
 const SECTION_IDS = ["hero", "nodo-bank", "ux-dual", "contacto"];
 
 const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
   const location = useLocation();
+  const { language } = useLanguage();
+  const c = content[language];
+  const sectionLinks = SECTION_LINKS[language];
+  const routeLinks = ROUTE_LINKS[language];
   const isHomePage = location.pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -83,7 +108,7 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
         </Link>
 
         <nav className="hidden items-center gap-7 md:flex">
-          {SECTION_LINKS.map((l) => (
+          {sectionLinks.map((l) => (
             <a
               key={l.href}
               href={sectionHref(l.href)}
@@ -95,7 +120,7 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
               {l.label}
             </a>
           ))}
-          {ROUTE_LINKS.map((l) => (
+          {routeLinks.map((l) => (
             <Link
               key={l.href}
               to={l.href}
@@ -115,14 +140,14 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
             onClick={(e) => handleAnchorClick(e, "#contacto")}
             className="inline-flex items-center rounded-full bg-teal px-5 py-2 text-sm font-semibold text-navy-deep transition hover:opacity-90"
           >
-            Agendar demo
+            {c.cta}
           </a>
         </div>
 
         <button
           onClick={() => setOpen((o) => !o)}
           className="md:hidden flex items-center justify-center w-9 h-9 rounded-lg bg-white/10 border border-white/15 hover:bg-white/15 transition-colors"
-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+          aria-label={open ? c.closeMenu : c.openMenu}
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -131,7 +156,7 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
       {open && (
         <div className="fixed inset-0 top-16 z-50 bg-navy-deep md:hidden overflow-y-auto">
           <nav className="flex flex-col gap-1 px-6 pt-4 pb-8">
-            {SECTION_LINKS.map((l) => (
+            {sectionLinks.map((l) => (
               <a
                 key={l.href}
                 href={sectionHref(l.href)}
@@ -142,7 +167,7 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
                 {l.label}
               </a>
             ))}
-            {ROUTE_LINKS.map((l) => (
+            {routeLinks.map((l) => (
               <Link
                 key={l.href}
                 to={l.href}
@@ -161,7 +186,7 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
               onClick={(e) => handleAnchorClick(e, "#contacto")}
               className="mt-4 inline-flex items-center justify-center rounded-full bg-teal px-5 py-3 font-medium text-navy-deep"
             >
-              Agendar demo
+              {c.cta}
             </a>
           </nav>
         </div>

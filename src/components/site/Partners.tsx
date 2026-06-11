@@ -1,4 +1,5 @@
 import { FadeUp } from "./Reveal";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const logos = [
   { name: "Draper University", src: "/lovable-uploads/logo-draperU.png" },
@@ -7,12 +8,20 @@ const logos = [
   { name: "Bizland", src: "/lovable-uploads/logo-bizland.png" },
 ];
 
+const content = {
+  es: { eyebrow: "Confían en nosotros" },
+  en: { eyebrow: "Trusted by" },
+};
+
 export function Partners() {
+  const { language } = useLanguage();
+  const c = content[language];
+
   return (
     <section id="partners" className="relative py-24 bg-navy-deep">
       <div className="mx-auto max-w-6xl px-6 text-center">
         <FadeUp>
-          <p className="eyebrow text-white/60">Confían en nosotros</p>
+          <p className="eyebrow text-white/60">{c.eyebrow}</p>
         </FadeUp>
       </div>
 
