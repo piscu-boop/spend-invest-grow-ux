@@ -18,6 +18,9 @@ export default {
 			}
 		},
 		extend: {
+			fontFamily: {
+				display: ['Syne', 'Inter', 'system-ui', 'sans-serif'],
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -61,7 +64,17 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// UX Capital landing redesign (2026)
+				'navy-deep': '#0A0F1E',
+				navy: '#0E1830',
+				teal: '#00C896',
+				blue: '#3A7BFF',
+				gold: '#F5C518',
+				'uxc-card': '#131D33',
+				'uxc-muted': '#1E2A47',
+				'uxc-muted-foreground': '#94A3B8',
+				'nav-solid': '#0A1628',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

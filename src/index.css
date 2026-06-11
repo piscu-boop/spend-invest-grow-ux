@@ -1,7 +1,7 @@
 /* ============================================================
-   GOOGLE FONTS — Inter + Plus Jakarta Sans
+   GOOGLE FONTS — Inter + Plus Jakarta Sans + Syne
    ============================================================ */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -83,6 +83,31 @@
 
     /* Transición global */
     --transition: 0.25s ease;
+
+    /* ── UX CAPITAL LANDING (redesign 2026) ─────────────────── */
+    --uxc-navy-deep: #0A0F1E;
+    --uxc-navy: #0E1830;
+    --uxc-teal: #00C896;
+    --uxc-teal-glow: rgba(0, 200, 150, 0.35);
+    --uxc-blue: #3A7BFF;
+    --uxc-blue-glow: rgba(58, 123, 255, 0.40);
+    --uxc-gold: #F5C518;
+    --uxc-muted: #1E2A47;
+    --uxc-muted-foreground: #94A3B8;
+    --uxc-card: #131D33;
+    --uxc-border: rgba(255, 255, 255, 0.10);
+
+    --uxc-gradient-palette-a: linear-gradient(135deg, #0A1628 0%, #0d2347 50%, #1a3a6b 100%);
+    --uxc-gradient-palette-b: linear-gradient(135deg, #001a1a 0%, #003d3b 50%, #005a4a 100%);
+    --uxc-bg-bifurcation: #080d1a;
+    --uxc-bg-vision: #050810;
+    --uxc-bg-footer: #060a14;
+    --uxc-bg-nav: #0A1628;
+
+    --uxc-shadow-glow-teal: 0 30px 80px -20px var(--uxc-teal-glow);
+    --uxc-shadow-glow-blue: 0 30px 80px -20px var(--uxc-blue-glow);
+
+    --font-display: 'Syne', 'Inter', system-ui, sans-serif;
   }
 
   .dark {
@@ -382,4 +407,94 @@ html {
 
 .animate-accent-glow {
   animation: accent-glow 2.5s ease-in-out infinite;
+}
+
+/* ============================================================
+   UX CAPITAL LANDING (redesign 2026)
+   ============================================================ */
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.eyebrow {
+  font-family: var(--font-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px) saturate(140%);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+/* Section palettes — never flat, never white, never grey */
+.bg-palette-a       { background: var(--uxc-gradient-palette-a); }
+.bg-palette-b       { background: var(--uxc-gradient-palette-b); }
+.bg-bifurcation-wrap { background-color: var(--uxc-bg-bifurcation); }
+.bg-vision          { background-color: var(--uxc-bg-vision); }
+.bg-footer-deep     { background-color: var(--uxc-bg-footer); }
+.bg-nav-solid       { background-color: var(--uxc-bg-nav); }
+
+.gradient-text-uxc {
+  background: linear-gradient(135deg, var(--uxc-teal), var(--uxc-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-mesh {
+  background-image:
+    radial-gradient(at 20% 30%, var(--uxc-teal-glow), transparent 50%),
+    radial-gradient(at 80% 20%, var(--uxc-blue-glow), transparent 55%),
+    radial-gradient(at 60% 80%, var(--uxc-teal-glow), transparent 60%);
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(20px, -30px, 0) scale(1.08); }
+}
+
+@keyframes float-slow-2 {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(-30px, 20px, 0) scale(1.12); }
+}
+
+@keyframes bounce-soft {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50%      { transform: translateY(8px); opacity: 1; }
+}
+
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* Orbs decorativos */
+.orb-teal {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  background: rgba(0, 200, 150, 0.55);
+  animation: float-slow 14s ease-in-out infinite;
+}
+
+.orb-blue {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  background: rgba(58, 123, 255, 0.55);
+  animation: float-slow-2 18s ease-in-out infinite;
+}
+
+.animate-bounce-soft {
+  animation: bounce-soft 2s ease-in-out infinite;
+}
+
+.animate-marquee-scroll {
+  animation: marquee-scroll 30s linear infinite;
 }
