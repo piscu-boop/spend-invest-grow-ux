@@ -38,34 +38,33 @@ const SOCIAL = [
 ];
 
 const Footer = () => (
-  <footer id="footer" className="bg-footer-deep">
-    <div className="container mx-auto px-5 py-14">
+  <footer id="footer" className="bg-footer-deep border-t border-white/10">
+    <div className="container mx-auto px-5 py-14 md:py-20">
 
       {/* Top row */}
-      <div className="flex flex-col md:flex-row justify-between gap-10 pb-10 border-b" style={{ borderColor: "rgba(255,255,255,0.08)" }}>
+      <div className="flex flex-col md:flex-row justify-between gap-12 pb-10 border-b border-white/10">
 
         {/* Brand */}
         <div className="flex flex-col gap-5 max-w-sm">
-          <img src="/lovable-uploads/logo-capital.png" alt="UX Capital" style={{ height: "40px", width: "180px" }} />
-          <p className="text-base leading-relaxed" style={{ color: "rgba(255,255,255,0.55)" }}>
+          <p className="font-display text-2xl">
+            UX <span className="text-teal">Capital</span>
+          </p>
+          <p className="text-base leading-[1.7] text-uxc-muted-foreground">
             La primera plataforma que transforma cada gasto en una inversión con retornos diarios. Construyendo el futuro de la creación automatizada de riqueza.
           </p>
-          <p className="text-base" style={{ color: "rgba(255,255,255,0.55)" }}>
-            <span className="font-semibold" style={{ color: "rgba(255,255,255,0.85)" }}>Email: </span>
+          <p className="text-base text-uxc-muted-foreground">
+            <span className="font-semibold text-white">Email: </span>
             <a
               href="mailto:info@uxcapital.la"
-              className="transition-colors duration-200"
-              style={{ color: "rgba(255,255,255,0.55)" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-accent)")}
-              onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}
+              className="transition-colors duration-200 hover:text-teal"
             >
               info@uxcapital.la
             </a>
           </p>
-          <p className="text-base" style={{ color: "rgba(255,255,255,0.55)" }}>
+          <p className="text-base text-uxc-muted-foreground">
             Síguenos en redes sociales para actualizaciones y consejos
           </p>
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4">
             {SOCIAL.map((s) => (
               <a
                 key={s.label}
@@ -73,10 +72,7 @@ const Footer = () => (
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={s.label}
-                className="transition-colors duration-200"
-                style={{ color: "rgba(255,255,255,0.55)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--color-accent)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}
+                className="glass flex h-11 w-11 items-center justify-center rounded-full text-uxc-muted-foreground transition-colors duration-200 hover:text-teal"
               >
                 {s.icon}
               </a>
@@ -86,18 +82,13 @@ const Footer = () => (
 
         {/* Enlaces Rápidos */}
         <nav aria-label="Footer">
-          <p className="text-base font-bold mb-5" style={{ color: "#ffffff" }}>
-            Enlaces Rápidos
-          </p>
+          <p className="eyebrow text-teal mb-5">Enlaces Rápidos</p>
           <ul className="flex flex-col gap-4">
             {QUICK_LINKS.map((l) => (
               <li key={l.label}>
                 <a
                   href={l.href}
-                  className="text-base transition-colors duration-200"
-                  style={{ color: "rgba(255,255,255,0.55)" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#fff")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.55)")}
+                  className="text-base text-uxc-muted-foreground transition-colors duration-200 hover:text-white"
                 >
                   {l.label}
                 </a>
@@ -108,7 +99,7 @@ const Footer = () => (
       </div>
 
       {/* Bottom row */}
-      <div className="pt-6 flex flex-col md:flex-row justify-between gap-3 text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
+      <div className="pt-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-uxc-muted-foreground/60">
         <p>© 2025 UX Capital S.A.S. Todos los derechos reservados.</p>
         <p className="max-w-md text-right">
           Los rendimientos pasados no garantizan rendimientos futuros. El fondo está regulado por la CNV. Invertir implica riesgos.
