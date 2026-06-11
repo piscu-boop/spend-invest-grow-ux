@@ -58,6 +58,8 @@ const translations = {
     resultBadge: "Resultado de la simulación",
     resultTitle1: "Este mes, UX Dual te dejaría ",
     resultTitle2: " más",
+    resultTitle1Negative: "Este mes, UX Dual te dejaría ",
+    resultTitle2Negative: " menos",
     resultSubtitle: "que el promedio de billeteras tradicionales",
     resultMicrocopy: "Con UX Dual, incluso parte de la plata que ya pagaste sigue generándote rendimiento hasta fin de mes.",
     cardUxTitle: "Con UX Dual",
@@ -69,6 +71,7 @@ const translations = {
     compareBarTrad: "Promedio tradicional",
     projectionLabel: "Proyección anual",
     projectionDesc: "más que una billetera tradicional en 12 meses",
+    projectionDescNegative: "menos que una billetera tradicional en 12 meses",
     projectionDisclaimer: "Asumiendo comportamiento mensual similar",
     summaryInitial: "Saldo inicial:",
     summarySpent: "Pagos:",
@@ -143,6 +146,8 @@ const translations = {
     resultBadge: "Simulation result",
     resultTitle1: "This month, UX Dual would give you ",
     resultTitle2: " more",
+    resultTitle1Negative: "This month, UX Dual would give you ",
+    resultTitle2Negative: " less",
     resultSubtitle: "than the average traditional wallet",
     resultMicrocopy: "With UX Dual, even the money you already paid keeps generating returns until the end of the month.",
     cardUxTitle: "With UX Dual",
@@ -154,6 +159,7 @@ const translations = {
     compareBarTrad: "Traditional average",
     projectionLabel: "Annual projection",
     projectionDesc: "more than a traditional wallet in 12 months",
+    projectionDescNegative: "less than a traditional wallet in 12 months",
     projectionDisclaimer: "Assuming similar monthly behavior",
     summaryInitial: "Initial balance:",
     summarySpent: "Payments:",
@@ -606,9 +612,10 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
                   {t.resultBadge}
                 </p>
                 <h2 className="text-2xl font-bold text-white">
-                  {t.resultTitle1}
+                  {result.uxAdvantageMonthly < 0 ? t.resultTitle1Negative : t.resultTitle1}
                   <span style={{ color: "var(--color-accent)" }}>
-                    {formatARS(result.uxAdvantageMonthly)}{t.resultTitle2}
+                    {formatARS(Math.abs(result.uxAdvantageMonthly))}
+                    {result.uxAdvantageMonthly < 0 ? t.resultTitle2Negative : t.resultTitle2}
                   </span>
                 </h2>
                 <p className="text-sm text-white">
@@ -651,10 +658,10 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
                   {t.projectionLabel}
                 </p>
                 <p className="text-5xl font-bold text-[#1C304F] leading-none">
-                  {formatARS(result.uxAdvantageYearly)}
+                  {formatARS(Math.abs(result.uxAdvantageYearly))}
                 </p>
                 <p className="text-sm text-gray-600 mt-3 font-medium">
-                  {t.projectionDesc}
+                  {result.uxAdvantageYearly < 0 ? t.projectionDescNegative : t.projectionDesc}
                 </p>
                 <p className="text-xs text-gray-400 mt-1">
                   {t.projectionDisclaimer}
