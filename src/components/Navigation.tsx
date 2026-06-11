@@ -1,143 +1,171 @@
 import LanguageToggle from "./LanguageToggle";
-import { useLanguage } from "@/contexts/LanguageContext";
 import { Link, useLocation } from "react-router-dom";
-import { memo, useState, useEffect } from "react";
+import { memo, useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
 
 interface NavigationProps {
   onOpenBeta?: () => void;
 }
 
+const SECTION_LINKS = [
+  { href: "#nodo-bank", label: "UX Nodo Bank" },
+  { href: "#ux-dual", label: "UX Dual" },
+  { href: "#prensa", label: "Prensa" },
+  { href: "#contacto", label: "Contacto" },
+];
+
+const ROUTE_LINKS = [
+  { href: "/simuladores", label: "Simulador" },
+  { href: "/team", label: "Equipo" },
+  { href: "/faq", label: "FAQ" },
+];
+
+const SECTION_IDS = ["hero", "nodo-bank", "ux-dual", "prensa", "contacto"];
+
 const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
-  const { language } = useLanguage();
   const location = useLocation();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const isHomePage = location.pathname === "/";
   const [scrolled, setScrolled] = useState(false);
-  const isHomePage = location.pathname === '/';
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState<string>("");
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 40);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => { setMobileOpen(false); }, [location.pathname]);
+  useEffect(() => { setOpen(false); }, [location.pathname]);
 
-  const navLinks = language === 'en' ? [
-    { label: "About UX",    href: isHomePage ? "#hero" : "/#hero" },
-    { label: "Simulators",  href: "/simuladores" },
-    { label: "Press",       href: "/press" },
-    { label: "FAQ",         href: "/faq" },
-    { label: "Team",        href: "/team" },
-  ] : [
-    { label: "Acerca de UX", href: isHomePage ? "#hero" : "/#hero" },
-    { label: "Simuladores",  href: "/simuladores" },
-    { label: "Prensa",       href: "/press" },
-    { label: "FAQ",          href: "/faq" },
-    { label: "Team",         href: "/team" },
-  ];
+  useEffect(() => {
+    if (!isHomePage) return;
+    const elements = SECTION_IDS
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (elements.length === 0) return;
 
-  const ctaLabel = 'Portal Web UX';
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(`#${visible.target.id}`);
+      },
+      { threshold: 0.3 },
+    );
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [isHomePage]);
 
-  const LinkItem = ({ label, href, mobile = false }: { label: string; href: string; mobile?: boolean }) => {
-    const cls = mobile
-      ? "block w-full text-left text-white/80 hover:text-white px-4 py-3 rounded-xl hover:bg-white/8 transition-colors duration-200 text-base font-medium"
-      : "text-white/70 hover:text-white transition-colors duration-200 text-sm font-medium";
-
-    if (href.startsWith("#") || href.startsWith("/#")) {
-      return <a href={href} className={cls} onClick={() => setMobileOpen(false)}>{label}</a>;
-    }
-    return <Link to={href} className={cls} onClick={() => setMobileOpen(false)}>{label}</Link>;
+  const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!isHomePage) return;
+    e.preventDefault();
+    const el = document.getElementById(href.slice(1));
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    setOpen(false);
   };
+
+  const sectionHref = (href: string) => (isHomePage ? href : `/${href}`);
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={[
+        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
         scrolled
-          ? "bg-[var(--color-bg-dark)] shadow-[0_2px_24px_rgba(0,0,0,0.4)]"
-          : "bg-transparent"
-      }`}
+          ? "border-b border-white/10 bg-nav-solid/80 backdrop-blur-xl"
+          : "bg-transparent",
+      ].join(" ")}
     >
-      <nav aria-label="Navegación principal">
-        <div className="container mx-auto px-5 h-16 flex items-center justify-between">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:px-6">
+        <Link to="/" className="flex items-center gap-2 flex-shrink-0">
+          <img src="/lovable-uploads/logo-capital.png" alt="UX Capital" className="h-7 md:h-8 w-auto" />
+        </Link>
 
-          {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
-            <img
-              src="/lovable-uploads/logo-capital.png"
-              alt="UX Capital"
-              className="h-7 md:h-8"
-            />
-          </Link>
-
-          {/* Links desktop — centrados */}
-          <ul className="hidden md:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
-            {navLinks.map((item) => (
-              <li key={item.label}>
-                <LinkItem label={item.label} href={item.href} />
-              </li>
-            ))}
-          </ul>
-
-          {/* Derecha: LanguageToggle + CTA */}
-          <div className="hidden md:flex items-center gap-3">
-            <div className="flex items-center px-3 py-1 rounded-full bg-white/8 border border-white/15 backdrop-blur">
-              <LanguageToggle />
-            </div>
+        <nav className="hidden items-center gap-7 md:flex">
+          {SECTION_LINKS.map((l) => (
             <a
-              href="https://uxdual.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold transition-all duration-200 hover:opacity-90"
-              style={{
-                background: "var(--color-accent)",
-                color: "var(--color-text-dark)",
-              }}
+              key={l.href}
+              href={sectionHref(l.href)}
+              onClick={(e) => handleAnchorClick(e, l.href)}
+              className={`text-sm font-medium transition-colors ${
+                active === l.href ? "text-teal" : "text-uxc-muted-foreground hover:text-white"
+              }`}
             >
-              {ctaLabel}
+              {l.label}
             </a>
-          </div>
+          ))}
+          {ROUTE_LINKS.map((l) => (
+            <Link
+              key={l.href}
+              to={l.href}
+              className="text-sm font-medium text-uxc-muted-foreground hover:text-white transition-colors"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
 
-          {/* Hamburger mobile */}
-          <button
-            aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
-            onClick={() => setMobileOpen((o) => !o)}
-            className="md:hidden flex flex-col justify-center items-center w-9 h-9 gap-1.5 rounded-lg bg-white/10 border border-white/15 hover:bg-white/15 transition-colors"
+        <div className="hidden md:flex items-center gap-3">
+          <div className="flex items-center px-3 py-1 rounded-full bg-white/8 border border-white/15 backdrop-blur">
+            <LanguageToggle />
+          </div>
+          <a
+            href={sectionHref("#contacto")}
+            onClick={(e) => handleAnchorClick(e, "#contacto")}
+            className="inline-flex items-center rounded-full bg-teal px-5 py-2 text-sm font-semibold text-navy-deep transition hover:opacity-90"
           >
-            <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-2" : ""}`} />
-            <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
-            <span className={`block w-5 h-0.5 bg-white transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-          </button>
+            Agendar demo
+          </a>
         </div>
 
-        {/* Mobile menu */}
-        {mobileOpen && (
-          <div
-            className="md:hidden mx-4 mb-3 p-3 rounded-2xl border border-white/10 backdrop-blur-xl"
-            style={{ background: "rgba(34,59,98,0.95)" }}
-          >
-            {navLinks.map((item) => (
-              <LinkItem key={item.label} label={item.label} href={item.href} mobile />
-            ))}
-            <div className="pt-2 border-t border-white/10 mt-2 space-y-2">
-              <div className="flex justify-center">
-                <div className="flex items-center px-3 py-1 rounded-full bg-white/8 border border-white/15">
-                  <LanguageToggle />
-                </div>
-              </div>
+        <button
+          onClick={() => setOpen((o) => !o)}
+          className="md:hidden flex items-center justify-center w-9 h-9 rounded-lg bg-white/10 border border-white/15 hover:bg-white/15 transition-colors"
+          aria-label={open ? "Cerrar menú" : "Abrir menú"}
+        >
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </button>
+      </div>
+
+      {open && (
+        <div className="fixed inset-0 top-16 z-50 bg-navy-deep md:hidden overflow-y-auto">
+          <nav className="flex flex-col gap-1 px-6 pt-4 pb-8">
+            {SECTION_LINKS.map((l) => (
               <a
-                href="https://uxdual.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setMobileOpen(false)}
-                className="block w-full text-center py-3 rounded-xl text-sm font-semibold transition-colors duration-200"
-                style={{ background: "var(--color-accent)", color: "var(--color-text-dark)" }}
+                key={l.href}
+                href={sectionHref(l.href)}
+                onClick={(e) => handleAnchorClick(e, l.href)}
+                className="border-b border-white/5 py-4 font-display text-xl"
+                style={{ color: active === l.href ? "#00C896" : undefined }}
               >
-                {ctaLabel}
+                {l.label}
               </a>
+            ))}
+            {ROUTE_LINKS.map((l) => (
+              <Link
+                key={l.href}
+                to={l.href}
+                className="border-b border-white/5 py-4 font-display text-xl text-white"
+              >
+                {l.label}
+              </Link>
+            ))}
+            <div className="pt-4 flex justify-center">
+              <div className="flex items-center px-3 py-1 rounded-full bg-white/8 border border-white/15">
+                <LanguageToggle />
+              </div>
             </div>
-          </div>
-        )}
-      </nav>
+            <a
+              href={sectionHref("#contacto")}
+              onClick={(e) => handleAnchorClick(e, "#contacto")}
+              className="mt-4 inline-flex items-center justify-center rounded-full bg-teal px-5 py-3 font-medium text-navy-deep"
+            >
+              Agendar demo
+            </a>
+          </nav>
+        </div>
+      )}
     </header>
   );
 };
