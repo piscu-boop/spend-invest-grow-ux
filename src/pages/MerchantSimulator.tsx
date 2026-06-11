@@ -360,7 +360,7 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
       : null;
 
   return (
-    <div className="min-h-screen" style={{ background: "var(--color-bg-dark)" }}>
+    <div className="min-h-screen bg-palette-a">
       <Navigation onOpenBeta={onOpenBeta} />
 
       {/* ──────────────────────────────────────── HERO ── */}
@@ -382,7 +382,7 @@ const MerchantSimulator: React.FC<MerchantSimulatorProps> = ({ onOpenBeta }) => 
             {tx.heroTag}
           </span>
 
-          <h1 className="text-4xl md:text-5xl font-bold leading-tight text-white">
+          <h1 className="font-display text-4xl md:text-5xl leading-tight text-white">
             {tx.heroTitle}
           </h1>
           <p className="text-lg text-white/70 leading-relaxed">

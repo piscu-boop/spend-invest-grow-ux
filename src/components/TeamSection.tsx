@@ -76,13 +76,14 @@ const TeamSection: React.FC = () => {
   const hero = heroContent[language];
 
   return (
-    <section id="team" className="w-full text-white" style={{ background: "var(--color-bg-dark)" }}>
+    <section id="team" className="w-full text-white">
       {/* Hero */}
-      <div className="pt-32 pb-10 text-center px-4">
-        <h1 className="text-5xl md:text-6xl font-semibold text-white mb-3">
-          <span style={{ color: "var(--color-accent)" }}>UX</span> {hero.title}
+      <div className="pt-32 pb-10 text-center px-4 md:pt-40">
+        <p className="eyebrow text-teal">Equipo</p>
+        <h1 className="mt-4 font-display text-5xl md:text-6xl mb-3">
+          <span className="text-teal">UX</span> {hero.title}
         </h1>
-        <p className="text-lg" style={{ color: "rgba(255,255,255,0.6)" }}>
+        <p className="text-lg text-uxc-muted-foreground">
           {hero.subtitle}
         </p>
       </div>

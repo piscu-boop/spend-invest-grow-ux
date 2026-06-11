@@ -177,13 +177,14 @@ const FAQSegmentado = ({ defaultFilter = "general" }: FAQSegmentadoProps) => {
   const currentFAQs = currentContent.faqs[activeFilter];
 
   return (
-    <section className="text-white" style={{ background: "var(--color-bg-dark)" }}>
+    <section className="text-white">
       {/* Hero */}
-      <div className="pt-16 pb-10 text-center px-4">
-        <h1 className="text-5xl md:text-6xl font-semibold text-white mb-3">
+      <div className="pt-32 pb-10 text-center px-4 md:pt-40">
+        <p className="eyebrow text-teal">FAQ</p>
+        <h1 className="mt-4 font-display text-5xl md:text-6xl mb-3">
           {currentContent.heroTitle}
         </h1>
-        <p className="text-lg" style={{ color: "rgba(255,255,255,0.6)" }}>
+        <p className="text-lg text-uxc-muted-foreground">
           {currentContent.heroSubtitle}
         </p>
       </div>

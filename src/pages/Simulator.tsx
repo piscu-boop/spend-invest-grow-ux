@@ -501,7 +501,7 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
   const spentDayLabel = t.spentDayLabels[spendMoment];
 
   return (
-    <div className="min-h-screen" style={{ background: "var(--color-bg-dark)" }}>
+    <div className="min-h-screen bg-palette-a">
       <Navigation onOpenBeta={onOpenBeta} />
 
       {/* ================================================== */}
@@ -517,7 +517,7 @@ const Simulator: React.FC<SimulatorProps> = ({ onOpenBeta }) => {
           <span className="inline-block text-xs font-bold uppercase tracking-[0.2em] px-3 py-1 rounded-full" style={{ color: "var(--color-accent)", background: "rgba(77,240,172,0.12)" }}>
             {t.heroBadge}
           </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight">
+          <h1 className="font-display text-4xl md:text-5xl leading-tight text-white">
             {t.heroTitle1}
             <span className="gradient-text whitespace-nowrap">UX Dual</span>{t.heroTitle2}
           </h1>

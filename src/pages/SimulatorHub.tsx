@@ -137,7 +137,7 @@ const SimulatorHub: React.FC<SimulatorHubProps> = ({ onOpenBeta }) => {
   const tx = t[language];
 
   return (
-    <div className="min-h-screen" style={{ background: "var(--color-bg-dark)" }}>
+    <div className="min-h-screen bg-palette-a">
       <Navigation onOpenBeta={onOpenBeta} />
 
       {/* ── Hero ── */}
@@ -155,7 +155,7 @@ const SimulatorHub: React.FC<SimulatorHubProps> = ({ onOpenBeta }) => {
           >
             {tx.badge}
           </span>
-          <h1 className="text-4xl md:text-5xl font-bold text-white leading-tight">
+          <h1 className="font-display text-4xl md:text-5xl leading-tight text-white">
             {tx.title}
           </h1>
           <p className="text-lg" style={{ color: "rgba(255,255,255,0.65)" }}>

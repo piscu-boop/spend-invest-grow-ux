@@ -38,7 +38,7 @@ const SOCIAL = [
 ];
 
 const Footer = () => (
-  <footer id="footer" style={{ background: "var(--color-bg-dark)" }}>
+  <footer id="footer" className="bg-footer-deep">
     <div className="container mx-auto px-5 py-14">
 
       {/* Top row */}
