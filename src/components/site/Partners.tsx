@@ -35,7 +35,7 @@ export function Partners() {
         }}
       >
         <div className="marquee-track flex w-max items-center animate-marquee-scroll">
-          {[...logos, ...logos].map((logo, i) => (
+          {[...logos, ...logos, ...logos, ...logos].map((logo, i) => (
             <div key={i} className="shrink-0 px-6">
               <div className="flex items-center justify-center h-[60px] w-[180px]">
                 <img

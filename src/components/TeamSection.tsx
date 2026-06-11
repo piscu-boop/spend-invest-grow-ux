@@ -16,8 +16,8 @@ const TEAM_MEMBERS: TeamMember[] = [
 ];
 
 const heroContent = {
-  en: { title: "Capital Team", subtitle: "The people building the future of spending and investing." },
-  es: { title: "Capital Team", subtitle: "Las personas construyendo el futuro del consumo invertido." },
+  en: { prefix: "", highlight: "UX", suffix: " Capital Team" },
+  es: { prefix: "El equipo de ", highlight: "UX", suffix: " Capital" },
 };
 
 const MemberCard: React.FC<{ member: TeamMember }> = ({ member }) => {
@@ -79,13 +79,9 @@ const TeamSection: React.FC = () => {
     <section id="team" className="w-full text-white">
       {/* Hero */}
       <div className="pt-32 pb-10 text-center px-4 md:pt-40">
-        <p className="eyebrow text-teal">Equipo</p>
-        <h1 className="mt-4 font-display text-5xl md:text-6xl mb-3">
-          <span className="text-teal">UX</span> {hero.title}
+        <h1 className="font-display text-5xl md:text-6xl mb-3">
+          {hero.prefix}<span className="text-teal">{hero.highlight}</span>{hero.suffix}
         </h1>
-        <p className="text-lg text-uxc-muted-foreground">
-          {hero.subtitle}
-        </p>
       </div>
 
       {/* Grid */}
