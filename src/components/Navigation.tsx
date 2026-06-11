@@ -10,7 +10,6 @@ interface NavigationProps {
 const SECTION_LINKS = [
   { href: "#nodo-bank", label: "UX Nodo Bank" },
   { href: "#ux-dual", label: "UX Dual" },
-  { href: "#prensa", label: "Prensa" },
   { href: "#contacto", label: "Contacto" },
 ];
 
@@ -18,9 +17,10 @@ const ROUTE_LINKS = [
   { href: "/simuladores", label: "Simulador" },
   { href: "/team", label: "Equipo" },
   { href: "/faq", label: "FAQ" },
+  { href: "/press", label: "Prensa" },
 ];
 
-const SECTION_IDS = ["hero", "nodo-bank", "ux-dual", "prensa", "contacto"];
+const SECTION_IDS = ["hero", "nodo-bank", "ux-dual", "contacto"];
 
 const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
   const location = useLocation();

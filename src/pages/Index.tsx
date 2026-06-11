@@ -5,7 +5,6 @@ import { BigIdea } from "@/components/site/BigIdea";
 import { Bifurcation } from "@/components/site/Bifurcation";
 import { NodoBank } from "@/components/site/NodoBank";
 import { Dual } from "@/components/site/Dual";
-import { Press } from "@/components/site/Press";
 import { Contact } from "@/components/site/Contact";
 import Footer from "@/components/Footer";
 
@@ -23,7 +22,6 @@ const Index: React.FC<IndexProps> = ({ onOpenBeta }) => {
       <Bifurcation />
       <NodoBank />
       <Dual />
-      <Press />
       <Contact />
       <Footer />
     </div>
