@@ -139,7 +139,7 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
             rel="noopener noreferrer"
             className="inline-flex items-center rounded-full bg-teal px-5 py-2 text-sm font-semibold text-navy-deep transition hover:opacity-90"
           >
-            {c.cta}
+            Portal Web UX
           </a>
         </div>
 
