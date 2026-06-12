@@ -6,19 +6,35 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation, useNavigate } from
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import BetaModal from '@/components/ui/betaModal';
 import Index from "./pages/Index";
-import FAQ from "./pages/FAQ";
-import Team from "./pages/Team";
-import Consumer from "./pages/Consumer";
-import Merchant from "./pages/Merchant";
-import Manufacturer from "./pages/Manufacturer";
-import NotFound from "./pages/NotFound";
-import Press from "./pages/Press";
-import Simulator from "./pages/Simulator";
-import MerchantSimulator from "./pages/MerchantSimulator";
-import SimulatorHub from "./pages/SimulatorHub";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, Suspense, lazy } from "react";
+
+// Code-split secondary routes so the initial bundle only contains the
+// landing page. Each of these is loaded on demand when the user
+// navigates to that route, reducing initial load time on slow devices.
+const FAQ = lazy(() => import("./pages/FAQ"));
+const Team = lazy(() => import("./pages/Team"));
+const Consumer = lazy(() => import("./pages/Consumer"));
+const Merchant = lazy(() => import("./pages/Merchant"));
+const Manufacturer = lazy(() => import("./pages/Manufacturer"));
+const Press = lazy(() => import("./pages/Press"));
+const Simulator = lazy(() => import("./pages/Simulator"));
+const MerchantSimulator = lazy(() => import("./pages/MerchantSimulator"));
+const SimulatorHub = lazy(() => import("./pages/SimulatorHub"));
 
 const queryClient = new QueryClient();
+
+// Minimal full-screen fallback shown while a lazy route chunk loads
+const RouteFallback: React.FC = () => (
+  <div
+    style={{
+      minHeight: "100vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      background: "var(--color-navy-deep, #0a1628)",
+    }}
+  />
+);
 
 /**
  * Catch-all fallback that checks for GitHub Pages SPA redirect FIRST.
@@ -82,47 +98,49 @@ const AppInner: React.FC = () => {
   return (
     <>
       <ScrollToTop />
-      <Routes>
-        <Route path="/"
-          element={<Index onOpenBeta={() => setBetaOpen(true)} />}
-        />
-        <Route path="/faq"
-          element={<FAQ onOpenBeta={() => setBetaOpen(true)} />}
-        />
-        <Route path="/team"
-          element={<Team onOpenBeta={() => setBetaOpen(true)} />}
-        />
-        <Route path="/consumer"
-          element={<Consumer onOpenBeta={() => setBetaOpen(true)} />}
-        />
-        <Route path="/merchant"
-          element={<Merchant onOpenBeta={() => setBetaOpen(true)} />}
-        />
-        <Route path="/manufacturer"
-          element={<Manufacturer onOpenBeta={() => setBetaOpen(true)} />}
-        />
-        <Route path="/press"
-          element={<Press />}
-        />
-        <Route path="/simuladores"
-          element={<SimulatorHub onOpenBeta={() => setBetaOpen(true)} />}
-        />
-        <Route path="/simulador"
-          element={<Simulator onOpenBeta={() => setBetaOpen(true)} />}
-        />
-        <Route path="/comercios"
-          element={<MerchantSimulator onOpenBeta={() => setBetaOpen(true)} />}
-        />
-        <Route path="/registro"
-          element={
-            <>
-              <AutoOpenBeta onOpen={() => setBetaOpen(true)} />
-              <Index onOpenBeta={() => setBetaOpen(true)} />
-            </>
-          }
-        />
-        <Route path="*" element={<CatchAllRedirect />} />
-      </Routes>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
+          <Route path="/"
+            element={<Index onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/faq"
+            element={<FAQ onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/team"
+            element={<Team onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/consumer"
+            element={<Consumer onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/merchant"
+            element={<Merchant onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/manufacturer"
+            element={<Manufacturer onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/press"
+            element={<Press />}
+          />
+          <Route path="/simuladores"
+            element={<SimulatorHub onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/simulador"
+            element={<Simulator onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/comercios"
+            element={<MerchantSimulator onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/registro"
+            element={
+              <>
+                <AutoOpenBeta onOpen={() => setBetaOpen(true)} />
+                <Index onOpenBeta={() => setBetaOpen(true)} />
+              </>
+            }
+          />
+          <Route path="*" element={<CatchAllRedirect />} />
+        </Routes>
+      </Suspense>
       <BetaModal
         open={betaOpen}
         onClose={handleCloseBeta}
