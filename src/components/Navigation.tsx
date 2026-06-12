@@ -134,8 +134,9 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
             <LanguageToggle />
           </div>
           <a
-            href={sectionHref("#contacto")}
-            onClick={(e) => handleAnchorClick(e, "#contacto")}
+            href="https://uxdual.com"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center rounded-full bg-teal px-5 py-2 text-sm font-semibold text-navy-deep transition hover:opacity-90"
           >
             {c.cta}
