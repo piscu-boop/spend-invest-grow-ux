@@ -20,6 +20,8 @@ const Press = lazy(() => import("./pages/Press"));
 const Simulator = lazy(() => import("./pages/Simulator"));
 const MerchantSimulator = lazy(() => import("./pages/MerchantSimulator"));
 const SimulatorHub = lazy(() => import("./pages/SimulatorHub"));
+const CampusPage = lazy(() => import("./pages/Campus"));
+const CampusHub = lazy(() => import("./pages/CampusHub"));
 
 const queryClient = new QueryClient();
 
@@ -57,7 +59,12 @@ const CatchAllRedirect: React.FC = () => {
     sessionStorage.removeItem('ghp_redirect_search');
     sessionStorage.removeItem('ghp_redirect_hash');
 
-    return <Navigate to={`${storedPath}${storedSearch}${storedHash}`} replace />;
+    // Sanitize: collapse leading double-slashes to prevent //evil.com open redirect
+    // (a crafted URL like //<host> would otherwise bypass same-origin via history.pushState)
+    const safePath = storedPath.replace(/^\/{2,}/, '/');
+    if (/^https?:/i.test(safePath)) return <Navigate to="/" replace />;
+
+    return <Navigate to={`${safePath}${storedSearch}${storedHash}`} replace />;
   }
 
   // No stored redirect — go to home
@@ -129,6 +136,12 @@ const AppInner: React.FC = () => {
           />
           <Route path="/comercios"
             element={<MerchantSimulator onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/campus"
+            element={<CampusHub onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/campus/modulo-01"
+            element={<CampusPage onOpenBeta={() => setBetaOpen(true)} />}
           />
           <Route path="/registro"
             element={

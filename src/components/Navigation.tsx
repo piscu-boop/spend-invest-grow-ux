@@ -21,12 +21,14 @@ const SECTION_LINKS = {
 
 const ROUTE_LINKS = {
   es: [
+    { href: "/campus", label: "UX Campus" },
     { href: "/simuladores", label: "Simulador" },
     { href: "/team", label: "Equipo" },
     { href: "/faq", label: "FAQ" },
     { href: "/press", label: "Prensa" },
   ],
   en: [
+    { href: "/campus", label: "UX Campus" },
     { href: "/simuladores", label: "Simulator" },
     { href: "/team", label: "Team" },
     { href: "/faq", label: "FAQ" },
