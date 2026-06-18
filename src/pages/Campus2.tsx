@@ -565,7 +565,7 @@ const PDFSection: React.FC<PDFSectionProps> = ({ onGoToTest, lang }) => {
                 pageNumber={i + 1}
                 width={containerWidth || undefined}
                 renderTextLayer
-                renderAnnotationLayer={false}
+                renderAnnotationLayer
               />
             </div>
           ))}
