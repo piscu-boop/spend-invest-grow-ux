@@ -26,6 +26,7 @@ const ui = {
     tabTest: "Test",
     moduleTitle: "Módulo 02 – Planificación Financiera Personal",
     downloadPdf: "Descargar PDF",
+    downloadSheet: "Descargar planilla",
     goToTest: "Ir al Test",
     testTitle: "Evaluación Módulo 02",
     next: "Siguiente",
@@ -55,6 +56,7 @@ const ui = {
     tabTest: "Test",
     moduleTitle: "Module 02 – Personal Financial Planning",
     downloadPdf: "Download PDF",
+    downloadSheet: "Download spreadsheet",
     goToTest: "Go to Test",
     testTitle: "Module 02 Assessment",
     next: "Next",
@@ -523,7 +525,7 @@ const PDFSection: React.FC<PDFSectionProps> = ({ onGoToTest, lang }) => {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* Header bar */}
-      <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
         <h2 className="text-xl font-semibold text-white font-display">
           {c.moduleTitle}
         </h2>
@@ -537,6 +539,23 @@ const PDFSection: React.FC<PDFSectionProps> = ({ onGoToTest, lang }) => {
           {c.downloadPdf}
         </a>
       </div>
+
+      {/* Practical tool callout */}
+      <a
+        href="/Presupuesto_Personal_UX_Campus.xlsx"
+        download="Presupuesto Personal - UX Campus.xlsx"
+        rel="noopener noreferrer"
+        className="flex items-center gap-3 mb-6 rounded-xl border border-amber-400/30 bg-amber-400/5 px-5 py-4 text-sm text-amber-200 hover:bg-amber-400/10 transition-colors group"
+      >
+        <span className="text-lg">🛠️</span>
+        <div className="flex-1 leading-relaxed">
+          <span className="font-semibold text-amber-300">{lang === "es" ? "Herramienta práctica — " : "Practical tool — "}</span>
+          {lang === "es"
+            ? "Hacé clic para descargar la planilla donde podés completar tu propio presupuesto con tus ingresos y gastos."
+            : "Click to download the spreadsheet where you can fill in your own budget with your income and expenses."}
+        </div>
+        <Download className="h-4 w-4 text-amber-300 flex-shrink-0 group-hover:translate-y-0.5 transition-transform" />
+      </a>
 
       {/* PDF viewer */}
       <div
@@ -565,7 +584,7 @@ const PDFSection: React.FC<PDFSectionProps> = ({ onGoToTest, lang }) => {
                 pageNumber={i + 1}
                 width={containerWidth || undefined}
                 renderTextLayer
-                renderAnnotationLayer
+                renderAnnotationLayer={false}
               />
             </div>
           ))}

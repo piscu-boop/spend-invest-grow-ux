@@ -29,8 +29,6 @@ const content = {
     social: "Síguenos en redes sociales para actualizaciones y consejos",
     quickLinks: "Enlaces Rápidos",
     rights: "© 2025 UX Capital S.A.S. Todos los derechos reservados.",
-    disclaimer:
-      "Los rendimientos pasados no garantizan rendimientos futuros. El fondo está regulado por la CNV. Invertir implica riesgos.",
   },
   en: {
     description:
@@ -39,8 +37,6 @@ const content = {
     social: "Follow us on social media for updates and tips",
     quickLinks: "Quick Links",
     rights: "© 2025 UX Capital S.A.S. All rights reserved.",
-    disclaimer:
-      "Past returns do not guarantee future returns. The fund is regulated by the CNV. Investing involves risk.",
   },
 };
 
@@ -144,9 +140,6 @@ const Footer = () => {
         {/* Bottom row */}
         <div className="pt-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-uxc-muted-foreground/60">
           <p>{c.rights}</p>
-          <p className="max-w-md text-right">
-            {c.disclaimer}
-          </p>
         </div>
       </div>
     </footer>
