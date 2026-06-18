@@ -21,6 +21,7 @@ const Simulator = lazy(() => import("./pages/Simulator"));
 const MerchantSimulator = lazy(() => import("./pages/MerchantSimulator"));
 const SimulatorHub = lazy(() => import("./pages/SimulatorHub"));
 const CampusPage = lazy(() => import("./pages/Campus"));
+const Campus2Page = lazy(() => import("./pages/Campus2"));
 const CampusHub = lazy(() => import("./pages/CampusHub"));
 
 const queryClient = new QueryClient();
@@ -142,6 +143,9 @@ const AppInner: React.FC = () => {
           />
           <Route path="/campus/modulo-01"
             element={<CampusPage onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/campus/modulo-02"
+            element={<Campus2Page onOpenBeta={() => setBetaOpen(true)} />}
           />
           <Route path="/registro"
             element={

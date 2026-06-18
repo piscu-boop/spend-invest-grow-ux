@@ -19,12 +19,19 @@ const content = {
     modulesTitle: "Módulos disponibles",
     level: "NIVEL",
     badge: "NIVEL 1",
-    moduleTitle: "Módulo 01 – Finanzas Personales",
+    moduleTitle: "Módulo 01 – Fundamentos de las Finanzas Personales",
     moduleDesc:
       "El punto de partida para cualquier persona que quiera entender cómo funciona el dinero.",
     tags: ["Sistema financiero", "Ahorro e inversión", "Inflación", "Riesgo"],
     meta: { pdf: "PDF", questions: "15 preguntas", time: "~30 min" },
     cta: "Empezar módulo",
+    module2Title: "Módulo 02 – Planificación Financiera Personal",
+    module2Desc:
+      "Herramientas para construir tu presupuesto, definir objetivos y diseñar tu sistema financiero personal.",
+    tags2: ["Presupuesto", "Ahorro", "Fondo de emergencia", "Plazos de inversión"],
+    badge2: "NIVEL 1",
+    meta2: { pdf: "PDF", questions: "15 preguntas", time: "~30 min" },
+    cta2: "Empezar módulo",
   },
   en: {
     eyebrow: "UX CAMPUS",
@@ -40,12 +47,19 @@ const content = {
     modulesTitle: "Available modules",
     level: "LEVEL",
     badge: "LEVEL 1",
-    moduleTitle: "Module 01 – Personal Finance",
+    moduleTitle: "Module 01 – Fundamentals of Personal Finance",
     moduleDesc:
       "The starting point for anyone who wants to understand how money works.",
     tags: ["Financial system", "Savings & investment", "Inflation", "Risk"],
     meta: { pdf: "PDF", questions: "15 questions", time: "~30 min" },
     cta: "Start module",
+    module2Title: "Module 02 – Personal Financial Planning",
+    module2Desc:
+      "Tools to build your budget, define goals, and design your personal financial system.",
+    tags2: ["Budget", "Savings", "Emergency fund", "Investment horizons"],
+    badge2: "LEVEL 1",
+    meta2: { pdf: "PDF", questions: "15 questions", time: "~30 min" },
+    cta2: "Start module",
   },
 };
 
@@ -169,6 +183,65 @@ const CampusHub: React.FC<CampusHubProps> = ({ onOpenBeta }) => {
                 className="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-semibold text-navy-deep hover:opacity-90 transition-opacity"
               >
                 {c.cta}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Module 02 card */}
+          <div className="mt-4 rounded-2xl border border-white/10 bg-uxc-card p-6 md:p-8 flex flex-col md:flex-row gap-6 md:items-start">
+            {/* Left: content */}
+            <div className="flex-1 flex flex-col gap-4">
+              {/* Badge */}
+              <span className="inline-flex self-start items-center rounded-full bg-teal/10 border border-teal/25 px-3 py-1 text-xs font-bold text-teal tracking-wider">
+                {c.badge2}
+              </span>
+
+              <div>
+                <h3 className="text-xl font-bold font-display text-white mb-2">
+                  {c.module2Title}
+                </h3>
+                <p className="text-sm text-uxc-muted-foreground leading-relaxed">
+                  {c.module2Desc}
+                </p>
+              </div>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2">
+                {c.tags2.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-uxc-muted-foreground"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Meta row */}
+              <div className="flex items-center gap-4 text-xs text-uxc-muted-foreground">
+                <span className="flex items-center gap-1.5">
+                  <FileText className="h-3.5 w-3.5" />
+                  {c.meta2.pdf}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <ClipboardList className="h-3.5 w-3.5" />
+                  {c.meta2.questions}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Clock className="h-3.5 w-3.5" />
+                  {c.meta2.time}
+                </span>
+              </div>
+            </div>
+
+            {/* Right: CTA */}
+            <div className="flex md:flex-col md:items-end md:justify-center shrink-0">
+              <Link
+                to="/campus/modulo-02"
+                className="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-semibold text-navy-deep hover:opacity-90 transition-opacity"
+              >
+                {c.cta2}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
