@@ -7,6 +7,7 @@ const QUICK_LINKS = {
     { label: "UX Dual", href: "/#ux-dual" },
     { label: "Partners", href: "/#partners" },
     { label: "Contacto", href: "/#contacto" },
+    { label: "UX Campus", href: "/campus" },
     { label: "Prensa", href: "/press" },
   ],
   en: [
@@ -15,6 +16,7 @@ const QUICK_LINKS = {
     { label: "UX Dual", href: "/#ux-dual" },
     { label: "Partners", href: "/#partners" },
     { label: "Contact", href: "/#contacto" },
+    { label: "UX Campus", href: "/campus" },
     { label: "Press", href: "/press" },
   ],
 };
@@ -93,9 +95,6 @@ const Footer = () => {
             className="max-h-16 w-auto"
           />
           </div>
-            <p className="text-base leading-[1.7] text-uxc-muted-foreground">
-              {c.description}
-            </p>
             <p className="text-base text-uxc-muted-foreground">
               <span className="font-semibold text-white">{c.emailLabel}</span>
               <a
