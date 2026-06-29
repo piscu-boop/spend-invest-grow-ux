@@ -1,0 +1,133 @@
+/**
+ * UX Campus — backend de leads, corriendo como Google Apps Script Web App.
+ *
+ * Por qué Apps Script y no un Express/Vercel function: este repo se
+ * despliega 100% estático en GitHub Pages (sin servidor propio — ver
+ * scripts/fetchRates.cjs y el workflow update-rates.yml, que son el único
+ * "backend" hoy, corriendo offline vía GitHub Actions). El proyecto ya tiene
+ * un precedente idéntico para este problema: src/components/ui/betaModal.tsx
+ * le pega a otro Web App de Apps Script (ver scriptURL en src/App.tsx) para
+ * registrar leads de la waitlist sin necesidad de levantar un servidor.
+ * Replicamos exactamente esa convención acá, en vez de introducir Express,
+ * Vercel Functions u otra pieza de infraestructura nueva.
+ *
+ * El token de HubSpot vive ÚNICAMENTE en las Script Properties de este
+ * proyecto de Apps Script. Nunca se commitea, nunca llega al navegador: el
+ * código del frontend solo conoce la URL pública de este Web App (que no es
+ * secreta — la seguridad la da el token guardado acá, server-side).
+ *
+ * ── Despliegue ──────────────────────────────────────────────────────────
+ * Ver README.md en esta misma carpeta para el paso a paso completo.
+ */
+
+var HUBSPOT_UPSERT_URL = "https://api.hubapi.com/crm/v3/objects/contacts/batch/upsert";
+
+function getHubspotToken_() {
+  var token = PropertiesService.getScriptProperties().getProperty("HUBSPOT_PRIVATE_APP_TOKEN");
+  if (!token) {
+    throw new Error("HUBSPOT_PRIVATE_APP_TOKEN no está configurado en Script Properties.");
+  }
+  return token;
+}
+
+function jsonResponse_(payload) {
+  return ContentService
+    .createTextOutput(JSON.stringify(payload))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Upsert por email en HubSpot (Contacts API v3, batch upsert con
+ * idProperty: "email"). Nunca crea un contacto sin antes intentar
+ * matchear por email, evitando duplicados.
+ */
+function upsertContact_(email, properties) {
+  var payload = {
+    inputs: [
+      {
+        idProperty: "email",
+        id: email,
+        properties: properties,
+      },
+    ],
+  };
+
+  var response = UrlFetchApp.fetch(HUBSPOT_UPSERT_URL, {
+    method: "post",
+    contentType: "application/json",
+    headers: { Authorization: "Bearer " + getHubspotToken_() },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true,
+  });
+
+  var status = response.getResponseCode();
+  if (status < 200 || status >= 300) {
+    throw new Error("HubSpot upsert falló (" + status + "): " + response.getContentText());
+  }
+
+  return JSON.parse(response.getContentText());
+}
+
+function handleRegister_(params) {
+  var email = params.email;
+  if (!email) {
+    return jsonResponse_({ ok: false, message: "email es requerido" });
+  }
+
+  var properties = {
+    email: email,
+    utm_source: params.utm_source || "",
+    utm_medium: params.utm_medium || "",
+    utm_campaign: params.utm_campaign || "",
+    modulo_captura: params.modulo_captura || "",
+  };
+
+  try {
+    upsertContact_(email, properties);
+    return jsonResponse_({ ok: true });
+  } catch (err) {
+    console.error("Error registrando lead en HubSpot: " + err);
+    return jsonResponse_({ ok: false, message: "No se pudo guardar el lead" });
+  }
+}
+
+function handleComplete_(params) {
+  var email = params.email;
+  var moduloId = params.modulo_id;
+  if (!email || !moduloId) {
+    return jsonResponse_({ ok: false, message: "email y modulo_id son requeridos" });
+  }
+
+  var properties = {};
+  properties["modulo" + moduloId + "_completado"] = new Date().toISOString();
+  properties["modulo" + moduloId + "_score"] = params.score !== undefined ? Number(params.score) : null;
+
+  try {
+    upsertContact_(email, properties);
+    return jsonResponse_({ ok: true });
+  } catch (err) {
+    console.error("Error registrando completion en HubSpot: " + err);
+    return jsonResponse_({ ok: false, message: "No se pudo guardar el progreso" });
+  }
+}
+
+/**
+ * Único punto de entrada del Web App. Se usa GET (no POST) porque es la
+ * misma convención que ya funciona en producción para betaModal.tsx — los
+ * Web Apps de Apps Script desplegados como "Anyone" responden bien a GET
+ * cross-origin desde fetch() del navegador sin configuración de CORS extra.
+ *
+ *   GET ?action=register&email=...&utm_source=...&modulo_captura=...
+ *   GET ?action=complete&email=...&modulo_id=...&score=...
+ */
+function doGet(e) {
+  var params = e.parameter;
+  switch (params.action) {
+    case "register":
+      return handleRegister_(params);
+    case "complete":
+      return handleComplete_(params);
+    default:
+      return jsonResponse_({ ok: false, message: "action desconocida" });
+  }
+}

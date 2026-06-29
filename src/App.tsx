@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import BetaModal from '@/components/ui/betaModal';
 import Index from "./pages/Index";
 import { useState, useEffect, useCallback, Suspense, lazy } from "react";
+import { initAnalytics } from "@/lib/analytics";
 
 // Code-split secondary routes so the initial bundle only contains the
 // landing page. Each of these is loaded on demand when the user
@@ -95,6 +96,12 @@ const AppInner: React.FC = () => {
   const [betaOpen, setBetaOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
+  // Punto de entrada global: captura la atribución first-touch e inicializa
+  // PostHog sin importar por qué ruta entre la visita (home, /campus, etc.)
+  useEffect(() => {
+    initAnalytics();
+  }, []);
 
   const handleCloseBeta = useCallback(() => {
     setBetaOpen(false);

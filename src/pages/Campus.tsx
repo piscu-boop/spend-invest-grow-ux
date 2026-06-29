@@ -11,11 +11,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Download, ArrowRight, RotateCcw, CheckCircle, XCircle, BookOpen, ClipboardList } from "lucide-react";
+import { track, trackOnce } from "@/lib/analytics";
+import { completeModule } from "@/lib/leadsApi";
+import EmailGate, { hasCapturedLead, getCapturedEmail } from "@/components/EmailGate";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.mjs",
   import.meta.url,
 ).toString();
+
+// Identificador de módulo usado en eventos de analytics y en los nombres de
+// propiedad de HubSpot (modulo1_completado, modulo1_score, etc.)
+const MODULO_ID = "1";
 
 // ── i18n ─────────────────────────────────────────────────────────────────────
 
@@ -558,6 +565,7 @@ const PDFSection: React.FC<PDFSectionProps> = ({ onGoToTest, lang }) => {
           onLoadSuccess={({ numPages: n }) => {
             setNumPages(n);
             setLoading(false);
+            trackOnce("pdf_open", { modulo_id: MODULO_ID });
           }}
           onLoadError={() => setLoading(false)}
           className={loading ? "hidden" : ""}
@@ -619,6 +627,11 @@ const TestSection: React.FC<TestSectionProps> = ({ lang }) => {
   const c = ui[lang];
   const questions = QUESTIONS[lang];
   const [state, setState] = useState<TestState>(INITIAL_STATE);
+  const [gateOpen, setGateOpen] = useState(!hasCapturedLead());
+
+  useEffect(() => {
+    trackOnce("test_start", { modulo_id: MODULO_ID });
+  }, []);
 
   const reset = () => setState(INITIAL_STATE);
 
@@ -640,9 +653,24 @@ const TestSection: React.FC<TestSectionProps> = ({ lang }) => {
         responses,
       }));
     } else {
+      const score = responses.filter((r, i) => r === questions[i].answer).length;
+      track("test_completed", { modulo_id: MODULO_ID, score });
+      const email = getCapturedEmail();
+      if (email) {
+        void completeModule({ email, modulo_id: MODULO_ID, score });
+      }
       setState((s) => ({ ...s, responses, phase: "result" }));
     }
   };
+
+  if (gateOpen) {
+    return (
+      <EmailGate
+        moduloCaptura={MODULO_ID}
+        onComplete={() => setGateOpen(false)}
+      />
+    );
+  }
 
   if (state.phase === "result") {
     return <ResultScreen lang={lang} responses={state.responses} onRetry={reset} />;
@@ -850,6 +878,10 @@ const CampusPage: React.FC<CampusProps> = ({ onOpenBeta }) => {
   const { language } = useLanguage();
   const c = ui[language];
   const [activeTab, setActiveTab] = useState("module");
+
+  useEffect(() => {
+    trackOnce("module_view", { modulo_id: MODULO_ID });
+  }, []);
 
   return (
     <div className="min-h-screen bg-palette-a">
