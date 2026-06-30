@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { getAttribution, grantAnalyticsConsent, identifyUser, track } from "@/lib/analytics";
+import { getAttribution, identifyUser, track } from "@/lib/analytics";
 import { registerLead } from "@/lib/leadsApi";
 
 const LEAD_CAPTURED_EMAIL_KEY = "uxcampus_lead_email";
@@ -9,10 +9,10 @@ const LEAD_CAPTURED_EMAIL_KEY = "uxcampus_lead_email";
 // Versión del texto de consentimiento mostrado al usuario. Si el texto
 // cambia de forma sustantiva en el futuro, subir este valor para poder
 // distinguir bajo qué versión aceptó cada contacto en HubSpot.
-// v2: el texto pasó de hablar solo de "progreso en UX Campus" a divulgar
-// explícitamente el tracking de comportamiento de todo el sitio (incluyendo
-// grabación de sesión) — ver Política de Privacidad.
-const CONSENT_VERSION = "v2";
+// v3: el tracking anónimo de comportamiento (PostHog) ya no depende de este
+// checkbox — corre desde que la persona entra al sitio. Este checkbox vuelve
+// a estar acotado a lo que sí controla: usar el email para HubSpot/contacto.
+const CONSENT_VERSION = "v3";
 
 export function hasCapturedLead(): boolean {
   return Boolean(localStorage.getItem(LEAD_CAPTURED_EMAIL_KEY));
@@ -30,7 +30,7 @@ const ui = {
     cta: "Continuar al test",
     invalid: "Ingresá un email válido.",
     consentRequired: "Tenés que aceptar la Política de Privacidad para continuar.",
-    consentBefore: "Acepto que UX Capital registre mi actividad de navegación en el sitio (incluyendo grabación de sesión) para entender cómo se usa la plataforma, y use mi email para darme seguimiento de mi progreso en UX Campus y contactarme con contenido relacionado. Ver ",
+    consentBefore: "Acepto que UX Capital use mi email para darme seguimiento de mi progreso en UX Campus y contactarme con contenido relacionado. Ver ",
     consentLink: "Política de Privacidad",
     consentAfter: ".",
   },
@@ -41,7 +41,7 @@ const ui = {
     cta: "Continue to test",
     invalid: "Enter a valid email.",
     consentRequired: "You need to accept the Privacy Policy to continue.",
-    consentBefore: "I agree that UX Capital records my browsing activity on the site (including session recording) to understand how the platform is used, and uses my email to track my progress in UX Campus and contact me with related content. See ",
+    consentBefore: "I agree that UX Capital uses my email to track my progress in UX Campus and contact me with related content. See ",
     consentLink: "Privacy Policy",
     consentAfter: ".",
   },
@@ -91,9 +91,9 @@ const EmailGate: React.FC<EmailGateProps> = ({ moduloCaptura, onComplete }) => {
       consentVersion: CONSENT_VERSION,
     });
 
-    // El mismo checkbox sirve como consentimiento para el tracking de
-    // comportamiento (PostHog), iniciado en modo opt-out por defecto.
-    grantAnalyticsConsent();
+    // PostHog ya venía trackeando esta sesión de forma anónima desde que
+    // entró al sitio (no depende de este checkbox) — acá la ligamos a un
+    // email real, que es lo que sí requiere este consentimiento explícito.
     identifyUser(email);
     track("lead_capturado", { modulo_captura: moduloCaptura });
     localStorage.setItem(LEAD_CAPTURED_EMAIL_KEY, email);

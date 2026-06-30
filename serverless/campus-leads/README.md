@@ -79,23 +79,24 @@ directamente al endpoint sin pasar por la UI. El timestamp
 (`consentimiento_otorgado`) lo genera el propio `Code.gs`, no el cliente —
 ver el comentario en `handleRegister_`.
 
-El mismo checkbox del EmailGate también habilita PostHog
-(`opt_out_capturing_by_default: true` en `src/lib/analytics.ts`, recién
-habilitado con `grantAnalyticsConsent()` al enviar el formulario) — antes de
-eso, nada sale del navegador: ni los eventos custom (`module_view`,
-`pdf_open`, etc.) ni el autocapture ni la grabación de sesión. Esto significa
-que las sesiones que solo leen el PDF y nunca llegan al test no generan
-ningún dato de comportamiento, por diseño.
+PostHog ya **no** depende de este checkbox para empezar a trackear: el
+tracking anónimo de comportamiento (`capture_pageview` + autocapture, sin
+grabación de pantalla — ver `src/lib/analytics.ts`) corre para cualquier
+visitante desde que entra al sitio, sin gate de consentimiento. Lo que sí
+sigue atado al checkbox es `identifyUser()`: recién cuando alguien completa
+el EmailGate, esa actividad anónima que ya se venía registrando se liga a un
+email real vía `posthog.identify()`. El checkbox y la Política de Privacidad
+(`/campus/privacidad`) están escritos en consecuencia: el texto de
+consentimiento ya no habla de "actividad de navegación en el sitio", solo de
+usar el email para HubSpot/contacto — es lo único que ese consentimiento
+controla.
 
-A diferencia de la primera versión de esta feature, el consentimiento ya no
-está acotado a "tu progreso en UX Campus": el checkbox y la Política de
-Privacidad (`/campus/privacidad`) divulgan explícitamente que habilita
-tracking de comportamiento en **todo el sitio** (autocapture + grabación de
-sesión vía PostHog), no solo en Campus — fue una decisión de producto
-explícita, no un descuido de alcance. La grabación de sesión enmascara los
-valores tipeados en inputs (`session_recording: { maskAllInputs: true }`),
-así que no quedan capturados en texto plano los datos que se escriben en
-otros formularios del sitio (por ejemplo, el de waitlist en `betaModal.tsx`).
+Este es un cambio de diseño deliberado (no la versión original de la
+feature, que sí gateaba todo el tracking detrás del checkbox): la decisión
+de producto fue priorizar visibilidad de quién visita el sitio por sobre
+gatear el tracking anónimo agregado. La grabación de sesión que se había
+agregado en un momento intermedio se sacó por completo — no hay
+`session_recording` ni `disable_session_recording` en la config de PostHog.
 
 ## Qué pasa si HubSpot falla
 

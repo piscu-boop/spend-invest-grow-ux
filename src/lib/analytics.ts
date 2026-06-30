@@ -74,45 +74,19 @@ export function initAnalytics(): void {
     api_host: (import.meta.env.VITE_POSTHOG_HOST as string | undefined) || "https://us.i.posthog.com",
     capture_pageview: true,
     // Decisión de producto: queremos visibilidad de comportamiento en todo
-    // el sitio, no solo en UX Campus — autocapture queda activo (default) y
-    // sumamos grabación de sesión. La Política de Privacidad y el checkbox
-    // del EmailGate (única puerta de consentimiento del sitio) divulgan esto
-    // explícitamente como "actividad de navegación en el sitio, incluyendo
-    // grabación de sesión", no como algo acotado a Campus.
-    disable_session_recording: false,
-    session_recording: {
-      // Enmascara los VALORES tipeados en inputs/textareas/selects en la
-      // grabación (emails, teléfonos, nombres en betaModal, etc.) — se sigue
-      // viendo que el usuario interactuó con el campo, navegó, hizo clic,
-      // pero no el contenido sensible que escribió.
-      maskAllInputs: true,
-    },
-    // GDPR: no se manda ningún evento de comportamiento (ni siquiera el
-    // pageview automático, ni la grabación de sesión) hasta que
-    // grantAnalyticsConsent() lo habilite. PostHog persiste el estado de
-    // opt-in en su propio storage, así que una vez otorgado el
-    // consentimiento queda recordado entre sesiones.
-    opt_out_capturing_by_default: true,
+    // el sitio (quién entra, qué páginas ve, en qué hace clic) desde el
+    // primer segundo, sin esperar a que alguien llegue al EmailGate de
+    // Campus — por eso NO hay opt_out_capturing_by_default acá. Esto es
+    // tracking anónimo (autocapture + pageview, sin grabación de pantalla).
+    //
+    // Lo que sí sigue atado al consentimiento explícito del checkbox de
+    // EmailGate es identifyUser(): recién ahí esa actividad anónima se liga
+    // a un email real (posthog.identify) y se manda algo a HubSpot — ver
+    // identifyUser() más abajo y src/components/EmailGate.tsx.
   });
   posthogReady = true;
 
   posthog.register(getAttribution());
-}
-
-/**
- * Habilita el envío de eventos de comportamiento a PostHog. Debe llamarse
- * solo en respuesta a un consentimiento explícito del usuario (el checkbox
- * del EmailGate) — nunca automáticamente. PostHog recuerda este estado
- * entre sesiones, así que no hace falta volver a pedirlo en cada módulo.
- */
-export function grantAnalyticsConsent(): void {
-  if (!posthogReady) return;
-  posthog.opt_in_capturing();
-}
-
-export function hasAnalyticsConsent(): boolean {
-  if (!posthogReady) return false;
-  return posthog.has_opted_in_capturing();
 }
 
 /** Única función que debe llamar a posthog.capture en toda la app. */
@@ -139,6 +113,12 @@ export function trackOnce(eventName: string, properties: Record<string, unknown>
   track(eventName, properties);
 }
 
+/**
+ * Liga la actividad anónima ya trackeada (PostHog la venía registrando con
+ * un distinct_id anónimo desde que la persona entró al sitio) a un email
+ * real. Llamar solo en respuesta al consentimiento explícito del checkbox
+ * de EmailGate — nunca antes.
+ */
 export function identifyUser(email: string): void {
   if (!posthogReady) return;
   posthog.identify(email, getAttribution());
