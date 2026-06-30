@@ -112,16 +112,18 @@ function handleComplete_(params) {
 }
 
 /**
- * Único punto de entrada del Web App. Se usa GET (no POST) porque es la
- * misma convención que ya funciona en producción para betaModal.tsx — los
- * Web Apps de Apps Script desplegados como "Anyone" responden bien a GET
- * cross-origin desde fetch() del navegador sin configuración de CORS extra.
+ * Único punto de entrada del Web App. Se usa POST (no GET) para no mandar
+ * el email y los datos de atribución como query params visibles en logs de
+ * servidor/proxy/historial del navegador. El body va como JSON, pero el
+ * fetch del frontend lo manda con Content-Type: text/plain — eso evita el
+ * preflight CORS (OPTIONS) que los Web Apps de Apps Script no responden,
+ * sin necesidad de configurar headers de CORS acá.
  *
- *   GET ?action=register&email=...&utm_source=...&modulo_captura=...
- *   GET ?action=complete&email=...&modulo_id=...&score=...
+ *   POST body: {"action":"register","email":"...","utm_source":"...","modulo_captura":"..."}
+ *   POST body: {"action":"complete","email":"...","modulo_id":"...","score":"..."}
  */
-function doGet(e) {
-  var params = e.parameter;
+function doPost(e) {
+  var params = JSON.parse(e.postData.contents);
   switch (params.action) {
     case "register":
       return handleRegister_(params);

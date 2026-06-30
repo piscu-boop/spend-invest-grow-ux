@@ -44,6 +44,18 @@ a copiar el contenido al editor de Apps Script y crear un **New deployment**
 (o **Manage deployments** → editar la versión activa) para que el cambio
 quede en producción.
 
+## Por qué POST con Content-Type: text/plain
+
+El frontend (`src/lib/leadsApi.ts`) le pega al Web App con `fetch(SCRIPT_URL,
+{ method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" },
+body: JSON.stringify(params) })`. El body es JSON igual (`Code.gs` lo parsea
+con `JSON.parse(e.postData.contents)` en `doPost`), pero se manda como
+`text/plain` para que el navegador lo trate como "simple request" y no
+dispare un preflight `OPTIONS` — los Web Apps de Apps Script no responden
+ese preflight, así que con `Content-Type: application/json` la llamada
+fallaría por CORS. Se usa POST (no GET) para no exponer el email y los UTMs
+como query params en logs de servidor, proxies o el historial del navegador.
+
 ## Qué pasa si HubSpot falla
 
 Las dos rutas (`?action=register`, `?action=complete`) devuelven

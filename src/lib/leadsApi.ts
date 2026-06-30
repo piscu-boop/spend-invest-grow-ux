@@ -5,10 +5,15 @@
  * así que — siguiendo la misma convención que ya usa BetaModal
  * (src/components/ui/betaModal.tsx) para hablar con un backend — este
  * "backend" es un Google Apps Script Web App: un único endpoint que
- * multiplexa acciones por query param (?action=register|complete) y guarda
- * el token de HubSpot server-side (PropertiesService), nunca en el bundle
- * del navegador. Ver serverless/campus-leads/ para el código del script y
- * las instrucciones de despliegue.
+ * multiplexa acciones por el campo `action` del body (register|complete) y
+ * guarda el token de HubSpot server-side (PropertiesService), nunca en el
+ * bundle del navegador. Ver serverless/campus-leads/ para el código del
+ * script y las instrucciones de despliegue.
+ *
+ * El POST se manda con Content-Type: text/plain — no porque el body no sea
+ * JSON (lo es, Code.gs hace JSON.parse(e.postData.contents)), sino para que
+ * el navegador lo trate como "simple request" y no dispare un preflight
+ * OPTIONS, que Apps Script Web Apps no manejan.
  */
 
 interface LeadsApiResponse {
@@ -24,8 +29,11 @@ async function callLeadsScript(params: Record<string, string>): Promise<LeadsApi
     return { ok: false, message: "missing_script_url" };
   }
   try {
-    const qs = new URLSearchParams(params);
-    const res = await fetch(`${SCRIPT_URL}?${qs.toString()}`);
+    const res = await fetch(SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(params),
+    });
     return await res.json();
   } catch (err) {
     console.error("[leadsApi] Error llamando al backend de leads:", err);
