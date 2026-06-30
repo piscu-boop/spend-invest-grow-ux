@@ -19,6 +19,14 @@
 interface LeadsApiResponse {
   ok: boolean;
   message?: string;
+  /**
+   * Motivo estructurado de un rechazo (ej. "disposable_domain",
+   * "invalid_email", "consent_required") — permite al frontend distinguir
+   * un rechazo de validación (debe bloquear y mostrar el mensaje) de una
+   * falla de infraestructura (red, HubSpot caído — no debe bloquear el
+   * avance del usuario, ver EmailGate.tsx).
+   */
+  reason?: string;
 }
 
 const SCRIPT_URL = import.meta.env.VITE_CAMPUS_LEADS_SCRIPT_URL as string | undefined;

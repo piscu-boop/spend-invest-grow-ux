@@ -105,3 +105,31 @@ Las dos rutas (`?action=register`, `?action=complete`) devuelven
 flujo del frontend, porque el test ya se completó del lado del usuario; lo
 único que falla es el guardado del dato. El frontend no muestra ese error al
 usuario (ver `src/lib/leadsApi.ts`), solo lo loguea en consola.
+
+## Validación de email
+
+`handleRegister_` valida el email con la misma regex que el frontend
+(`EMAIL_REGEX` — deliberadamente permisiva, sin RFC 5322 completo) más un
+tope de 254 caracteres y trim previo. Además rechaza una lista corta y
+estática de dominios descartables/temporales (`DISPOSABLE_EMAIL_DOMAINS`,
+arriba de todo en `Code.gs`) para que alguien no destrabe el test con un
+email sin intención real de ser contactado. Esta es la validación que
+realmente protege — el frontend (`src/components/EmailGate.tsx`) usa la
+misma regex solo para dar feedback inmediato, pero no hay forma de saltearla
+porque el endpoint es público.
+
+Las respuestas de rechazo por validación incluyen un campo `reason`
+(`"invalid_email"` o `"disposable_domain"`) que el frontend usa para decidir
+si bloquea el avance y muestra el mensaje (`message`) tal cual, en vez de un
+genérico "hubo un problema" — eso solo pasa para fallas de infraestructura
+(red, HubSpot caído), donde el usuario igual puede seguir al test.
+
+Para probar la validación del backend directamente, sin pasar por la UI
+(una vez desplegado `Code.gs` con estos cambios):
+
+```bash
+curl -X POST "$SCRIPT_URL" \
+  -H "Content-Type: text/plain;charset=utf-8" \
+  -d '{"action":"register","email":"test@mailinator.com","consent_given":"true","modulo_captura":"1"}'
+# {"ok":false,"reason":"disposable_domain","message":"Usá un email donde podamos contactarte"}
+```

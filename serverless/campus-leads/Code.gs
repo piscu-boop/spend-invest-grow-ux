@@ -22,6 +22,38 @@
 
 var HUBSPOT_UPSERT_URL = "https://api.hubapi.com/crm/v3/objects/contacts/batch/upsert";
 
+// Deliberadamente permisiva: solo bloquea errores estructurales obvios (sin
+// @, sin dominio, espacios). No usamos una regex tipo RFC 5322 completa —
+// son innecesariamente complejas y terminan rechazando direcciones válidas
+// reales. Acepta subdominios, plus-addressing (nombre+test@dominio.com), etc.
+var EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+var MAX_EMAIL_LENGTH = 254; // límite práctico de RFC 5321
+
+// Dominios de email descartables/temporales conocidos, para evitar que
+// alguien destrabe el test con un email sin intención real de ser
+// contactado. Lista corta y estática, ampliable a mano — un servicio
+// externo de verificación sería sobre-ingeniería para esta escala.
+var DISPOSABLE_EMAIL_DOMAINS = [
+  "mailinator.com",
+  "guerrillamail.com",
+  "10minutemail.com",
+  "tempmail.com",
+  "yopmail.com",
+  "trashmail.com",
+  "throwawaymail.com",
+  "fakeinbox.com",
+];
+
+function isValidEmailFormat_(email) {
+  return email.length > 0 && email.length <= MAX_EMAIL_LENGTH && EMAIL_REGEX.test(email);
+}
+
+function isDisposableEmail_(email) {
+  var domain = email.split("@")[1];
+  if (!domain) return false;
+  return DISPOSABLE_EMAIL_DOMAINS.indexOf(domain.toLowerCase()) !== -1;
+}
+
 function getHubspotToken_() {
   var token = PropertiesService.getScriptProperties().getProperty("HUBSPOT_PRIVATE_APP_TOKEN");
   if (!token) {
@@ -69,14 +101,27 @@ function upsertContact_(email, properties) {
 }
 
 function handleRegister_(params) {
-  var email = params.email;
-  if (!email) {
-    return jsonResponse_({ ok: false, message: "email es requerido" });
+  // Trim: la validación de formato y de dominio descartable corre sobre el
+  // valor ya recortado, y es ese valor el que se guarda en HubSpot.
+  var email = (params.email || "").trim();
+
+  if (!isValidEmailFormat_(email)) {
+    // Defensa en profundidad: el frontend ya valida el formato con la misma
+    // regex antes de llamar acá, pero este endpoint es público — cualquiera
+    // puede pegarle directo sin pasar por la UI.
+    return jsonResponse_({ ok: false, reason: "invalid_email", message: "Email inválido" });
+  }
+  if (isDisposableEmail_(email)) {
+    return jsonResponse_({
+      ok: false,
+      reason: "disposable_domain",
+      message: "Usá un email donde podamos contactarte",
+    });
   }
   if (params.consent_given !== "true") {
     // Defensa en profundidad: el frontend ya bloquea el submit sin consentimiento
     // marcado, pero el backend no debe guardar un lead sin constancia de consentimiento.
-    return jsonResponse_({ ok: false, message: "consentimiento requerido" });
+    return jsonResponse_({ ok: false, reason: "consent_required", message: "consentimiento requerido" });
   }
 
   var properties = {
