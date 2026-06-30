@@ -18,17 +18,12 @@ import { useLanguage } from "@/contexts/LanguageContext";
  * 2. Vincular esa actividad a un email real + guardar progreso en HubSpot —
  *    esto sí requiere el consentimiento explícito del checkbox de EmailGate,
  *    antes de empezar el test de un módulo de UX Campus.
- *
- * IMPORTANTE: este texto es un borrador razonable, no una redacción legal
- * definitiva — está pendiente de revisión por un abogado antes de
- * considerarse válido para producción real.
  */
 
 const content = {
   es: {
     eyebrow: "UX CAMPUS",
     title: "Política de Privacidad — UX Campus y tracking del sitio",
-    updated: "Última actualización: borrador, pendiente de revisión legal.",
     backLabel: "UX Campus",
     intro:
       "Esta política explica, en lenguaje simple, qué datos recolectamos en el sitio de UX Capital (incluido UX Campus), para qué los usamos y qué podés hacer si querés cambiar de opinión.",
@@ -60,13 +55,10 @@ const content = {
       },
     ],
     contactLabel: "info@uxcapital.la",
-    draftNotice:
-      "Este texto es un borrador razonable para el lanzamiento, no una redacción legal definitiva. Está pendiente de revisión por un abogado antes de considerarse válido para producción.",
   },
   en: {
     eyebrow: "UX CAMPUS",
     title: "Privacy Policy — UX Campus and site tracking",
-    updated: "Last updated: draft, pending legal review.",
     backLabel: "UX Campus",
     intro:
       "This policy explains, in plain language, what data we collect on the UX Capital site (including UX Campus), what we use it for, and what you can do if you change your mind.",
@@ -98,8 +90,6 @@ const content = {
       },
     ],
     contactLabel: "info@uxcapital.la",
-    draftNotice:
-      "This text is a reasonable draft for launch, not a final legal text. It is pending review by a lawyer before being considered valid for production.",
   },
 };
 
@@ -129,11 +119,6 @@ const CampusPrivacy: React.FC = () => {
             <h1 className="text-3xl md:text-4xl font-bold font-display text-white mb-3">
               {c.title}
             </h1>
-            <p className="text-xs text-uxc-muted-foreground">{c.updated}</p>
-          </div>
-
-          <div className="rounded-2xl border border-amber-400/30 bg-amber-400/5 px-5 py-4 text-sm text-amber-200 mb-10">
-            {c.draftNotice}
           </div>
 
           <p className="text-base text-uxc-muted-foreground leading-relaxed mb-10">
