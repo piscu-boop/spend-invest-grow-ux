@@ -49,13 +49,19 @@ export interface RegisterLeadParams {
   modulo_captura: string;
   /** Consentimiento explícito (Ley 25.326 art. 6 + GDPR opt-in) — ver EmailGate.tsx. */
   consentGiven: boolean;
-  /** ISO 8601, generado en el momento exacto del submit. */
-  consentTimestamp: string;
   /** Versión del texto de consentimiento que se le mostró al usuario. */
   consentVersion: string;
 }
 
-/** Upsert por email en HubSpot con los datos de atribución, el módulo donde se capturó y el consentimiento otorgado. */
+/**
+ * Upsert por email en HubSpot con los datos de atribución, el módulo donde se
+ * capturó y el consentimiento otorgado.
+ *
+ * No mandamos un timestamp de consentimiento generado en el cliente: este
+ * endpoint no tiene autenticación, así que un valor mandado por el navegador
+ * no es confiable como evidencia legal de cuándo se consintió — Code.gs lo
+ * genera server-side, al momento de recibir el request.
+ */
 export function registerLead(params: RegisterLeadParams): Promise<LeadsApiResponse> {
   return callLeadsScript({
     action: "register",
@@ -65,7 +71,6 @@ export function registerLead(params: RegisterLeadParams): Promise<LeadsApiRespon
     utm_campaign: params.utm_campaign ?? "",
     modulo_captura: params.modulo_captura,
     consent_given: String(params.consentGiven),
-    consent_timestamp: params.consentTimestamp,
     consent_version: params.consentVersion,
   });
 }

@@ -73,10 +73,25 @@ export function initAnalytics(): void {
   posthog.init(posthogKey, {
     api_host: (import.meta.env.VITE_POSTHOG_HOST as string | undefined) || "https://us.i.posthog.com",
     capture_pageview: true,
+    // Decisión de producto: queremos visibilidad de comportamiento en todo
+    // el sitio, no solo en UX Campus — autocapture queda activo (default) y
+    // sumamos grabación de sesión. La Política de Privacidad y el checkbox
+    // del EmailGate (única puerta de consentimiento del sitio) divulgan esto
+    // explícitamente como "actividad de navegación en el sitio, incluyendo
+    // grabación de sesión", no como algo acotado a Campus.
+    disable_session_recording: false,
+    session_recording: {
+      // Enmascara los VALORES tipeados en inputs/textareas/selects en la
+      // grabación (emails, teléfonos, nombres en betaModal, etc.) — se sigue
+      // viendo que el usuario interactuó con el campo, navegó, hizo clic,
+      // pero no el contenido sensible que escribió.
+      maskAllInputs: true,
+    },
     // GDPR: no se manda ningún evento de comportamiento (ni siquiera el
-    // pageview automático) hasta que grantAnalyticsConsent() lo habilite.
-    // PostHog persiste el estado de opt-in en su propio storage, así que
-    // una vez otorgado el consentimiento queda recordado entre sesiones.
+    // pageview automático, ni la grabación de sesión) hasta que
+    // grantAnalyticsConsent() lo habilite. PostHog persiste el estado de
+    // opt-in en su propio storage, así que una vez otorgado el
+    // consentimiento queda recordado entre sesiones.
     opt_out_capturing_by_default: true,
   });
   posthogReady = true;

@@ -9,7 +9,10 @@ const LEAD_CAPTURED_EMAIL_KEY = "uxcampus_lead_email";
 // Versión del texto de consentimiento mostrado al usuario. Si el texto
 // cambia de forma sustantiva en el futuro, subir este valor para poder
 // distinguir bajo qué versión aceptó cada contacto en HubSpot.
-const CONSENT_VERSION = "v1";
+// v2: el texto pasó de hablar solo de "progreso en UX Campus" a divulgar
+// explícitamente el tracking de comportamiento de todo el sitio (incluyendo
+// grabación de sesión) — ver Política de Privacidad.
+const CONSENT_VERSION = "v2";
 
 export function hasCapturedLead(): boolean {
   return Boolean(localStorage.getItem(LEAD_CAPTURED_EMAIL_KEY));
@@ -27,7 +30,7 @@ const ui = {
     cta: "Continuar al test",
     invalid: "Ingresá un email válido.",
     consentRequired: "Tenés que aceptar la Política de Privacidad para continuar.",
-    consentBefore: "Acepto que UX Capital use mi email para darme seguimiento de mi progreso en UX Campus y contactarme con contenido relacionado. Ver ",
+    consentBefore: "Acepto que UX Capital registre mi actividad de navegación en el sitio (incluyendo grabación de sesión) para entender cómo se usa la plataforma, y use mi email para darme seguimiento de mi progreso en UX Campus y contactarme con contenido relacionado. Ver ",
     consentLink: "Política de Privacidad",
     consentAfter: ".",
   },
@@ -38,7 +41,7 @@ const ui = {
     cta: "Continue to test",
     invalid: "Enter a valid email.",
     consentRequired: "You need to accept the Privacy Policy to continue.",
-    consentBefore: "I agree that UX Capital uses my email to track my progress in UX Campus and contact me with related content. See ",
+    consentBefore: "I agree that UX Capital records my browsing activity on the site (including session recording) to understand how the platform is used, and uses my email to track my progress in UX Campus and contact me with related content. See ",
     consentLink: "Privacy Policy",
     consentAfter: ".",
   },
@@ -72,10 +75,12 @@ const EmailGate: React.FC<EmailGateProps> = ({ moduloCaptura, onComplete }) => {
     setError("");
 
     const attribution = getAttribution();
-    const consentTimestamp = new Date().toISOString();
 
     // Best-effort: el guardado en HubSpot no debe bloquear el avance del
     // usuario al test si la red falla o el script no está configurado.
+    // No mandamos un timestamp acá: Code.gs lo genera server-side al recibir
+    // el request, porque este endpoint no tiene autenticación y un valor
+    // mandado por el cliente no serviría como evidencia confiable.
     void registerLead({
       email,
       utm_source: attribution.utm_source,
@@ -83,7 +88,6 @@ const EmailGate: React.FC<EmailGateProps> = ({ moduloCaptura, onComplete }) => {
       utm_campaign: attribution.utm_campaign,
       modulo_captura: moduloCaptura,
       consentGiven: true,
-      consentTimestamp,
       consentVersion: CONSENT_VERSION,
     });
 

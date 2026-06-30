@@ -73,7 +73,7 @@ function handleRegister_(params) {
   if (!email) {
     return jsonResponse_({ ok: false, message: "email es requerido" });
   }
-  if (params.consent_given !== "true" || !params.consent_timestamp) {
+  if (params.consent_given !== "true") {
     // Defensa en profundidad: el frontend ya bloquea el submit sin consentimiento
     // marcado, pero el backend no debe guardar un lead sin constancia de consentimiento.
     return jsonResponse_({ ok: false, message: "consentimiento requerido" });
@@ -87,7 +87,15 @@ function handleRegister_(params) {
     modulo_captura: params.modulo_captura || "",
     // Ley 25.326 art. 6 + GDPR opt-in: queda constancia de cuándo se dio el
     // consentimiento y bajo qué versión de texto, no solo que "se pidió en pantalla".
-    consentimiento_otorgado: params.consent_timestamp,
+    //
+    // El timestamp se genera ACÁ, server-side, en vez de confiar en un valor
+    // mandado por el cliente — este endpoint no tiene autenticación (mismo
+    // modelo que betaModal.tsx), así que cualquiera con la URL podría mandar
+    // cualquier fecha si confiáramos en params.consent_timestamp. Generarlo acá
+    // no prueba que un humano real tildó el checkbox, pero al menos garantiza
+    // que la fecha registrada es cuándo el servidor recibió el pedido, no un
+    // valor arbitrario fabricado por quien sea que llamó al endpoint.
+    consentimiento_otorgado: new Date().toISOString(),
     consentimiento_version: params.consent_version || "",
   };
 
@@ -128,8 +136,11 @@ function handleComplete_(params) {
  * preflight CORS (OPTIONS) que los Web Apps de Apps Script no responden,
  * sin necesidad de configurar headers de CORS acá.
  *
- *   POST body: {"action":"register","email":"...","utm_source":"...","modulo_captura":"...","consent_given":"true","consent_timestamp":"...","consent_version":"v1"}
+ *   POST body: {"action":"register","email":"...","utm_source":"...","modulo_captura":"...","consent_given":"true","consent_version":"v2"}
  *   POST body: {"action":"complete","email":"...","modulo_id":"...","score":"..."}
+ *
+ * Nota: consent_timestamp ya NO se recibe del cliente — ver el comentario en
+ * handleRegister_ sobre por qué se genera server-side.
  */
 function doPost(e) {
   var params = JSON.parse(e.postData.contents);
