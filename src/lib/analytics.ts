@@ -73,10 +73,31 @@ export function initAnalytics(): void {
   posthog.init(posthogKey, {
     api_host: (import.meta.env.VITE_POSTHOG_HOST as string | undefined) || "https://us.i.posthog.com",
     capture_pageview: true,
+    // GDPR: no se manda ningún evento de comportamiento (ni siquiera el
+    // pageview automático) hasta que grantAnalyticsConsent() lo habilite.
+    // PostHog persiste el estado de opt-in en su propio storage, así que
+    // una vez otorgado el consentimiento queda recordado entre sesiones.
+    opt_out_capturing_by_default: true,
   });
   posthogReady = true;
 
   posthog.register(getAttribution());
+}
+
+/**
+ * Habilita el envío de eventos de comportamiento a PostHog. Debe llamarse
+ * solo en respuesta a un consentimiento explícito del usuario (el checkbox
+ * del EmailGate) — nunca automáticamente. PostHog recuerda este estado
+ * entre sesiones, así que no hace falta volver a pedirlo en cada módulo.
+ */
+export function grantAnalyticsConsent(): void {
+  if (!posthogReady) return;
+  posthog.opt_in_capturing();
+}
+
+export function hasAnalyticsConsent(): boolean {
+  if (!posthogReady) return false;
+  return posthog.has_opted_in_capturing();
 }
 
 /** Única función que debe llamar a posthog.capture en toda la app. */

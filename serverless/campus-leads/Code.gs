@@ -73,6 +73,11 @@ function handleRegister_(params) {
   if (!email) {
     return jsonResponse_({ ok: false, message: "email es requerido" });
   }
+  if (params.consent_given !== "true" || !params.consent_timestamp) {
+    // Defensa en profundidad: el frontend ya bloquea el submit sin consentimiento
+    // marcado, pero el backend no debe guardar un lead sin constancia de consentimiento.
+    return jsonResponse_({ ok: false, message: "consentimiento requerido" });
+  }
 
   var properties = {
     email: email,
@@ -80,6 +85,10 @@ function handleRegister_(params) {
     utm_medium: params.utm_medium || "",
     utm_campaign: params.utm_campaign || "",
     modulo_captura: params.modulo_captura || "",
+    // Ley 25.326 art. 6 + GDPR opt-in: queda constancia de cuándo se dio el
+    // consentimiento y bajo qué versión de texto, no solo que "se pidió en pantalla".
+    consentimiento_otorgado: params.consent_timestamp,
+    consentimiento_version: params.consent_version || "",
   };
 
   try {
@@ -119,7 +128,7 @@ function handleComplete_(params) {
  * preflight CORS (OPTIONS) que los Web Apps de Apps Script no responden,
  * sin necesidad de configurar headers de CORS acá.
  *
- *   POST body: {"action":"register","email":"...","utm_source":"...","modulo_captura":"..."}
+ *   POST body: {"action":"register","email":"...","utm_source":"...","modulo_captura":"...","consent_given":"true","consent_timestamp":"...","consent_version":"v1"}
  *   POST body: {"action":"complete","email":"...","modulo_id":"...","score":"..."}
  */
 function doPost(e) {

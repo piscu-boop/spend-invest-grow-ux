@@ -25,6 +25,7 @@ const CampusPage = lazy(() => import("./pages/Campus"));
 const Campus2Page = lazy(() => import("./pages/Campus2"));
 const Campus3Page = lazy(() => import("./pages/Campus3"));
 const CampusHub = lazy(() => import("./pages/CampusHub"));
+const CampusPrivacy = lazy(() => import("./pages/CampusPrivacy"));
 
 const queryClient = new QueryClient();
 
@@ -157,6 +158,9 @@ const AppInner: React.FC = () => {
           />
           <Route path="/campus/modulo-03"
             element={<Campus3Page onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/campus/privacidad"
+            element={<CampusPrivacy />}
           />
           <Route path="/registro"
             element={

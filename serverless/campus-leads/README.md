@@ -13,12 +13,22 @@ copiarlo a mano al editor de Apps Script.
 1. **Private App de HubSpot** (Settings → Integrations → Private Apps) con
    scopes `crm.objects.contacts.read` y `crm.objects.contacts.write`. Copiá
    el token que te da — lo vas a necesitar en el paso 4.
-2. **10 propiedades de Contacto** creadas en HubSpot (Settings → Properties
+2. **12 propiedades de Contacto** creadas en HubSpot (Settings → Properties
    → Contact properties):
    - `utm_source`, `utm_medium`, `utm_campaign`, `modulo_captura` (texto de
      una línea)
    - `modulo1_completado`, `modulo2_completado`, `modulo3_completado` (fecha)
    - `modulo1_score`, `modulo2_score`, `modulo3_score` (número)
+   - `consentimiento_otorgado` — recomendado crearla como **"Date and time
+     picker"** (no "Date" simple), porque el valor que mandamos es un ISO
+     8601 con hora exacta (`new Date().toISOString()` tomado en el momento
+     del submit), no solo la fecha. Es la constancia de cuándo se dio el
+     consentimiento (Ley 25.326 art. 6 + GDPR opt-in) — su sola presencia en
+     el contacto es la prueba de que se otorgó.
+   - `consentimiento_version` (texto de una línea) — qué versión del texto
+     de consentimiento aceptó (ver `CONSENT_VERSION` en
+     `src/components/EmailGate.tsx`), para poder identificar contactos que
+     aceptaron una versión de texto anterior si en el futuro cambia.
 
 ## Despliegue del Web App
 
@@ -55,6 +65,23 @@ dispare un preflight `OPTIONS` — los Web Apps de Apps Script no responden
 ese preflight, así que con `Content-Type: application/json` la llamada
 fallaría por CORS. Se usa POST (no GET) para no exponer el email y los UTMs
 como query params en logs de servidor, proxies o el historial del navegador.
+
+## Consentimiento (Ley 25.326 + GDPR)
+
+`handleRegister_` en `Code.gs` rechaza el registro (`{ ok: false, message:
+"consentimiento requerido" }`) si no llega `consent_given: "true"` y
+`consent_timestamp` en el body — el frontend ya bloquea el envío del
+formulario sin el checkbox marcado (ver `src/components/EmailGate.tsx`),
+pero el backend no debe guardar un lead sin constancia de consentimiento
+aunque alguien le pegue directamente al endpoint sin pasar por la UI.
+
+El mismo checkbox del EmailGate también habilita el envío de eventos de
+comportamiento a PostHog (`opt_out_capturing_by_default: true` en
+`src/lib/analytics.ts`, recién habilitado con `grantAnalyticsConsent()` al
+enviar el formulario) — antes de eso, ningún evento (`module_view`,
+`pdf_open`, etc.) sale del navegador. Esto significa que las sesiones que
+solo leen el PDF y nunca llegan al test no generan ningún evento de
+comportamiento, por diseño.
 
 ## Qué pasa si HubSpot falla
 

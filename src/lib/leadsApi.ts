@@ -47,9 +47,15 @@ export interface RegisterLeadParams {
   utm_medium?: string;
   utm_campaign?: string;
   modulo_captura: string;
+  /** Consentimiento explícito (Ley 25.326 art. 6 + GDPR opt-in) — ver EmailGate.tsx. */
+  consentGiven: boolean;
+  /** ISO 8601, generado en el momento exacto del submit. */
+  consentTimestamp: string;
+  /** Versión del texto de consentimiento que se le mostró al usuario. */
+  consentVersion: string;
 }
 
-/** Upsert por email en HubSpot con los datos de atribución y el módulo donde se capturó. */
+/** Upsert por email en HubSpot con los datos de atribución, el módulo donde se capturó y el consentimiento otorgado. */
 export function registerLead(params: RegisterLeadParams): Promise<LeadsApiResponse> {
   return callLeadsScript({
     action: "register",
@@ -58,6 +64,9 @@ export function registerLead(params: RegisterLeadParams): Promise<LeadsApiRespon
     utm_medium: params.utm_medium ?? "",
     utm_campaign: params.utm_campaign ?? "",
     modulo_captura: params.modulo_captura,
+    consent_given: String(params.consentGiven),
+    consent_timestamp: params.consentTimestamp,
+    consent_version: params.consentVersion,
   });
 }
 
