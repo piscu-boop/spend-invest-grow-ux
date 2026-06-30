@@ -7,6 +7,7 @@ import { LanguageProvider } from "@/contexts/LanguageContext";
 import BetaModal from '@/components/ui/betaModal';
 import Index from "./pages/Index";
 import { useState, useEffect, useCallback, Suspense, lazy } from "react";
+import { initAnalytics } from "@/lib/analytics";
 
 // Code-split secondary routes so the initial bundle only contains the
 // landing page. Each of these is loaded on demand when the user
@@ -24,6 +25,7 @@ const CampusPage = lazy(() => import("./pages/Campus"));
 const Campus2Page = lazy(() => import("./pages/Campus2"));
 const Campus3Page = lazy(() => import("./pages/Campus3"));
 const CampusHub = lazy(() => import("./pages/CampusHub"));
+const CampusPrivacy = lazy(() => import("./pages/CampusPrivacy"));
 
 const queryClient = new QueryClient();
 
@@ -96,6 +98,12 @@ const AppInner: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  // Punto de entrada global: captura la atribución first-touch e inicializa
+  // PostHog sin importar por qué ruta entre la visita (home, /campus, etc.)
+  useEffect(() => {
+    initAnalytics();
+  }, []);
+
   const handleCloseBeta = useCallback(() => {
     setBetaOpen(false);
     // Si estamos en /registro, al cerrar el modal volver al inicio
@@ -150,6 +158,9 @@ const AppInner: React.FC = () => {
           />
           <Route path="/campus/modulo-03"
             element={<Campus3Page onOpenBeta={() => setBetaOpen(true)} />}
+          />
+          <Route path="/campus/privacidad"
+            element={<CampusPrivacy />}
           />
           <Route path="/registro"
             element={
