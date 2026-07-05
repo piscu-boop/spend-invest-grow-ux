@@ -17,12 +17,12 @@
     "Para verificar un ID CAFCI: abrir https://www.cafci.org.ar/ficha-fondo.html?q={fundId};{classId}"
   ],
   "version": "3",
-  "lastUpdated": "2026-07-04T22:04:53.617Z",
+  "lastUpdated": "2026-07-05T06:47:26.517Z",
   "generatedBy": "scripts/fetchRates.js",
   "liveRatesCount": 2,
   "totalWallets": 4,
   "ux_tna": 0.1992,
-  "traditional_average_tna": 0.1977,
+  "traditional_average_tna": 0.2127,
   "wallets": [
     {
       "id": "mercadopago",
@@ -37,22 +37,22 @@
     {
       "id": "naranjax",
       "name": "Naranja X",
-      "tna": 0.18,
+      "tna": 0.21,
       "color": "#ff6900",
       "status": "live",
       "sourceType": "aggregator",
-      "sourceLabel": "Tercero conectado a CAFCI (Naranja X, vigente 03/06/2026)",
-      "lastUpdated": "2026-07-04T22:04:54.217Z"
+      "sourceLabel": "Tercero conectado a CAFCI (Naranja X, vigente 19/03/2026)",
+      "lastUpdated": "2026-07-05T06:47:27.037Z"
     },
     {
       "id": "uala",
       "name": "Ualá",
-      "tna": 0.2,
+      "tna": 0.23,
       "color": "#7b3ff5",
       "status": "live",
       "sourceType": "aggregator",
-      "sourceLabel": "Tercero conectado a CAFCI (Ualá, vigente 03/06/2026)",
-      "lastUpdated": "2026-07-04T22:04:54.217Z"
+      "sourceLabel": "Tercero conectado a CAFCI (Ualá, vigente 12/02/2026)",
+      "lastUpdated": "2026-07-05T06:47:27.037Z"
     },
     {
       "id": "personalpay",
