@@ -1,0 +1,962 @@
+import { useState, useRef, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
+import { ChevronLeft } from "lucide-react";
+import { Document, Page, pdfjs } from "react-pdf";
+import "react-pdf/dist/Page/TextLayer.css";
+import "react-pdf/dist/Page/AnnotationLayer.css";
+import Navigation from "@/components/Navigation";
+import Footer from "@/components/Footer";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { Download, ArrowRight, RotateCcw, CheckCircle, XCircle, BookOpen, ClipboardList } from "lucide-react";
+import { track, trackOnce } from "@/lib/analytics";
+import { completeModule } from "@/lib/leadsApi";
+import EmailGate, { hasCapturedLead, getCapturedEmail } from "@/components/EmailGate";
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.mjs",
+  import.meta.url,
+).toString();
+
+const MODULO_ID = "4";
+
+// ── i18n ─────────────────────────────────────────────────────────────────────
+
+const ui = {
+  es: {
+    navItem: "UX Campus",
+    tabModule: "Módulo",
+    tabTest: "Test",
+    moduleTitle: "Módulo 04 – ¿Invertir realmente vale la pena?",
+    downloadPdf: "Descargar PDF",
+    goToTest: "Ir al Test",
+    testTitle: "Evaluación Módulo 04",
+    next: "Siguiente",
+    seeResult: "Ver Resultado",
+    retry: "Reintentar",
+    pdfLoading: "Cargando módulo...",
+    question: "Pregunta",
+    of: "de",
+    score: "Puntaje",
+    breakdown: "Resultado por tema",
+    levelExcellent: "Excelente",
+    levelGood: "Buen resultado",
+    levelInProgress: "En proceso",
+    levelDescExcellent: "Comprensión sólida de los conceptos del módulo.",
+    levelDescGood: "Revisá los temas con errores antes de avanzar.",
+    levelDescInProgress: "Se recomienda releer el módulo antes de reintentar.",
+    correct: "Correcta",
+    incorrect: "Incorrecta",
+    explanation: "Explicación",
+    correct_answers: "respuestas correctas",
+    backLabel: "UX Campus",
+    breadcrumbModule: "Módulo 04",
+  },
+  en: {
+    navItem: "UX Campus",
+    tabModule: "Module",
+    tabTest: "Test",
+    moduleTitle: "Module 04 – Is Investing Really Worth It?",
+    downloadPdf: "Download PDF",
+    goToTest: "Go to Test",
+    testTitle: "Module 04 Assessment",
+    next: "Next",
+    seeResult: "See Result",
+    retry: "Retry",
+    pdfLoading: "Loading module...",
+    question: "Question",
+    of: "of",
+    score: "Score",
+    breakdown: "Results by topic",
+    levelExcellent: "Excellent",
+    levelGood: "Good result",
+    levelInProgress: "In progress",
+    levelDescExcellent: "Solid understanding of module concepts.",
+    levelDescGood: "Review the topics where you made errors before moving on.",
+    levelDescInProgress: "We recommend rereading the module before retrying.",
+    correct: "Correct",
+    incorrect: "Incorrect",
+    explanation: "Explanation",
+    correct_answers: "correct answers",
+    backLabel: "UX Campus",
+    breadcrumbModule: "Module 04",
+  },
+};
+
+// ── Questions data ────────────────────────────────────────────────────────────
+
+interface Question {
+  theme: string;
+  question: string;
+  options: string[];
+  answer: number;
+  explanation: string;
+}
+
+const QUESTIONS: { es: Question[]; en: Question[] } = {
+  es: [
+    {
+      theme: "01 · Del ejemplo a la evidencia",
+      question:
+        "¿Cuál fue la principal conclusión obtenida al analizar la evidencia histórica de la inversión en índices representativos de distintos mercados financieros?",
+      options: [
+        "Que la inversión en índices representativos de mercados ha contribuido históricamente a la construcción patrimonial.",
+        "Que la inversión en mercados financieros ofrece rendimientos históricos muy similares entre sí.",
+        "Que la inversión en bonos supera a la inversión en acciones cuando el horizonte es de largo plazo.",
+        "Que la inversión pierde sentido porque la inflación elimina completamente sus beneficios.",
+      ],
+      answer: 0,
+      explanation:
+        "El análisis de distintos índices representativos mostró que, a lo largo del tiempo, la inversión diversificada en mercados financieros ha permitido obtener rendimientos reales positivos y favorecer la construcción patrimonial.",
+    },
+    {
+      theme: "01 · Del ejemplo a la evidencia",
+      question: "¿Por qué se utilizan índices bursátiles en lugar de analizar empresas individuales?",
+      options: [
+        "Porque eliminan completamente el riesgo de invertir.",
+        "Porque representan el comportamiento conjunto de un mercado diversificado.",
+        "Porque siempre obtienen mayores rendimientos que las acciones.",
+        "Porque únicamente incluyen empresas de gran tamaño.",
+      ],
+      answer: 1,
+      explanation:
+        "Los índices permiten observar el comportamiento agregado de un mercado, reduciendo el efecto que pueden tener empresas particulares.",
+    },
+    {
+      theme: "01 · Del ejemplo a la evidencia",
+      question: "¿Qué característica tienen los índices de rendimiento bruto (Gross Return Index)?",
+      options: [
+        "Consideran únicamente la evolución de los precios.",
+        "Incluyen solamente empresas que pagan dividendos.",
+        "Suponen la reinversión de dividendos e intereses sin considerar impuestos.",
+        "Ajustan automáticamente los rendimientos por inflación.",
+      ],
+      answer: 2,
+      explanation:
+        "Los índices Gross Return reinvierten dividendos o cupones, permitiendo medir el rendimiento bruto generado por el mercado.",
+    },
+    {
+      theme: "02 · Estados Unidos",
+      question:
+        "Según la evidencia presentada para Estados Unidos, ¿qué activo obtuvo el mayor rendimiento promedio anual?",
+      options: [
+        "Bonos del Tesoro a largo plazo.",
+        "MSCI USA Large Cap.",
+        "MSCI USA Standard.",
+        "MSCI USA Small Cap.",
+      ],
+      answer: 3,
+      explanation:
+        "Las empresas de menor capitalización presentaron el mayor rendimiento promedio, aunque también la mayor volatilidad.",
+    },
+    {
+      theme: "03 · Europa",
+      question: "¿Qué conclusión permitió obtener la comparación entre Estados Unidos y Europa?",
+      options: [
+        "Que un mayor riesgo siempre genera un mayor rendimiento.",
+        "Que Europa obtuvo mayor rendimiento con menor volatilidad.",
+        "Que un mercado puede asumir más riesgo sin obtener un mayor rendimiento.",
+        "Que todos los mercados desarrollados presentan resultados similares.",
+      ],
+      answer: 2,
+      explanation:
+        "Europa mostró una volatilidad superior a la de Estados Unidos, pero un rendimiento promedio inferior.",
+    },
+    {
+      theme: "04 · Latinoamérica",
+      question: "¿Qué característica general presentaron los mercados latinoamericanos analizados?",
+      options: [
+        "Rendimientos más elevados acompañados por mayores niveles de riesgo.",
+        "Menores rendimientos y menor volatilidad que Estados Unidos.",
+        "Riesgos similares a los de Europa con menores retornos.",
+        "Rendimientos prácticamente iguales entre todos los países.",
+      ],
+      answer: 0,
+      explanation:
+        "Los mercados emergentes suelen presentar un mayor potencial de crecimiento, aunque acompañado por una mayor volatilidad.",
+    },
+    {
+      theme: "05 · Riesgo y rendimiento",
+      question:
+        "¿Qué representa el desvío estándar de los rendimientos dentro del análisis de inversiones?",
+      options: [
+        "El rendimiento promedio anual obtenido por una inversión durante el período analizado.",
+        "El crecimiento acumulado de un índice financiero a lo largo del tiempo.",
+        "Una medida del riesgo, porque refleja la dispersión de los rendimientos respecto de su promedio.",
+        "La diferencia entre el rendimiento nominal y el rendimiento real de una inversión.",
+      ],
+      answer: 2,
+      explanation:
+        "El desvío estándar se utiliza como medida de riesgo porque indica cuánto varían los rendimientos alrededor de su promedio. Cuanto mayor es, mayor es la volatilidad de la inversión.",
+    },
+    {
+      theme: "05 · Riesgo y rendimiento",
+      question: "¿Qué expresa la prima por riesgo de mercado?",
+      options: [
+        "La diferencia entre la inflación y el rendimiento del mercado.",
+        "El rendimiento adicional esperado respecto de un activo libre de riesgo.",
+        "La diferencia entre dos índices accionarios.",
+        "El rendimiento mínimo garantizado por invertir en acciones.",
+      ],
+      answer: 1,
+      explanation:
+        "La prima de riesgo refleja el rendimiento adicional esperado por asumir el riesgo de invertir en el mercado.",
+    },
+    {
+      theme: "05 · Riesgo y rendimiento",
+      question: "¿Cuál de las siguientes afirmaciones sobre la prima de riesgo es correcta?",
+      options: [
+        "Garantiza que el mercado superará todos los años a los bonos.",
+        "Representa una promesa de rendimiento futuro.",
+        "Se basa en una expectativa respaldada por evidencia histórica de largo plazo.",
+        "Solo puede calcularse para acciones individuales.",
+      ],
+      answer: 2,
+      explanation:
+        "La prima de riesgo constituye una expectativa de largo plazo basada en evidencia histórica, no una garantía de rendimiento futuro.",
+    },
+    {
+      theme: "05 · Riesgo y rendimiento",
+      question: "¿Qué enseñanza principal deja el análisis conjunto de riesgo y rendimiento?",
+      options: [
+        "Siempre conviene elegir el mercado con mayor rendimiento histórico.",
+        "El objetivo consiste en evitar completamente el riesgo.",
+        "Toda inversión riesgosa obtiene mayores rendimientos.",
+        "El riesgo debe evaluarse junto con el rendimiento esperado.",
+      ],
+      answer: 3,
+      explanation:
+        "No alcanza con analizar cuánto rindió una inversión; también debe considerarse el riesgo asumido para obtener ese resultado.",
+    },
+    {
+      theme: "06 · Largo plazo",
+      question:
+        "¿Qué papel cumple el horizonte temporal en la inversión, según la evidencia presentada en el módulo?",
+      options: [
+        "El tiempo elimina prácticamente el riesgo asociado a cualquier tipo de inversión.",
+        "El tiempo reduce el impacto de la volatilidad y favorece la acumulación de rendimientos.",
+        "El tiempo garantiza obtener rendimientos positivos cualquiera sea el mercado elegido.",
+        "El tiempo permite que todos los mercados obtengan resultados similares entre sí.",
+      ],
+      answer: 1,
+      explanation:
+        "El tiempo no elimina el riesgo, pero permite atravesar los distintos ciclos del mercado y aprovechar el efecto de la reinversión de retornos, favoreciendo la construcción patrimonial.",
+    },
+    {
+      theme: "06 · Largo plazo",
+      question: "¿Por qué el ejemplo de Leo utilizó una tasa anual del 6%?",
+      options: [
+        "Porque coincide exactamente con el rendimiento del mercado estadounidense.",
+        "Porque representa una estimación conservadora frente a la evidencia histórica observada.",
+        "Porque es el rendimiento garantizado por la renta variable.",
+        "Porque corresponde al rendimiento promedio de América Latina.",
+      ],
+      answer: 1,
+      explanation:
+        "El 6% fue elegido como una hipótesis conservadora, inferior al rendimiento histórico promedio observado en muchos de los mercados analizados.",
+    },
+    {
+      theme: "07 · Anexo estadístico",
+      question:
+        "María observa que dos mercados obtuvieron el mismo rendimiento promedio histórico. Sin embargo, uno presentó un desvío estándar considerablemente mayor. ¿Qué puede concluir?",
+      options: [
+        "Que ambos tienen exactamente el mismo riesgo.",
+        "Que el mercado con mayor desvío estándar presentó mayor volatilidad.",
+        "Que el mercado con mayor riesgo necesariamente obtuvo mejores resultados.",
+        "Que el mercado más volátil siempre generará una mayor prima de riesgo.",
+      ],
+      answer: 1,
+      explanation:
+        "El desvío estándar mide la variabilidad de los rendimientos, por lo que un valor mayor implica un mayor nivel de riesgo.",
+    },
+    {
+      theme: "07 · Anexo estadístico",
+      question:
+        "Dos mercados obtuvieron exactamente el mismo rendimiento promedio histórico. Sin embargo, uno presentó un desvío estándar considerablemente menor. ¿Cuál sería, en principio, la alternativa más conveniente para un inversor?",
+      options: [
+        "El mercado con mayor desvío estándar, porque siempre generará mayores rendimientos futuros.",
+        "Ambos mercados, ya que el riesgo no influye cuando el rendimiento es igual.",
+        "El mercado con menor desvío estándar, porque logró el mismo rendimiento con menor nivel de riesgo.",
+        "No puede extraerse ninguna conclusión utilizando el desvío estándar.",
+      ],
+      answer: 2,
+      explanation:
+        "Si dos inversiones ofrecen un rendimiento similar, resulta más conveniente aquella que lo logra con menor volatilidad.",
+    },
+    {
+      theme: "06 · Largo plazo",
+      question:
+        "Luego de estudiar los rendimientos históricos de las acciones, Ana decide invertir todos sus ahorros porque espera obtener un rendimiento superior al de los bonos durante el próximo año. ¿Cuál es la mejor respuesta?",
+      options: [
+        "Su decisión es correcta, porque las acciones suelen superar a los bonos incluso en horizontes de muy corto plazo.",
+        "Su decisión es correcta, porque los rendimientos históricos permiten anticipar lo que ocurrirá el próximo año.",
+        "Su decisión es incorrecta, porque la ventaja de las acciones se observa principalmente en el largo plazo, mientras que en el corto se enfrenta con la volatilidad.",
+        "Su decisión es incorrecta, porque las acciones históricamente obtuvieron rendimientos inferiores a los bonos del Tesoro.",
+      ],
+      answer: 2,
+      explanation:
+        "La evidencia histórica muestra que las acciones han obtenido mayores rendimientos principalmente en horizontes prolongados. En el corto plazo, la volatilidad puede generar resultados inferiores a los de activos de menor riesgo.",
+    },
+  ],
+  en: [
+    {
+      theme: "01 · From example to evidence",
+      question:
+        "What was the main conclusion from analyzing the historical evidence of investment in representative indexes of various financial markets?",
+      options: [
+        "That investment in representative market indexes has historically contributed to building wealth.",
+        "That investment in financial markets offers very similar historical returns across markets.",
+        "That bond investment outperforms stock investment over long-term horizons.",
+        "That investing loses its value because inflation completely eliminates its benefits.",
+      ],
+      answer: 0,
+      explanation:
+        "The analysis of various representative indexes showed that, over time, diversified investment in financial markets has generated positive real returns and favored wealth building.",
+    },
+    {
+      theme: "01 · From example to evidence",
+      question: "Why are stock market indexes used instead of analyzing individual companies?",
+      options: [
+        "Because they completely eliminate investment risk.",
+        "Because they represent the collective behavior of a diversified market.",
+        "Because they always achieve higher returns than individual stocks.",
+        "Because they only include large-cap companies.",
+      ],
+      answer: 1,
+      explanation:
+        "Indexes allow us to observe the aggregate behavior of a market, reducing the impact that individual companies may have.",
+    },
+    {
+      theme: "01 · From example to evidence",
+      question: "What characteristic do gross return indexes (Gross Return Index) have?",
+      options: [
+        "They only consider price evolution.",
+        "They only include companies that pay dividends.",
+        "They assume reinvestment of dividends and interest without considering taxes.",
+        "They automatically adjust returns for inflation.",
+      ],
+      answer: 2,
+      explanation:
+        "Gross Return indexes reinvest dividends or coupons, allowing the measurement of the gross return generated by the market.",
+    },
+    {
+      theme: "02 · United States",
+      question:
+        "According to the evidence presented for the United States, which asset achieved the highest average annual return?",
+      options: [
+        "Long-term Treasury bonds.",
+        "MSCI USA Large Cap.",
+        "MSCI USA Standard.",
+        "MSCI USA Small Cap.",
+      ],
+      answer: 3,
+      explanation:
+        "Companies with lower market capitalization showed the highest average return, although also the highest volatility.",
+    },
+    {
+      theme: "03 · Europe",
+      question: "What conclusion did the comparison between the United States and Europe allow?",
+      options: [
+        "That higher risk always generates higher returns.",
+        "That Europe achieved higher returns with lower volatility.",
+        "That a market can take on more risk without achieving a higher return.",
+        "That all developed markets show similar results.",
+      ],
+      answer: 2,
+      explanation:
+        "Europe showed higher volatility than the United States but a lower average return.",
+    },
+    {
+      theme: "04 · Latin America",
+      question: "What general characteristic did the analyzed Latin American markets display?",
+      options: [
+        "Higher returns accompanied by higher levels of risk.",
+        "Lower returns and lower volatility than the United States.",
+        "Similar risks to Europe with lower returns.",
+        "Practically equal returns across all countries.",
+      ],
+      answer: 0,
+      explanation:
+        "Emerging markets typically show higher growth potential, but accompanied by greater volatility.",
+    },
+    {
+      theme: "05 · Risk and return",
+      question:
+        "What does the standard deviation of returns represent in investment analysis?",
+      options: [
+        "The average annual return obtained by an investment during the analyzed period.",
+        "The cumulative growth of a financial index over time.",
+        "A measure of risk, because it reflects the dispersion of returns around their average.",
+        "The difference between the nominal and real return of an investment.",
+      ],
+      answer: 2,
+      explanation:
+        "The standard deviation is used as a measure of risk because it indicates how much returns vary around their average. The higher it is, the greater the volatility of the investment.",
+    },
+    {
+      theme: "05 · Risk and return",
+      question: "What does the market risk premium express?",
+      options: [
+        "The difference between inflation and market return.",
+        "The additional expected return relative to a risk-free asset.",
+        "The difference between two equity indexes.",
+        "The minimum guaranteed return from investing in stocks.",
+      ],
+      answer: 1,
+      explanation:
+        "The risk premium reflects the additional expected return for bearing the risk of investing in the market.",
+    },
+    {
+      theme: "05 · Risk and return",
+      question: "Which of the following statements about the risk premium is correct?",
+      options: [
+        "It guarantees that the market will outperform bonds every year.",
+        "It represents a promise of future returns.",
+        "It is based on an expectation backed by long-term historical evidence.",
+        "It can only be calculated for individual stocks.",
+      ],
+      answer: 2,
+      explanation:
+        "The risk premium is a long-term expectation based on historical evidence, not a guarantee of future returns.",
+    },
+    {
+      theme: "05 · Risk and return",
+      question: "What is the main lesson from the combined risk and return analysis?",
+      options: [
+        "Always choose the market with the highest historical return.",
+        "The objective is to completely avoid risk.",
+        "Every risky investment achieves higher returns.",
+        "Risk must be evaluated together with the expected return.",
+      ],
+      answer: 3,
+      explanation:
+        "It is not enough to analyze how much an investment returned; the risk taken to achieve that result must also be considered.",
+    },
+    {
+      theme: "06 · Long term",
+      question:
+        "What role does the time horizon play in investing, according to the evidence presented in the module?",
+      options: [
+        "Time practically eliminates the risk associated with any type of investment.",
+        "Time reduces the impact of volatility and favors the accumulation of returns.",
+        "Time guarantees positive returns regardless of the market chosen.",
+        "Time allows all markets to achieve similar results.",
+      ],
+      answer: 1,
+      explanation:
+        "Time does not eliminate risk, but it allows riding out different market cycles and taking advantage of the reinvestment effect on returns, favoring wealth building.",
+    },
+    {
+      theme: "06 · Long term",
+      question: "Why did Leo's example use an annual rate of 6%?",
+      options: [
+        "Because it exactly matches the return of the US market.",
+        "Because it represents a conservative estimate relative to the observed historical evidence.",
+        "Because it is the guaranteed return from equities.",
+        "Because it corresponds to the average return of Latin America.",
+      ],
+      answer: 1,
+      explanation:
+        "The 6% was chosen as a conservative hypothesis, lower than the average historical return observed in many of the analyzed markets.",
+    },
+    {
+      theme: "07 · Statistical appendix",
+      question:
+        "María observes that two markets achieved the same average historical return. However, one showed a considerably higher standard deviation. What can she conclude?",
+      options: [
+        "That both have exactly the same risk.",
+        "That the market with the higher standard deviation showed greater volatility.",
+        "That the market with higher risk necessarily achieved better results.",
+        "That the more volatile market will always generate a higher risk premium.",
+      ],
+      answer: 1,
+      explanation:
+        "The standard deviation measures the variability of returns, so a higher value implies a higher level of risk.",
+    },
+    {
+      theme: "07 · Statistical appendix",
+      question:
+        "Two markets achieved exactly the same average historical return. However, one showed a considerably lower standard deviation. Which would generally be the more convenient option for an investor?",
+      options: [
+        "The market with the higher standard deviation, because it will always generate higher future returns.",
+        "Both markets, since risk doesn't matter when returns are equal.",
+        "The market with the lower standard deviation, because it achieved the same return with a lower level of risk.",
+        "No conclusion can be drawn using the standard deviation.",
+      ],
+      answer: 2,
+      explanation:
+        "If two investments offer a similar return, the one that achieves it with lower volatility is preferable.",
+    },
+    {
+      theme: "06 · Long term",
+      question:
+        "After studying the historical returns of stocks, Ana decides to invest all her savings because she expects to outperform bonds over the next year. What is the best response?",
+      options: [
+        "Her decision is correct, because stocks tend to outperform bonds even in very short horizons.",
+        "Her decision is correct, because historical returns allow us to anticipate what will happen next year.",
+        "Her decision is incorrect, because the advantage of stocks is observed mainly in the long term, while in the short term they face volatility.",
+        "Her decision is incorrect, because stocks have historically achieved lower returns than Treasury bonds.",
+      ],
+      answer: 2,
+      explanation:
+        "Historical evidence shows that stocks have achieved higher returns mainly over long horizons. In the short term, volatility can generate results lower than those of lower-risk assets.",
+    },
+  ],
+};
+
+// ── PDF Section ───────────────────────────────────────────────────────────────
+
+interface PDFSectionProps {
+  onGoToTest: () => void;
+  lang: "es" | "en";
+}
+
+const PDFSection: React.FC<PDFSectionProps> = ({ onGoToTest, lang }) => {
+  const c = ui[lang];
+  const [numPages, setNumPages] = useState<number>(0);
+  const [loading, setLoading] = useState(true);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerWidth, setContainerWidth] = useState(0);
+
+  const updateWidth = useCallback(() => {
+    if (containerRef.current) {
+      setContainerWidth(containerRef.current.offsetWidth);
+    }
+  }, []);
+
+  useEffect(() => {
+    updateWidth();
+    const ro = new ResizeObserver(updateWidth);
+    if (containerRef.current) ro.observe(containerRef.current);
+    return () => ro.disconnect();
+  }, [updateWidth]);
+
+  return (
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      {/* Header bar */}
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+        <h2 className="text-xl font-semibold text-white font-display">
+          {c.moduleTitle}
+        </h2>
+        <a
+          href="/Nivel_2_-_Modulo_04.pdf"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-teal/40 px-4 py-2 text-sm font-medium text-teal hover:bg-teal/10 transition-colors"
+        >
+          <Download className="h-4 w-4" />
+          {c.downloadPdf}
+        </a>
+      </div>
+
+      {/* PDF viewer */}
+      <div
+        ref={containerRef}
+        className="rounded-xl overflow-hidden border border-white/10 bg-uxc-card"
+      >
+        {loading && (
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <div className="h-10 w-10 rounded-full border-4 border-teal/30 border-t-teal animate-spin" />
+            <p className="text-sm text-uxc-muted-foreground">{c.pdfLoading}</p>
+          </div>
+        )}
+
+        <Document
+          file="/Nivel_2_-_Modulo_04.pdf"
+          onLoadSuccess={({ numPages: n }) => {
+            setNumPages(n);
+            setLoading(false);
+            trackOnce("pdf_open", { modulo_id: MODULO_ID });
+          }}
+          onLoadError={() => setLoading(false)}
+          className={loading ? "hidden" : ""}
+        >
+          {Array.from({ length: numPages }, (_, i) => (
+            <div key={i} className="border-b border-white/5 last:border-b-0">
+              <Page
+                pageNumber={i + 1}
+                width={containerWidth || undefined}
+                renderTextLayer
+                renderAnnotationLayer={false}
+              />
+            </div>
+          ))}
+        </Document>
+      </div>
+
+      {/* Go to test CTA */}
+      {!loading && numPages > 0 && (
+        <div className="mt-8 flex justify-center">
+          <Button
+            onClick={onGoToTest}
+            className="rounded-full bg-teal text-navy-deep font-semibold px-8 py-3 hover:opacity-90 flex items-center gap-2"
+          >
+            {c.goToTest}
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ── Test Section ──────────────────────────────────────────────────────────────
+
+type TestPhase = "question" | "result";
+
+interface TestState {
+  index: number;
+  phase: TestPhase;
+  selected: number | null;
+  responses: { questionIndex: number; selected: number; correct: boolean }[];
+}
+
+const INITIAL_STATE: TestState = {
+  index: 0,
+  phase: "question",
+  selected: null,
+  responses: [],
+};
+
+interface TestSectionProps {
+  lang: "es" | "en";
+}
+
+const TestSection: React.FC<TestSectionProps> = ({ lang }) => {
+  const [state, setState] = useState<TestState>(INITIAL_STATE);
+  const [gateOpen, setGateOpen] = useState(!hasCapturedLead());
+  const c = ui[lang];
+  const questions = QUESTIONS[lang];
+
+  useEffect(() => {
+    trackOnce("test_start", { modulo_id: MODULO_ID });
+  }, []);
+
+  const reset = () => setState(INITIAL_STATE);
+
+  const select = (idx: number) => {
+    if (state.selected !== null) return;
+    setState((s) => ({ ...s, selected: idx }));
+  };
+
+  const next = () => {
+    if (state.selected === null) return;
+    const q = questions[state.index];
+    const correct = state.selected === q.answer;
+    const newResponses = [
+      ...state.responses,
+      { questionIndex: state.index, selected: state.selected, correct },
+    ];
+    const isLast = state.index === questions.length - 1;
+    if (isLast) {
+      const score = newResponses.filter((r) => r.correct).length;
+      track("test_completed", { modulo_id: MODULO_ID, score });
+      const email = getCapturedEmail();
+      if (email) {
+        void completeModule({ email, modulo_id: MODULO_ID, score });
+      }
+    }
+    setState({
+      index: isLast ? state.index : state.index + 1,
+      phase: isLast ? "result" : "question",
+      selected: null,
+      responses: newResponses,
+    });
+  };
+
+  if (gateOpen) {
+    return (
+      <EmailGate
+        moduloCaptura={MODULO_ID}
+        onComplete={() => setGateOpen(false)}
+      />
+    );
+  }
+
+  if (state.phase === "result") {
+    return (
+      <ResultScreen
+        lang={lang}
+        responses={state.responses}
+        onRetry={reset}
+      />
+    );
+  }
+
+  const q = questions[state.index];
+  const answered = state.selected !== null;
+  const progress = ((state.index) / questions.length) * 100;
+
+  return (
+    <div className="max-w-3xl mx-auto px-4 py-8">
+      {/* Progress */}
+      <div className="mb-6">
+        <div className="flex justify-between text-xs text-uxc-muted-foreground mb-2">
+          <span>{c.question} {state.index + 1} {c.of} {questions.length}</span>
+          <span className="rounded-full bg-teal/10 border border-teal/20 px-2 py-0.5 text-teal text-xs font-semibold">
+            {q.theme}
+          </span>
+        </div>
+        <Progress value={progress} className="h-1.5 bg-white/10 [&>div]:bg-teal" />
+      </div>
+
+      {/* Question */}
+      <p className="text-xl md:text-2xl font-semibold text-white leading-snug mb-8">
+        {q.question}
+      </p>
+
+      {/* Options */}
+      <div className="flex flex-col gap-3 mb-6">
+        {q.options.map((opt, i) => {
+          const letter = ["A", "B", "C", "D"][i];
+          let variant = "default";
+          if (answered) {
+            if (i === q.answer) variant = "correct";
+            else if (i === state.selected) variant = "incorrect";
+          }
+          const baseClass =
+            "w-full text-left rounded-xl border px-5 py-4 text-sm font-medium transition-all flex items-start gap-3 ";
+          const variantClass =
+            variant === "correct"
+              ? "border-teal/60 bg-teal/10 text-white"
+              : variant === "incorrect"
+              ? "border-red-500/60 bg-red-500/10 text-white"
+              : answered
+              ? "border-white/10 bg-white/3 text-uxc-muted-foreground cursor-default"
+              : "border-white/15 bg-white/5 text-white hover:border-teal/40 hover:bg-teal/5 cursor-pointer";
+
+          return (
+            <button
+              key={i}
+              onClick={() => select(i)}
+              disabled={answered}
+              className={baseClass + variantClass}
+            >
+              <span
+                className={`flex-shrink-0 h-6 w-6 rounded-full border text-xs font-bold flex items-center justify-center ${
+                  variant === "correct"
+                    ? "border-teal text-teal"
+                    : variant === "incorrect"
+                    ? "border-red-500 text-red-500"
+                    : "border-white/30 text-uxc-muted-foreground"
+                }`}
+              >
+                {letter}
+              </span>
+              <span className="flex-1 leading-relaxed">{opt}</span>
+              {variant === "correct" && (
+                <CheckCircle className="flex-shrink-0 h-5 w-5 text-teal mt-0.5" />
+              )}
+              {variant === "incorrect" && (
+                <XCircle className="flex-shrink-0 h-5 w-5 text-red-500 mt-0.5" />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Feedback */}
+      {answered && (
+        <div className="rounded-xl border border-white/10 bg-white/5 px-5 py-4 mb-6">
+          <p className="text-xs font-semibold uppercase tracking-widest text-teal mb-1">
+            {c.explanation}
+          </p>
+          <p className="text-sm text-uxc-muted-foreground leading-relaxed">
+            {q.explanation}
+          </p>
+        </div>
+      )}
+
+      {/* Nav */}
+      <div className="flex justify-end">
+        <Button
+          onClick={next}
+          disabled={!answered}
+          className="rounded-full bg-teal text-navy-deep font-semibold px-8 py-3 hover:opacity-90 disabled:opacity-30 flex items-center gap-2"
+        >
+          {state.index === questions.length - 1 ? c.seeResult : c.next}
+          <ArrowRight className="h-4 w-4" />
+        </Button>
+      </div>
+    </div>
+  );
+};
+
+// ── Result Screen ─────────────────────────────────────────────────────────────
+
+interface ResultScreenProps {
+  lang: "es" | "en";
+  responses: { questionIndex: number; selected: number; correct: boolean }[];
+  onRetry: () => void;
+}
+
+const ResultScreen: React.FC<ResultScreenProps> = ({ lang, responses, onRetry }) => {
+  const c = ui[lang];
+  const questions = QUESTIONS[lang];
+  const score = responses.filter((r) => r.correct).length;
+  const total = questions.length;
+  const pct = Math.round((score / total) * 100);
+
+  const level =
+    score >= 13
+      ? { label: c.levelExcellent, desc: c.levelDescExcellent, color: "text-teal" }
+      : score >= 9
+      ? { label: c.levelGood, desc: c.levelDescGood, color: "text-yellow-400" }
+      : { label: c.levelInProgress, desc: c.levelDescInProgress, color: "text-red-400" };
+
+  const themeMap: Record<string, { correct: number; total: number }> = {};
+  responses.forEach((r) => {
+    const theme = questions[r.questionIndex].theme;
+    if (!themeMap[theme]) themeMap[theme] = { correct: 0, total: 0 };
+    themeMap[theme].total++;
+    if (r.correct) themeMap[theme].correct++;
+  });
+
+  return (
+    <div className="max-w-2xl mx-auto px-4 py-10">
+      {/* Score ring */}
+      <div className="text-center mb-10">
+        <div className="inline-flex flex-col items-center justify-center h-36 w-36 rounded-full border-4 border-teal/30 bg-uxc-card mb-6 relative">
+          <span className={`text-4xl font-bold font-display ${level.color}`}>
+            {pct}%
+          </span>
+          <span className="text-xs text-uxc-muted-foreground mt-1">
+            {score}/{total} {c.correct_answers}
+          </span>
+        </div>
+        <p className={`text-2xl font-bold font-display mb-2 ${level.color}`}>
+          {level.label}
+        </p>
+        <p className="text-sm text-uxc-muted-foreground max-w-sm mx-auto">
+          {level.desc}
+        </p>
+      </div>
+
+      {/* Theme breakdown */}
+      <div className="rounded-2xl border border-white/10 bg-uxc-card p-6 mb-8">
+        <p className="text-xs font-semibold uppercase tracking-widest text-uxc-muted-foreground mb-4">
+          {c.breakdown}
+        </p>
+        <div className="flex flex-col gap-3">
+          {Object.entries(themeMap).map(([theme, { correct, total: t }]) => (
+            <div key={theme} className="flex items-center gap-3">
+              <span className="text-sm text-uxc-muted-foreground flex-1">{theme}</span>
+              <span
+                className={`text-sm font-semibold ${
+                  correct === t ? "text-teal" : correct === 0 ? "text-red-400" : "text-yellow-400"
+                }`}
+              >
+                {correct}/{t}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Actions */}
+      <div className="flex justify-center gap-3">
+        <Button
+          onClick={onRetry}
+          variant="outline"
+          className="rounded-full border-white/20 text-white hover:bg-white/10 flex items-center gap-2 px-6"
+        >
+          <RotateCcw className="h-4 w-4" />
+          {c.retry}
+        </Button>
+        <Link
+          to="/campus"
+          className="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-2 text-sm font-semibold text-navy-deep hover:opacity-90 transition-opacity"
+        >
+          {c.backLabel}
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+// ── Campus4 Page ──────────────────────────────────────────────────────────────
+
+interface Campus4Props {
+  onOpenBeta?: () => void;
+}
+
+const Campus4Page: React.FC<Campus4Props> = ({ onOpenBeta }) => {
+  const { language } = useLanguage();
+  const c = ui[language];
+  const [activeTab, setActiveTab] = useState("module");
+
+  useEffect(() => {
+    trackOnce("module_view", { modulo_id: MODULO_ID });
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-palette-a">
+      <Navigation onOpenBeta={onOpenBeta} />
+      <div className="pt-20 pb-16">
+        <div className="mx-auto max-w-5xl px-4">
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 pt-6 pb-2 text-sm text-uxc-muted-foreground">
+            <Link
+              to="/campus"
+              className="flex items-center gap-1 hover:text-teal transition-colors"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              {c.backLabel}
+            </Link>
+            <span>/</span>
+            <span className="text-white">{c.breadcrumbModule}</span>
+          </div>
+
+          {/* Page header */}
+          <div className="py-10 text-center">
+            <p className="text-xs font-semibold uppercase tracking-widest text-teal mb-3">
+              UX Campus
+            </p>
+            <h1 className="text-3xl md:text-4xl font-bold font-display text-white">
+              {language === "es" ? "Nivel 2 — Educación Financiera" : "Level 2 — Financial Education"}
+            </h1>
+          </div>
+
+          {/* Tabs */}
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <div className="flex justify-center mb-6">
+              <TabsList className="bg-uxc-card border border-white/10 rounded-full p-1 gap-1">
+                <TabsTrigger
+                  value="module"
+                  className="rounded-full px-6 py-2 text-sm font-medium data-[state=active]:bg-teal data-[state=active]:text-navy-deep data-[state=inactive]:text-uxc-muted-foreground flex items-center gap-2"
+                >
+                  <BookOpen className="h-3.5 w-3.5" />
+                  {c.tabModule}
+                </TabsTrigger>
+                <TabsTrigger
+                  value="test"
+                  className="rounded-full px-6 py-2 text-sm font-medium data-[state=active]:bg-teal data-[state=active]:text-navy-deep data-[state=inactive]:text-uxc-muted-foreground flex items-center gap-2"
+                >
+                  <ClipboardList className="h-3.5 w-3.5" />
+                  {c.tabTest}
+                </TabsTrigger>
+              </TabsList>
+            </div>
+
+            <TabsContent value="module">
+              <PDFSection
+                lang={language}
+                onGoToTest={() => setActiveTab("test")}
+              />
+            </TabsContent>
+
+            <TabsContent value="test">
+              <TestSection lang={language} />
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
+export default Campus4Page;
