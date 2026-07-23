@@ -3,7 +3,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const QUICK_LINKS = {
   es: [
     { label: "Inicio", href: "/#hero" },
-    { label: "UX Nodo Bank", href: "/#nodo-bank" },
+    { label: "UX Nodo", href: "/#nodo-bank" },
     { label: "UX Dual", href: "/#ux-dual" },
     { label: "Partners", href: "/#partners" },
     { label: "Contacto", href: "/#contacto" },
@@ -12,7 +12,7 @@ const QUICK_LINKS = {
   ],
   en: [
     { label: "Home", href: "/#hero" },
-    { label: "UX Nodo Bank", href: "/#nodo-bank" },
+    { label: "UX Nodo", href: "/#nodo-bank" },
     { label: "UX Dual", href: "/#ux-dual" },
     { label: "Partners", href: "/#partners" },
     { label: "Contact", href: "/#contacto" },

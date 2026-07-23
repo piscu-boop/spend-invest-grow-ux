@@ -4,27 +4,27 @@ import { useLanguage } from "@/contexts/LanguageContext";
 
 const content = {
   es: {
-    nodoTag: "Para bancos",
+    nodoTag: "Para bancos y adquirentes",
     nodoDesc:
-      "Tecnología de pagos con inversión que tu banco integra vía API sobre su infraestructura existente. Vos mantenés la licencia, el custody y la relación con el cliente.",
-    nodoBadges: ["API-first", "Plug-in sobre tu core", "Nueva línea de ingresos"],
+      "Tecnología de pagos con inversión que integrás vía API sobre tu infraestructura existente — seas banco o adquirente/gateway. Vos mantenés la licencia, el custody y la relación con el cliente o comercio.",
+    nodoBadges: ["API-first", "Plug-in sobre tu stack", "Nueva línea de ingresos"],
     nodoCta: "Ver tecnología",
     dualTag: "Para usuarios y comercios",
     dualDesc:
-      "La primera billetera donde tu saldo sigue invertido en FCI mientras pagás con QR. Y si sos comercio, aceptás pagos inteligentes con liquidación garantizada.",
-    dualBadges: ["Pago con QR", "Rendimiento diario", "Sin fricciones"],
+      "UX DUAL - Inverti Comprando es donde tu plata crece con cada pago. Y si sos comercio, tu cliente invierte en tu marca con cada pago, y vos vendes mas.",
+    dualBadges: ["Inverti sin Ahorros", "Pago con Inversión", "Automatico"],
     dualCta: "Conocer UX Dual",
   },
   en: {
-    nodoTag: "For banks",
+    nodoTag: "For banks and acquirers",
     nodoDesc:
-      "Investment-powered payment technology that your bank integrates via API on top of its existing infrastructure. You keep the license, the custody, and the customer relationship.",
-    nodoBadges: ["API-first", "Plugs into your core", "New revenue stream"],
+      "Investment-powered payment technology that you integrate via API on top of your existing infrastructure — whether you're a bank or an acquirer/gateway. You keep the license, the custody, and the customer or merchant relationship.",
+    nodoBadges: ["API-first", "Plugs into your stack", "New revenue stream"],
     nodoCta: "See the technology",
     dualTag: "For users and merchants",
     dualDesc:
-      "The first wallet where your balance stays invested in money market funds while you pay with QR. And if you're a merchant, you accept smart payments with guaranteed settlement.",
-    dualBadges: ["QR payments", "Daily yield", "Frictionless"],
+      "UX DUAL - Invest by Spending is where your money grows with every payment. And if you're a merchant, your customer invests in your brand with every purchase, and you sell more.",
+    dualBadges: ["Invest without Savings", "Payment with Investment", "Automatic"],
     dualCta: "Discover UX Dual",
   },
 };
@@ -152,7 +152,7 @@ export function Bifurcation() {
             <div className="relative">
               <p className="eyebrow text-blue">{c.nodoTag}</p>
               <h3 className="mt-4 font-display text-4xl md:text-5xl">
-                UX Nodo Bank
+                UX Nodo
               </h3>
               <p className="mt-5 max-w-md text-base leading-[1.7] text-uxc-muted-foreground">
                 {c.nodoDesc}

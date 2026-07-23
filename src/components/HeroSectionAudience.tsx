@@ -10,15 +10,15 @@ const content = {
   en: {
     eyebrow: "PAYMENTS WITH INVESTMENT",
     title: "Turning every payment into an investment",
-    subtitle: "Investment-powered payment infrastructure for your bank and your business.",
-    bank: "I'm a Bank",
+    subtitle: "Investment-powered payment infrastructure for your Bank and your Gateway.",
+    bank: "I'm a Bank or Acquirer",
     dual: "I'm a user or merchant",
   },
   es: {
     eyebrow: "PAGOS CON INVERSIÓN",
     title: "Transformando cada pago en inversión",
-    subtitle: "Infraestructura de Pagos con Inversión para tu banco y tu negocio.",
-    bank: "Soy Banco",
+    subtitle: "Infraestructura de Pagos con Inversión para tu Banco y tu Gateway.",
+    bank: "Soy Banco o Adquirente",
     dual: "Soy usuario o comercio",
   },
 };

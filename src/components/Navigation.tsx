@@ -10,11 +10,11 @@ interface NavigationProps {
 
 const SECTION_LINKS = {
   es: [
-    { href: "#nodo-bank", label: "UX Nodo Bank" },
+    { href: "#nodo-bank", label: "UX Nodo" },
     { href: "#ux-dual", label: "UX Dual" },
   ],
   en: [
-    { href: "#nodo-bank", label: "UX Nodo Bank" },
+    { href: "#nodo-bank", label: "UX Nodo" },
     { href: "#ux-dual", label: "UX Dual" },
   ],
 };
