@@ -47,6 +47,13 @@ const content = {
     badge4: "NIVEL 2",
     meta4: { pdf: "PDF", questions: "15 preguntas", time: "~30 min" },
     cta4: "Empezar módulo",
+    module5Title: "Módulo 05 – ¿Cómo funciona un bono?",
+    module5Desc:
+      "Comprender el principal instrumento de renta fija del mercado de capitales: emisión, precio, rendimiento y lectura de fichas técnicas.",
+    tags5: ["Bonos", "Prospecto", "Cupón", "Rendimiento"],
+    badge5: "NIVEL 2",
+    meta5: { pdf: "PDF", questions: "15 preguntas", time: "~30 min" },
+    cta5: "Empezar módulo",
   },
   en: {
     eyebrow: "UX CAMPUS",
@@ -90,6 +97,13 @@ const content = {
     badge4: "LEVEL 2",
     meta4: { pdf: "PDF", questions: "15 questions", time: "~30 min" },
     cta4: "Start module",
+    module5Title: "Module 05 – How Does a Bond Work?",
+    module5Desc:
+      "Understand the main fixed-income instrument in capital markets: issuance, pricing, yield, and reading factsheets.",
+    tags5: ["Bonds", "Prospectus", "Coupon", "Yield"],
+    badge5: "LEVEL 2",
+    meta5: { pdf: "PDF", questions: "15 questions", time: "~30 min" },
+    cta5: "Start module",
   },
 };
 
@@ -406,6 +420,65 @@ const CampusHub: React.FC<CampusHubProps> = ({ onOpenBeta }) => {
                 className="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-semibold text-navy-deep hover:opacity-90 transition-opacity"
               >
                 {c.cta4}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Module 05 card */}
+          <div className="mt-4 rounded-2xl border border-white/10 bg-uxc-card p-6 md:p-8 flex flex-col md:flex-row gap-6 md:items-start">
+            {/* Left: content */}
+            <div className="flex-1 flex flex-col gap-4">
+              {/* Badge */}
+              <span className="inline-flex self-start items-center rounded-full bg-teal/10 border border-teal/25 px-3 py-1 text-xs font-bold text-teal tracking-wider">
+                {c.badge5}
+              </span>
+
+              <div>
+                <h3 className="text-xl font-bold font-display text-white mb-2">
+                  {c.module5Title}
+                </h3>
+                <p className="text-sm text-uxc-muted-foreground leading-relaxed">
+                  {c.module5Desc}
+                </p>
+              </div>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2">
+                {c.tags5.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-uxc-muted-foreground"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Meta row */}
+              <div className="flex items-center gap-4 text-xs text-uxc-muted-foreground">
+                <span className="flex items-center gap-1.5">
+                  <FileText className="h-3.5 w-3.5" />
+                  {c.meta5.pdf}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <ClipboardList className="h-3.5 w-3.5" />
+                  {c.meta5.questions}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Clock className="h-3.5 w-3.5" />
+                  {c.meta5.time}
+                </span>
+              </div>
+            </div>
+
+            {/* Right: CTA */}
+            <div className="flex md:flex-col md:items-end md:justify-center shrink-0">
+              <Link
+                to="/campus/modulo-05"
+                className="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-semibold text-navy-deep hover:opacity-90 transition-opacity"
+              >
+                {c.cta5}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
