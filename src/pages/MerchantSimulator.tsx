@@ -19,7 +19,7 @@ import {
 // ---------------------------------------------------------------------------
 const CALENDLY_URL = "https://calendly.com/uxcapital"; // ← Replace with final Calendly URL
 
-// Business rules (internal only — not exposed in UI)
+// Business rules — values are surfaced to the user in the methodology section
 // Combined traditional benchmark: (1.68% debit + 0.80% QR) / 2 = 1.24%
 const TRADITIONAL_RATE = 0.0124;
 // UX Dual rate: max(50% of traditional average, 0.5% floor) = max(0.0062, 0.005) = 0.0062
@@ -78,8 +78,8 @@ const t = {
     methodologyBtn: "Ver supuestos del cálculo",
     methodologyTitle: "Supuestos del cálculo",
     methodologyItems: [
-      "La comparativa utiliza valores de referencia de soluciones de cobro digital tradicionales disponibles en el mercado.",
-      "UX Dual aplica una condición comercial equivalente al 50% del promedio tradicional del mercado, con un piso mínimo del 0,5%.",
+      "Comisión tradicional: 1,24% del volumen, calculada como el promedio entre débito (1,68%) y QR (0,80%), valores de referencia del mercado.",
+      "Comisión UX Dual: 0,62% del volumen, equivalente al 50% de la comisión tradicional, con un piso mínimo del 0,5%.",
       "El cálculo no incluye impuestos, percepciones ni otros cargos adicionales.",
       "Los valores son estimativos. La propuesta final puede variar según el perfil y volumen del comercio.",
     ],
@@ -125,8 +125,8 @@ const t = {
     methodologyBtn: "View calculation assumptions",
     methodologyTitle: "Calculation assumptions",
     methodologyItems: [
-      "The comparison uses benchmark reference values from traditional digital payment solutions available in the market.",
-      "UX Dual applies a commercial condition equivalent to 50% of the traditional market average, with a 0.5% minimum floor.",
+      "Traditional fee: 1.24% of volume, calculated as the average of debit (1.68%) and QR (0.80%), market benchmark values.",
+      "UX Dual fee: 0.62% of volume, equivalent to 50% of the traditional fee, with a 0.5% minimum floor.",
       "Calculation excludes taxes, withholdings, and other additional charges.",
       "Values are estimates. The final proposal may vary based on merchant profile and volume.",
     ],
