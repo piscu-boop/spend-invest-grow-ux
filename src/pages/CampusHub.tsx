@@ -54,6 +54,13 @@ const content = {
     badge5: "NIVEL 2",
     meta5: { pdf: "PDF", questions: "15 preguntas", time: "~30 min" },
     cta5: "Empezar módulo",
+    module6Title: "Módulo 06 – ¿Cómo funciona una acción?",
+    module6Desc:
+      "Comprender el principal instrumento de renta variable del mercado de capitales: emisión, cotización, rentabilidad y riesgos.",
+    tags6: ["Acciones", "CEDEAR", "Dividendos", "Capitalización"],
+    badge6: "NIVEL 2",
+    meta6: { pdf: "PDF", questions: "15 preguntas", time: "~30 min" },
+    cta6: "Empezar módulo",
   },
   en: {
     eyebrow: "UX CAMPUS",
@@ -104,6 +111,13 @@ const content = {
     badge5: "LEVEL 2",
     meta5: { pdf: "PDF", questions: "15 questions", time: "~30 min" },
     cta5: "Start module",
+    module6Title: "Module 06 – How Does a Stock Work?",
+    module6Desc:
+      "Understand the main equity instrument in capital markets: issuance, trading, returns, and risks.",
+    tags6: ["Stocks", "ADRs", "Dividends", "Market cap"],
+    badge6: "LEVEL 2",
+    meta6: { pdf: "PDF", questions: "15 questions", time: "~30 min" },
+    cta6: "Start module",
   },
 };
 
@@ -479,6 +493,65 @@ const CampusHub: React.FC<CampusHubProps> = ({ onOpenBeta }) => {
                 className="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-semibold text-navy-deep hover:opacity-90 transition-opacity"
               >
                 {c.cta5}
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Module 06 card */}
+          <div className="mt-4 rounded-2xl border border-white/10 bg-uxc-card p-6 md:p-8 flex flex-col md:flex-row gap-6 md:items-start">
+            {/* Left: content */}
+            <div className="flex-1 flex flex-col gap-4">
+              {/* Badge */}
+              <span className="inline-flex self-start items-center rounded-full bg-teal/10 border border-teal/25 px-3 py-1 text-xs font-bold text-teal tracking-wider">
+                {c.badge6}
+              </span>
+
+              <div>
+                <h3 className="text-xl font-bold font-display text-white mb-2">
+                  {c.module6Title}
+                </h3>
+                <p className="text-sm text-uxc-muted-foreground leading-relaxed">
+                  {c.module6Desc}
+                </p>
+              </div>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2">
+                {c.tags6.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-uxc-muted-foreground"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Meta row */}
+              <div className="flex items-center gap-4 text-xs text-uxc-muted-foreground">
+                <span className="flex items-center gap-1.5">
+                  <FileText className="h-3.5 w-3.5" />
+                  {c.meta6.pdf}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <ClipboardList className="h-3.5 w-3.5" />
+                  {c.meta6.questions}
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Clock className="h-3.5 w-3.5" />
+                  {c.meta6.time}
+                </span>
+              </div>
+            </div>
+
+            {/* Right: CTA */}
+            <div className="flex md:flex-col md:items-end md:justify-center shrink-0">
+              <Link
+                to="/campus/modulo-06"
+                className="inline-flex items-center gap-2 rounded-full bg-teal px-6 py-3 text-sm font-semibold text-navy-deep hover:opacity-90 transition-opacity"
+              >
+                {c.cta6}
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
