@@ -17,7 +17,7 @@
     "Para verificar un ID CAFCI: abrir https://www.cafci.org.ar/ficha-fondo.html?q={fundId};{classId}"
   ],
   "version": "3",
-  "lastUpdated": "2026-09-12T22:56:21.987Z",
+  "lastUpdated": "2026-09-13T08:12:41.171Z",
   "generatedBy": "scripts/fetchRates.js",
   "liveRatesCount": 2,
   "totalWallets": 4,
@@ -42,7 +42,7 @@
       "status": "live",
       "sourceType": "aggregator",
       "sourceLabel": "Tercero conectado a CAFCI (Naranja X, vigente 05/07/2026)",
-      "lastUpdated": "2026-09-12T22:56:22.402Z"
+      "lastUpdated": "2026-09-13T08:12:41.772Z"
     },
     {
       "id": "uala",
@@ -52,7 +52,7 @@
       "status": "live",
       "sourceType": "aggregator",
       "sourceLabel": "Tercero conectado a CAFCI (Ualá, vigente 05/07/2026)",
-      "lastUpdated": "2026-09-12T22:56:22.402Z"
+      "lastUpdated": "2026-09-13T08:12:41.772Z"
     },
     {
       "id": "personalpay",
