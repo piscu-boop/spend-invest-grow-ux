@@ -425,6 +425,27 @@ html {
   font-weight: 600;
 }
 
+.rail-row {
+  display: grid;
+  grid-template-columns: minmax(0, auto) minmax(40px, 1fr) minmax(0, 240px);
+  align-items: center;
+  column-gap: clamp(16px, 2.5vw, 32px);
+}
+.rail-word {
+  white-space: nowrap;
+  font-size: clamp(32px, 4vw, 56px);
+}
+@media (max-width: 767px) {
+  .rail-row {
+    grid-template-columns: 1fr;
+    grid-template-areas: "word" "line" "desc";
+    row-gap: 12px;
+  }
+  .rail-word { white-space: normal; grid-area: word; font-size: clamp(28px, 8vw, 40px); }
+  .rail-line { grid-area: line; width: 100%; }
+  .rail-desc { grid-area: desc; }
+}
+
 .glass {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(14px) saturate(140%);

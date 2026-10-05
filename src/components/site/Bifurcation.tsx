@@ -9,11 +9,6 @@ const content = {
       "Tecnología de pagos con inversión que integrás vía API sobre tu infraestructura existente — seas banco o adquirente/gateway. Vos mantenés la licencia, el custody y la relación con el cliente o comercio.",
     nodoBadges: ["API-first", "Plug-in sobre tu stack", "Nueva línea de ingresos"],
     nodoCta: "Ver tecnología",
-    dualTag: "Para usuarios y comercios",
-    dualDesc:
-      "UX DUAL - Inverti Comprando es donde tu plata crece con cada pago. Y si sos comercio, tu cliente invierte en tu marca con cada pago, y vos vendes mas.",
-    dualBadges: ["Inverti sin Ahorros", "Pago con Inversión", "Automatico"],
-    dualCta: "Conocer UX Dual",
   },
   en: {
     nodoTag: "For banks and acquirers",
@@ -21,11 +16,6 @@ const content = {
       "Investment-powered payment technology that you integrate via API on top of your existing infrastructure — whether you're a bank or an acquirer/gateway. You keep the license, the custody, and the customer or merchant relationship.",
     nodoBadges: ["API-first", "Plugs into your stack", "New revenue stream"],
     nodoCta: "See the technology",
-    dualTag: "For users and merchants",
-    dualDesc:
-      "UX DUAL - Invest by Spending is where your money grows with every payment. And if you're a merchant, your customer invests in your brand with every purchase, and you sell more.",
-    dualBadges: ["Invest without Savings", "Payment with Investment", "Automatic"],
-    dualCta: "Discover UX Dual",
   },
 };
 
@@ -74,66 +64,6 @@ function NodoVisual() {
   );
 }
 
-function DualVisual() {
-  return (
-    <svg
-      viewBox="0 0 320 200"
-      preserveAspectRatio="none"
-      className="absolute right-0 top-0 h-full w-full opacity-40"
-      aria-hidden
-    >
-      <defs>
-        <radialGradient id="trad" cx="80%" cy="0%" r="60%">
-          <stop offset="0%" stopColor="#00C896" stopOpacity="0.6" />
-          <stop offset="100%" stopColor="#00C896" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <rect width="320" height="200" fill="url(#trad)" />
-      <rect
-        x="210"
-        y="30"
-        width="80"
-        height="140"
-        rx="14"
-        stroke="#00C896"
-        strokeWidth="1.2"
-        fill="none"
-      />
-      <rect
-        x="225"
-        y="55"
-        width="50"
-        height="50"
-        stroke="#00C896"
-        strokeWidth="1"
-        fill="none"
-      />
-      {Array.from({ length: 5 }).map((_, i) =>
-        Array.from({ length: 5 }).map((_, j) => (
-          <rect
-            key={`${i}-${j}`}
-            x={228 + i * 9}
-            y={58 + j * 9}
-            width="6"
-            height="6"
-            fill={(i + j) % 2 === 0 ? "#00C896" : "transparent"}
-            opacity="0.7"
-          />
-        )),
-      )}
-      <text
-        x="250"
-        y="135"
-        textAnchor="middle"
-        fill="#00C896"
-        fontSize="9"
-        fontFamily="monospace"
-      >
-        +0.08% hoy
-      </text>
-    </svg>
-  );
-}
 
 export function Bifurcation() {
   const { language } = useLanguage();
@@ -141,7 +71,7 @@ export function Bifurcation() {
 
   return (
     <section className="bg-bifurcation-wrap relative px-6 py-20">
-      <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-2">
+      <div className="mx-auto max-w-7xl">
         {/* Nodo Bank */}
         <FadeUp>
           <a
@@ -154,7 +84,7 @@ export function Bifurcation() {
               <h3 className="mt-4 font-display text-4xl md:text-5xl">
                 UX Nodo
               </h3>
-              <p className="mt-5 max-w-md text-base leading-[1.7] text-uxc-muted-foreground">
+              <p className="mt-5 max-w-3xl text-base leading-[1.7] md:text-lg text-uxc-muted-foreground">
                 {c.nodoDesc}
               </p>
               <div className="mt-6 flex flex-wrap gap-2">
@@ -171,44 +101,6 @@ export function Bifurcation() {
               </div>
               <span className="mt-10 inline-flex items-center gap-2 rounded-full bg-blue px-5 py-2.5 text-sm font-semibold text-white transition group-hover:gap-3">
                 {c.nodoCta}
-                <ArrowRight className="h-4 w-4" />
-              </span>
-            </div>
-          </a>
-        </FadeUp>
-
-        {/* Dual */}
-        <FadeUp delay={0.1}>
-          <a
-            href="#ux-dual"
-            className="bg-palette-b group relative block h-full overflow-hidden rounded-3xl border border-white/10 p-10 transition hover:border-teal/50"
-          >
-            <DualVisual />
-            <div className="relative">
-              <img
-                src="/lovable-uploads/logo-dual.png"
-                alt="UX Dual"
-                className="mb-6 mt-3 h-10 w-auto"
-              />
-              <p className="eyebrow text-teal">{c.dualTag}</p>
-              <h3 className="mt-4 font-display text-4xl md:text-5xl">UX Dual</h3>
-              <p className="mt-5 max-w-md text-base leading-[1.7] text-uxc-muted-foreground">
-                {c.dualDesc}
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {c.dualBadges.map(
-                  (t) => (
-                    <span
-                      key={t}
-                      className="glass rounded-full px-3.5 py-1.5 text-xs font-medium"
-                    >
-                      {t}
-                    </span>
-                  ),
-                )}
-              </div>
-              <span className="mt-10 inline-flex items-center gap-2 rounded-full bg-teal px-5 py-2.5 text-sm font-semibold text-navy-deep transition group-hover:gap-3">
-                {c.dualCta}
                 <ArrowRight className="h-4 w-4" />
               </span>
             </div>

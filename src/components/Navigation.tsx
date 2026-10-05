@@ -11,27 +11,21 @@ interface NavigationProps {
 const SECTION_LINKS = {
   es: [
     { href: "#nodo-bank", label: "UX Nodo" },
-    { href: "#ux-dual", label: "UX Dual" },
   ],
   en: [
     { href: "#nodo-bank", label: "UX Nodo" },
-    { href: "#ux-dual", label: "UX Dual" },
   ],
 };
 
 const ROUTE_LINKS = {
   es: [
     { href: "/campus", label: "UX Campus" },
-    { href: "/simuladores", label: "Simulador" },
     { href: "/team", label: "Equipo" },
-    { href: "/faq", label: "FAQ" },
     { href: "/press", label: "Prensa" },
   ],
   en: [
     { href: "/campus", label: "UX Campus" },
-    { href: "/simuladores", label: "Simulator" },
     { href: "/team", label: "Team" },
-    { href: "/faq", label: "FAQ" },
     { href: "/press", label: "Press" },
   ],
 };
@@ -41,7 +35,7 @@ const content = {
   en: { cta: "Book a demo", openMenu: "Open menu", closeMenu: "Close menu" },
 };
 
-const SECTION_IDS = ["hero", "nodo-bank", "ux-dual", "contacto"];
+const SECTION_IDS = ["hero", "nodo-bank", "contacto"];
 
 const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
   const location = useLocation();
@@ -136,12 +130,11 @@ const Navigation: React.FC<NavigationProps> = ({ onOpenBeta }) => {
             <LanguageToggle />
           </div>
           <a
-            href="https://uxdual.com"
-            target="_blank"
-            rel="noopener noreferrer"
+            href={sectionHref("#contacto")}
+            onClick={(e) => handleAnchorClick(e, "#contacto")}
             className="inline-flex items-center rounded-full bg-teal px-5 py-2 text-sm font-semibold text-navy-deep transition hover:opacity-90"
           >
-            Portal Web UX
+            {c.cta}
           </a>
         </div>
 

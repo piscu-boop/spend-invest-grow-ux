@@ -12,14 +12,12 @@ const content = {
     title: "Turning every payment into an investment",
     subtitle: "Investment-powered payment infrastructure for your Bank and your Gateway.",
     bank: "I'm a Bank or Acquirer",
-    dual: "I'm a user or merchant",
   },
   es: {
     eyebrow: "PAGOS CON INVERSIÓN",
     title: "Transformando cada pago en inversión",
     subtitle: "Infraestructura de Pagos con Inversión para tu Banco y tu Gateway.",
     bank: "Soy Banco o Adquirente",
-    dual: "Soy usuario o comercio",
   },
 };
 
@@ -83,17 +81,11 @@ const HeroSectionAudience: React.FC<HeroSectionAudienceProps> = () => {
           >
             {c.bank}
           </a>
-          <a
-            href="#ux-dual"
-            className="inline-flex items-center justify-center rounded-full border border-white/25 bg-transparent px-6 py-3.5 text-sm font-semibold transition hover:bg-white/5"
-          >
-            {c.dual}
-          </a>
         </motion.div>
       </div>
 
       <a
-        href="#problema"
+        href="#estandar"
         aria-label="Scroll"
         className="animate-bounce-soft absolute bottom-8 left-1/2 -translate-x-1/2 text-uxc-muted-foreground"
       >

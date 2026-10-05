@@ -12,7 +12,6 @@ import { initAnalytics } from "@/lib/analytics";
 // Code-split secondary routes so the initial bundle only contains the
 // landing page. Each of these is loaded on demand when the user
 // navigates to that route, reducing initial load time on slow devices.
-const FAQ = lazy(() => import("./pages/FAQ"));
 const Team = lazy(() => import("./pages/Team"));
 const Consumer = lazy(() => import("./pages/Consumer"));
 const Merchant = lazy(() => import("./pages/Merchant"));
@@ -122,9 +121,6 @@ const AppInner: React.FC = () => {
         <Routes>
           <Route path="/"
             element={<Index onOpenBeta={() => setBetaOpen(true)} />}
-          />
-          <Route path="/faq"
-            element={<FAQ onOpenBeta={() => setBetaOpen(true)} />}
           />
           <Route path="/team"
             element={<Team onOpenBeta={() => setBetaOpen(true)} />}
