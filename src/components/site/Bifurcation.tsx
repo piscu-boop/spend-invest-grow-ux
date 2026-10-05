@@ -1,4 +1,3 @@
-import { ArrowRight } from "lucide-react";
 import { FadeUp } from "./Reveal";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -8,14 +7,12 @@ const content = {
     nodoDesc:
       "Tecnología de pagos con inversión que integrás vía API sobre tu infraestructura existente — seas banco o adquirente/gateway. Vos mantenés la licencia, el custody y la relación con el cliente o comercio.",
     nodoBadges: ["API-first", "Plug-in sobre tu stack", "Nueva línea de ingresos"],
-    nodoCta: "Ver tecnología",
   },
   en: {
     nodoTag: "For banks and acquirers",
     nodoDesc:
       "Investment-powered payment technology that you integrate via API on top of your existing infrastructure — whether you're a bank or an acquirer/gateway. You keep the license, the custody, and the customer or merchant relationship.",
     nodoBadges: ["API-first", "Plugs into your stack", "New revenue stream"],
-    nodoCta: "See the technology",
   },
 };
 
@@ -99,10 +96,6 @@ export function Bifurcation() {
                   ),
                 )}
               </div>
-              <span className="mt-10 inline-flex items-center gap-2 rounded-full bg-blue px-5 py-2.5 text-sm font-semibold text-white transition group-hover:gap-3">
-                {c.nodoCta}
-                <ArrowRight className="h-4 w-4" />
-              </span>
             </div>
           </a>
         </FadeUp>

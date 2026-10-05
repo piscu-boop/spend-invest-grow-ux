@@ -15,8 +15,6 @@ const content = {
       center: "UX Nodo",
       right: "Adquirentes / Comercios",
     },
-    adquirenteIntro:
-      "UX Nodo conecta dos lados de la red: bancos/fintechs que ya invierten el saldo de sus usuarios, y adquirentes/procesadores que liquidan a los comercios. Cuando ambos lados adoptan UX Nodo, el pago queda invertido de punta a punta — desde que el usuario paga hasta que el comercio cobra.",
     infra: {
       eyebrow: "Infraestructura",
       title: "La capa que le faltaba a los pagos.",
@@ -40,8 +38,6 @@ const content = {
       center: "UX Nodo",
       right: "Acquirers / Merchants",
     },
-    adquirenteIntro:
-      "UX Nodo connects both sides of the network: banks/fintechs that already invest their users' balances, and acquirers/processors that settle merchants. When both sides adopt UX Nodo, the payment stays invested end-to-end — from the moment the user pays until the merchant gets paid.",
     infra: {
       eyebrow: "Infrastructure",
       title: "The layer payments were missing.",
@@ -78,7 +74,6 @@ export function NodoBank() {
   const { language } = useLanguage();
   const c = content[language];
   const [tab, setTab] = useState<"banco" | "adquirente">("banco");
-  const isAdquirente = tab === "adquirente";
   const infra = c.infra;
 
   return (
@@ -155,11 +150,6 @@ export function NodoBank() {
           </div>
         </FadeUp>
 
-        {isAdquirente && (
-          <p className="mx-auto mt-8 max-w-4xl text-[15px] leading-[1.7] text-uxc-muted-foreground">
-            {c.adquirenteIntro}
-          </p>
-        )}
 
         {/* Infrastructure stack */}
         <FadeUp className="mt-8">
