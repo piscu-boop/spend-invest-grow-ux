@@ -5,16 +5,12 @@ const content = {
   es: {
     eyebrow: "Hablemos",
     title: "Si queres ofrecer pagos con Inversión, empezamos hoy.",
-    subtitle:
-      "Contanos sobre tu banco o comercio y te mostramos cómo integrar pagos con inversión en semanas.",
     cta: "Agendar demo",
     emailPrefix: "O escribinos a",
   },
   en: {
     eyebrow: "Let's talk",
     title: "If you want to offer payments with investment, let's start today.",
-    subtitle:
-      "Tell us about your bank or business and we'll show you how to integrate payments with investment in weeks.",
     cta: "Book a demo",
     emailPrefix: "Or email us at",
   },
@@ -43,12 +39,6 @@ export function Contact() {
             {c.title}
           </h2>
         </FadeUp>
-        <FadeUp delay={0.1}>
-          <p className="mx-auto mt-6 max-w-xl text-balance text-lg leading-[1.7] text-uxc-muted-foreground">
-            {c.subtitle}
-          </p>
-        </FadeUp>
-
         <FadeUp delay={0.15}>
           <div className="mx-auto mt-12 flex max-w-xl justify-center">
             <a

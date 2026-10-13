@@ -24,7 +24,6 @@ const content = {
     description:
       "La primera plataforma que transforma cada gasto en una inversión con retornos diarios. Construyendo el futuro de la creación automatizada de riqueza.",
     emailLabel: "Email: ",
-    social: "Síguenos en redes sociales para actualizaciones y consejos",
     quickLinks: "Enlaces Rápidos",
     rights: "© 2025 UX Capital S.A.S. Todos los derechos reservados.",
   },
@@ -32,7 +31,6 @@ const content = {
     description:
       "The first platform that turns every purchase into an investment with daily returns. Building the future of automated wealth creation.",
     emailLabel: "Email: ",
-    social: "Follow us on social media for updates and tips",
     quickLinks: "Quick Links",
     rights: "© 2025 UX Capital S.A.S. All rights reserved.",
   },
@@ -97,9 +95,6 @@ const Footer = () => {
               >
                 info@uxcapital.la
               </a>
-            </p>
-            <p className="text-base text-uxc-muted-foreground">
-              {c.social}
             </p>
             <div className="flex items-center gap-4">
               {SOCIAL.map((s) => (
